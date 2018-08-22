@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using PlayTogether.DataAccess;
@@ -34,13 +35,19 @@ namespace PlayTogether.BusinessLogic
             return await _repository.Find<TEntity>(l => l.Id == id);
         }
 
-        public async Task<TEntity> CreateOrUpdate<TEntity>(TEntity entity, Action<TEntity, TEntity> updateFunc)
+        public async Task<TEntity> Find<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : class, ISimpleEntity
+        {
+            return (await Where(predicate)).FirstOrDefault();
+        }
+
+        public async Task<TEntity> CreateOrUpdate<TEntity>(TEntity entity, Action<TEntity, TEntity> updateFunc = null)
             where TEntity : class, ISimpleEntity
         {
             var dbEntity = await GetById<TEntity>(entity.Id);
             if (dbEntity == null)
             {
-                _repository.Add(entity);
+                dbEntity = entity;
+                _repository.Add(dbEntity);
             }
             else
             {

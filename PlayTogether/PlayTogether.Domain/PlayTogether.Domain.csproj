@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseEntity.cs" />
+    <Compile Include="Profile.cs" />
     <Compile Include="ISimpleEntity.cs" />
     <Compile Include="WorkCategory.cs" />
     <Compile Include="Group.cs" />

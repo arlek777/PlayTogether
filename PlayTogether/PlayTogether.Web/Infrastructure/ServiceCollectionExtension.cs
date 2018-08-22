@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PlayTogether.BusinessLogic;
 using PlayTogether.DataAccess;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace PlayTogether.Web.Infrastructure
 {

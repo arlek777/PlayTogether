@@ -75,6 +75,7 @@ namespace PlayTogether.Web
             //    AutomaticChallenge = false
             //});
 
+            AutoMapperConfig.Configure();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

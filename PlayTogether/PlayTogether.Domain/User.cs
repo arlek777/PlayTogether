@@ -5,19 +5,16 @@ using Microsoft.AspNet.Identity;
 
 namespace PlayTogether.Domain
 {
-    public class User: BaseEntity, IUser<Guid>
+    public class User: IUser<Guid>
     {
-        public User()
-        {
-            UserToGroups = new List<UserToGroup>();
-            MusicGenres = new List<MusicGenre>();
-            WorkCategories = new List<WorkCategory>();
-        }
-
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+
+        public Guid ProfileId { get; set; }
         public string UserName { get; set; }
         public string PasswordHash { get; set; }
-        public ICollection<WorkCategory> WorkCategories { get; set; }
+
+        public virtual Profile Profile { get; set; }
+        public virtual ICollection<UserToGroup> UserToGroups { get; set; }
     }
 }

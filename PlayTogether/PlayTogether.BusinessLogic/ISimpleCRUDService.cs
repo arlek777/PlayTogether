@@ -17,7 +17,15 @@ namespace PlayTogether.BusinessLogic
         Task<TEntity> GetById<TEntity>(Guid id)
             where TEntity : class, ISimpleEntity;
 
-        Task<TEntity> CreateOrUpdate<TEntity>(TEntity entity, Action<TEntity, TEntity> updateFunc)
+        Task<TEntity> Find<TEntity>(Expression<Func<TEntity, bool>> predicate)
+            where TEntity : class, ISimpleEntity;
+
+        /// <summary>
+        /// Updates the entity.
+        /// </summary>
+        /// <param name="entity">New entity.</param>
+        /// <param name="updateFunc">Function to update, TO db entity, FROM new entity.</param>
+        Task<TEntity> CreateOrUpdate<TEntity>(TEntity entity, Action<TEntity, TEntity> updateFunc = null)
             where TEntity : class, ISimpleEntity;
 
         Task RemoveById<TEntity>(Guid id)
