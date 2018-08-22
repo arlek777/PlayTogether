@@ -39,6 +39,13 @@ namespace PlayTogether.Web
             //});
 
             //services.AddScoped<ApiExceptionFilter>();
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+
             services.AddCodeSchool(Configuration, Env);
         }
 
@@ -75,6 +82,7 @@ namespace PlayTogether.Web
             //    AutomaticChallenge = false
             //});
 
+            app.UseCors("CorsPolicy");
             AutoMapperConfig.Configure();
             app.UseStaticFiles();
 
