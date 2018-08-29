@@ -5,7 +5,7 @@ using Microsoft.AspNet.Identity;
 
 namespace PlayTogether.Domain
 {
-    public class User: IUser<Guid>
+    public class User: IUser<Guid>, ISimpleEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
