@@ -24,8 +24,7 @@ namespace PlayTogether.WebClient.Infrastructure
             var payload = new Dictionary<string, object>
             {
                 {"id", user.Id},
-                {"username", user.UserName},
-                {"email", user.UserName}
+                {"username", user.UserName}
             };
             return GetToken(payload);
         }
