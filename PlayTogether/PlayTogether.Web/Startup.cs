@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -65,7 +66,7 @@ namespace PlayTogether.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            // Authentication JWT Settings
+           // Authentication JWT Settings
             //var jwtSettings = optionsAccessor.Value;
             //var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.SecretKey));
 

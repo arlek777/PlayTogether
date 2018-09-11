@@ -11,7 +11,7 @@ namespace PlayTogether.Domain
         public Guid Id { get; set; }
 
         public Guid ProfileId { get; set; }
-        public string UserName { get; set; }
+        public string UserName { get; set; } // email
         public string PasswordHash { get; set; }
 
         public virtual Profile Profile { get; set; }
