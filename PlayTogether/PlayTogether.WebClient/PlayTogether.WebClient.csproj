@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\containers\" />
-    <Folder Include="ClientApp\services\" />
   </ItemGroup>
 
   <ItemGroup>

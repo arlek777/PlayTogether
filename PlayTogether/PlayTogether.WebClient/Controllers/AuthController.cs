@@ -6,12 +6,12 @@ using PlayTogether.WebClient.Infrastructure;
 
 namespace PlayTogether.WebClient.Controllers
 {
-    public class LoginController : Controller
+    public class AuthController : Controller
     {
         private readonly ISimpleCRUDService _crudService;
         private readonly JWTTokenProvider _jwtTokenProvider;
 
-        public LoginController(ISimpleCRUDService crudService, JWTTokenProvider jwtTokenProvider)
+        public AuthController(ISimpleCRUDService crudService, JWTTokenProvider jwtTokenProvider)
         {
             _crudService = crudService;
             _jwtTokenProvider = jwtTokenProvider;
