@@ -20,7 +20,6 @@ namespace PlayTogether.WebClient.Infrastructure
 
         public string GetIdToken(User user)
         {
-
             var payload = new Dictionary<string, object>
             {
                 {"id", user.Id},

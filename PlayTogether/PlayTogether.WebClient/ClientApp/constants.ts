@@ -1,3 +1,4 @@
-﻿export const AccessTokenKey = "accessToken";
-export const CurrentUserKey = "user";
-export const UserIdKey = "userId";
+﻿export const Constants = {
+    AccessTokenKey: 'ACCESS_TOKEN',
+    UserNameKey: 'USER_NAME'
+};

@@ -51,7 +51,12 @@ namespace PlayTogether.Web
             //        .AllowAnyHeader();
             //}));
 
-            var jwtSettings = Configuration.Get<JWTSettings>();
+            services.AddMvc(options => {
+                options.Filters.Add(typeof(ApiExceptionFilter));
+            });
+
+            var jwtSettings = new JWTSettings();
+            Configuration.Bind("JWTSettings", jwtSettings);
             var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.SecretKey));
             var tokenValidationParameters = GetTokenValidationParameters(signingKey, jwtSettings);
 
@@ -66,7 +71,6 @@ namespace PlayTogether.Web
                 options.TokenValidationParameters = tokenValidationParameters;
                 options.SaveToken = true;
             });
-
             services.ConfigurePlayTogetherServices(Configuration, Env);
         }
 

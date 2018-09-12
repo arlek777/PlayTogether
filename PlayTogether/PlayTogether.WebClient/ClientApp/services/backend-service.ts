@@ -1,23 +1,36 @@
-﻿import { request } from 'superagent';
-import { JWTTokens } from 'ClientApp/models/jwttokens';
+﻿import { JWTTokens } from '../models/jwttokens';
+import { Constants } from '../constants';
 
-export class BackendService {
-    async login(userName: string, password: string) {
-        var responseBody = await this._post('/api/auth/login', { userName: userName, password: password });
-        return responseBody as JWTTokens;
+class BackendService {
+    login(userName: string, password: string) {
+        return this._post('/auth/login', { userName: userName, password: password });
+        //return responseBody as JWTTokens;
     }
 
     private _get(url: string): any {
-        request.get(`${url}`).use(this._setTokenHeader).then((response) => response.body);
+        return fetch(url, {
+            headers: this._getTokenHeader()
+        }).then(response => response.body);
     }
 
     private _post(url: string, body: any): any {
-        request.post(`${url}`, body).use(this._setTokenHeader).then((response) => response.body);
+        return fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: this._getTokenHeader()
+        }).then(response => response.body);
     }
 
-    private _setTokenHeader(req) {
+    private _getTokenHeader() {
         if (this._token) {
-            req.set('Authorization', `Bearer ${this._token}`);
+            return {
+                "Authorization": `Bearer ${this._token}`,
+                'Content-Type': 'application/json'
+            };
+        } else {
+            return {
+                'Content-Type': 'application/json'
+            };
         }
     }
 
@@ -27,4 +40,4 @@ export class BackendService {
     }
 }
 
-export const backendService = new BackendService();
+export default new BackendService();

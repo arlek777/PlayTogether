@@ -16,6 +16,7 @@ namespace PlayTogether.DataAccess
 
         public DbSet<Group> Groups { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
         public DbSet<MusicGenre> MusicGenres { get; set; }
         public DbSet<WorkCategory> WorkCategories { get; set; }
         public DbSet<SearchRequest> SearchRequests { get; set; }

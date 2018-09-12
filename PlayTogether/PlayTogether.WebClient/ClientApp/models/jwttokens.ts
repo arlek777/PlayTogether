@@ -8,5 +8,5 @@ export class JWTTokens {
     }
 
     accessToken: string;
-    idToken: string;
+    userName: string;
 }

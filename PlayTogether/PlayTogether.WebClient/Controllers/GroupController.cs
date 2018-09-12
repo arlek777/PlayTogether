@@ -15,27 +15,27 @@ namespace PlayTogether.WebClient.Controllers
             _crudService = crudService;
         }
 
-        [Route("{controller}/{action}")]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> GetGroups(Guid userId)
         {
             return Ok(await _crudService.Where<UserToGroup>(p => p.UserId == userId));
         }
 
-        [Route("{controller}/{action}")]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> CreateGroup(Group model)
         {
             var group = await _crudService.CreateOrUpdate<Group>(model);
             return Ok(group);
         }
 
-        [Route("{controller}/{action}")]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> RemoveGroup(Guid id)
         {
             await _crudService.RemoveById<Group>(id);
             return Ok();
         }
 
-        [Route("{controller}/{action}")]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> UpdateGroup(Group model)
         {
             await _crudService.CreateOrUpdate<Group>(model, (to, from) =>
@@ -46,7 +46,7 @@ namespace PlayTogether.WebClient.Controllers
             return Ok();
         }
 
-        [Route("{controller}/{action}")]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> AddUserTo(Guid groupId, Guid userId)
         {
             var userGroup = await _crudService.CreateOrUpdate<UserToGroup>(new UserToGroup()
@@ -57,7 +57,7 @@ namespace PlayTogether.WebClient.Controllers
             return Ok(userGroup);
         }
 
-        [Route("{controller}/{action}")]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> RemoveUserFrom(Guid id)
         {
             await _crudService.RemoveById<UserToGroup>(id);

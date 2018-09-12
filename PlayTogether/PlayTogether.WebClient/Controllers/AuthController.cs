@@ -17,16 +17,16 @@ namespace PlayTogether.WebClient.Controllers
             _jwtTokenProvider = jwtTokenProvider;
         }
 
-        [Route("{controller}/{action}")]
+        [Route("[controller]/[action]")]
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] string username, string password)
+        public async Task<IActionResult> Login([FromBody] string userName, string password)
         {
-            var user = await _crudService.Find<User>(u => u.UserName == username && u.PasswordHash == password);
+            var user = await _crudService.Find<User>(u => u.UserName == userName && u.PasswordHash == password);
             if (user == null)
             {
                 user = await _crudService.CreateOrUpdate<User>(new User()
                 {
-                    UserName = username,
+                    UserName = userName,
                     Profile = new Profile(),
                     PasswordHash = password
                 });
@@ -37,7 +37,7 @@ namespace PlayTogether.WebClient.Controllers
             return Ok(GetJWTTokens(user));
         }
 
-        [Route("{controller}/{action}")]
+        [Route("[controller]/[action]")]
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] string username, string password)
         {
@@ -62,7 +62,7 @@ namespace PlayTogether.WebClient.Controllers
             return new
             {
                 accessToken = _jwtTokenProvider.GetAccessToken(user),
-                idToken = _jwtTokenProvider.GetIdToken(user)
+                userName = user.UserName
             };
         }
     }

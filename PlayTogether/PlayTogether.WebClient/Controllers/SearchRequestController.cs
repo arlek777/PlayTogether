@@ -15,7 +15,7 @@ namespace PlayTogether.WebClient.Controllers
             _crudService = crudService;
         }
 
-        [Route("{controller}/{action}")]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> GetGroupSearchRequests()
         {
             var requests = await _crudService.Where<SearchRequest>(
@@ -23,7 +23,7 @@ namespace PlayTogether.WebClient.Controllers
             return Ok(requests);
         }
 
-        [Route("{controller}/{action}")]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> GetUserSearchRequests()
         {
             var requests = await _crudService.Where<SearchRequest>(
@@ -31,7 +31,7 @@ namespace PlayTogether.WebClient.Controllers
             return Ok(requests);
         }
 
-        [Route("{controller}/{action}")]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> CreateRequest(SearchRequest model)
         {
             model.Date = DateTime.Now;
@@ -39,14 +39,14 @@ namespace PlayTogether.WebClient.Controllers
             return Ok(group);
         }
 
-        [Route("{controller}/{action}")]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> RemoveRequest(Guid id)
         {
             await _crudService.RemoveById<SearchRequest>(id);
             return Ok();
         }
 
-        [Route("{controller}/{action}")]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> UpdateRequest(SearchRequest model)
         {
             await _crudService.CreateOrUpdate<SearchRequest>(model, (to, from) =>

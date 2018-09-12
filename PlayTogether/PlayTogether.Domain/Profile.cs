@@ -12,15 +12,15 @@ namespace PlayTogether.Domain
             WorkCategories = new List<WorkCategory>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [ForeignKey("User")]
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
         public string PhotoBase64 { get; set; }
         public string Description { get; set; }
         public double Rating { get; set; }
+        public virtual User User { get; set; }
         public virtual ICollection<MusicGenre> MusicGenres { get; set; }
         public virtual ICollection<WorkCategory> WorkCategories { get; set; }
     }

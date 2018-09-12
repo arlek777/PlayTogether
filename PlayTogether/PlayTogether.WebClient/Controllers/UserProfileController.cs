@@ -15,13 +15,13 @@ namespace PlayTogether.WebClient.Controllers
             _crudService = crudService;
         }
 
-        [Route("{controller}/{action}")]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> GetProfile(Guid userId)
         {
-            return Ok(await _crudService.Find<Profile>(p => p.UserId == userId));
+            return Ok(await _crudService.Find<Profile>(p => p.Id == userId));
         }
 
-        [Route("{controller}/{action}")]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> UpdateProfile(Profile model)
         {
             await _crudService.CreateOrUpdate<Profile>(model, (to, from) =>

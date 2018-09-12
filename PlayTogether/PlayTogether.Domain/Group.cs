@@ -18,7 +18,6 @@ namespace PlayTogether.Domain
         public string Name { get; set; }
 
         public ICollection<UserToGroup> UserToGroups { get; set; }
-        public virtual User Creator { get; set; }
         public virtual Profile Profile { get; set; }
     }
 }
