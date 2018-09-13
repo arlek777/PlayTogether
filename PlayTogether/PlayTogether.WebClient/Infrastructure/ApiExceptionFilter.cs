@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace PlayTogether.Web.Infrastructure
+namespace PlayTogether.WebClient.Infrastructure
 {
     public class ApiExceptionFilter: ExceptionFilterAttribute
     {

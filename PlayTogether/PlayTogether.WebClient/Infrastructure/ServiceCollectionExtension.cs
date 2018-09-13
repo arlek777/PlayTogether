@@ -1,13 +1,14 @@
 ﻿using System.Data.Entity;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PlayTogether.BusinessLogic;
 using PlayTogether.DataAccess;
-using PlayTogether.WebClient.Infrastructure;
+using PlayTogether.WebClient.Models;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
-namespace PlayTogether.Web.Infrastructure
+namespace PlayTogether.WebClient.Infrastructure
 {
     public static class ServiceCollectionExtension
     {
@@ -34,6 +35,7 @@ namespace PlayTogether.Web.Infrastructure
 
         private static void ConfigureSecurity(IServiceCollection services, IConfiguration configuration)
         {
+            services.AddTransient<IPasswordHasher, PasswordHasher>();
             services.Configure<JWTSettings>(configuration.GetSection("JWTSettings"));
             services.AddTransient<JWTTokenProvider>();
         }

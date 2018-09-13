@@ -19,7 +19,7 @@ namespace PlayTogether.WebClient.Controllers
         public async Task<IActionResult> GetGroupSearchRequests()
         {
             var requests = await _crudService.Where<SearchRequest>(
-                s => s.Status == SearchRequestStatus.Active && s.UserCreatorId.HasValue);
+                s => s.Status == SearchRequestStatus.Active && s.UserId.HasValue);
             return Ok(requests);
         }
 
@@ -27,7 +27,7 @@ namespace PlayTogether.WebClient.Controllers
         public async Task<IActionResult> GetUserSearchRequests()
         {
             var requests = await _crudService.Where<SearchRequest>(
-                s => s.Status == SearchRequestStatus.Active && s.GroupCreatorId.HasValue);
+                s => s.Status == SearchRequestStatus.Active && s.GroupId.HasValue);
             return Ok(requests);
         }
 

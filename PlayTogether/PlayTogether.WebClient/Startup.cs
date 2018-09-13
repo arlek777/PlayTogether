@@ -5,12 +5,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using PlayTogether.Web.Infrastructure;
 using PlayTogether.WebClient.Infrastructure;
+using PlayTogether.WebClient.Models;
 
-namespace PlayTogether.Web
+namespace PlayTogether.WebClient
 {
     public class Startup
     {

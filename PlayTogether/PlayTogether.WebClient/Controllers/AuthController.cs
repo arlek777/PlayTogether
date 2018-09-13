@@ -1,58 +1,55 @@
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PlayTogether.BusinessLogic;
 using PlayTogether.Domain;
 using PlayTogether.WebClient.Infrastructure;
+using PlayTogether.WebClient.Models;
 
 namespace PlayTogether.WebClient.Controllers
 {
     public class AuthController : Controller
     {
         private readonly ISimpleCRUDService _crudService;
+        private readonly IPasswordHasher _passwordHasher;
         private readonly JWTTokenProvider _jwtTokenProvider;
 
-        public AuthController(ISimpleCRUDService crudService, JWTTokenProvider jwtTokenProvider)
+        public AuthController(ISimpleCRUDService crudService, JWTTokenProvider jwtTokenProvider, IPasswordHasher passwordHasher)
         {
             _crudService = crudService;
             _jwtTokenProvider = jwtTokenProvider;
+            _passwordHasher = passwordHasher;
         }
 
         [Route("[controller]/[action]")]
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] string userName, string password)
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var user = await _crudService.Find<User>(u => u.UserName == userName && u.PasswordHash == password);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ValidationResultMessages.InvalidModelData);
+            }
+
+            var user = await _crudService.Find<User>(u => u.UserName == model.UserName);
             if (user == null)
             {
                 user = await _crudService.CreateOrUpdate<User>(new User()
                 {
-                    UserName = userName,
+                    UserName = model.UserName,
                     Profile = new Profile(),
-                    PasswordHash = password
+                    PasswordHash = _passwordHasher.HashPassword(model.Password)
                 });
 
                 return Ok(GetJWTTokens(user));
             }
-
-            return Ok(GetJWTTokens(user));
-        }
-
-        [Route("[controller]/[action]")]
-        [HttpPost]
-        public async Task<IActionResult> Register([FromBody] string username, string password)
-        {
-            var user = await _crudService.Find<User>(u => u.UserName == username);
-            if (user != null)
+            else
             {
-                return BadRequest();
+                var result = _passwordHasher.VerifyHashedPassword(user.PasswordHash, model.Password);
+                if (result == PasswordVerificationResult.Failed)
+                {
+                    return BadRequest(ValidationResultMessages.LoginWrongCredentials);
+                }
             }
-
-            user = await _crudService.CreateOrUpdate<User>(new User()
-            {
-                UserName = username,
-                Profile = new Profile(),
-                PasswordHash = password
-            });
 
             return Ok(GetJWTTokens(user));
         }

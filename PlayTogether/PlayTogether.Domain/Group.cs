@@ -9,15 +9,17 @@ namespace PlayTogether.Domain
         public Group()
         {
             UserToGroups = new List<UserToGroup>();
+            SearchRequests = new List<SearchRequest>();
+            SearchResponses = new List<SearchResponse>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public Guid CreatorId { get; set; }
         public Guid ProfileId { get; set; }
-        public string Name { get; set; }
-
         public ICollection<UserToGroup> UserToGroups { get; set; }
         public virtual Profile Profile { get; set; }
+        public virtual ICollection<SearchRequest> SearchRequests { get; set; }
+        public virtual ICollection<SearchResponse> SearchResponses { get; set; }
     }
 }

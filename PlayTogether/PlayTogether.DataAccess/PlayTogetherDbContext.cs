@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using PlayTogether.Domain;
 
 namespace PlayTogether.DataAccess
@@ -7,11 +8,17 @@ namespace PlayTogether.DataAccess
     {
         static PlayTogetherDbContext()
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<PlayTogetherDbContext>());
+            Database.SetInitializer(new DbInitializer());
         }
 
         public PlayTogetherDbContext(string connectionStr) : base(connectionStr)
         {
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Group> Groups { get; set; }
@@ -20,6 +27,8 @@ namespace PlayTogether.DataAccess
         public DbSet<MusicGenre> MusicGenres { get; set; }
         public DbSet<WorkCategory> WorkCategories { get; set; }
         public DbSet<SearchRequest> SearchRequests { get; set; }
+        public DbSet<SearchFilter> SearchFilters { get; set; }
+        public DbSet<WorkStatus> WorkStatuses { get; set; }
         public DbSet<UserToGroup> UserToGroups { get; set; }
     }
 }

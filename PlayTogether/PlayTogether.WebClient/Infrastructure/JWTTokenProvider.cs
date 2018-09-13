@@ -6,6 +6,7 @@ using JWT.Serializers;
 using Microsoft.Extensions.Options;
 using PlayTogether.BusinessLogic;
 using PlayTogether.Domain;
+using PlayTogether.WebClient.Models;
 
 namespace PlayTogether.WebClient.Infrastructure
 {

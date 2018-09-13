@@ -40,7 +40,6 @@ namespace PlayTogether.WebClient.Controllers
         {
             await _crudService.CreateOrUpdate<Group>(model, (to, from) =>
             {
-                to.Name = from.Name;
                 to.Profile = from.Profile;
             });
             return Ok();

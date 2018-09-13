@@ -28,7 +28,8 @@ namespace PlayTogether.WebClient.Controllers
             {
                 to.Address = from.Address;
                 to.Description = from.Description;
-                to.Phone = from.Phone;
+                to.Phone1 = from.Phone1;
+                to.Phone2 = from.Phone2;
                 to.PhotoBase64 = from.PhotoBase64;
                 to.MusicGenres = from.MusicGenres;
                 to.WorkCategories = from.WorkCategories;
