@@ -9,7 +9,8 @@ export const AuthActionTypes = {
     LOGIN_STARTED: 'LOGIN_STARTED',
     LOGIN_SUCCESS: 'LOGIN_SUCCESS',
     LOGIN_FAILED: 'LOGIN_FAILED',
-    LOGOUT: 'LOGOUT'
+    LOGOUT: 'LOGOUT',
+    GET_AUTH_STATUS: 'GET_AUTH_STATUS'
 };
 
 export interface LoginAction {

@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Route } from 'react-router-dom';
-import { Layout } from './components/Layout';
-import Home from './components/Home';
-import Login from './components/Login';
+import { Route, Switch } from 'react-router-dom';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import PrivateRoute from 'ClientApp/components/PrivateRoute';
 
-export const routes = <Layout>
-    <Route exact path='/' component={ Home } />
+export const routes = <Switch>
+    <PrivateRoute path='/' component={ App } />
     <Route path='/login' component={ Login } />
-</Layout>;
+</Switch>;

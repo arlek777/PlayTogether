@@ -4,15 +4,15 @@ import { Constants } from '../../constants';
 
 export interface AuthState {
     userName: string;
-    loggedIn: boolean;
+    isLoggedIn: boolean;
     isLogining: boolean;
     errorMessage?: string;
 }
 
 const userName = window.localStorage.getItem(Constants.UserNameKey);
-const emptySate = { loggedIn: false, userName: '', isLogining: false };
+const emptySate = { isLoggedIn: false, userName: '', isLogining: false };
 const initialState: AuthState = userName
-    ? { loggedIn: true, userName, isLogining: false }
+    ? { isLoggedIn: true, userName, isLogining: false }
     : emptySate;
 
 export const reducer: Reducer<AuthState> = (state: AuthState, incomingAction: Action) => {
@@ -26,13 +26,13 @@ export const reducer: Reducer<AuthState> = (state: AuthState, incomingAction: Ac
     case AuthActionTypes.LOGIN_SUCCESS:
         return {
             userName: action.userName,
-            loggedIn: true,
+            isLoggedIn: true,
             isLogining: false
         };
     case AuthActionTypes.LOGIN_FAILED:
         return {
             userName: '',
-            loggedIn: false,
+            isLoggedIn: false,
             errorMessage: action.errorMessage,
             isLogining: false
         };
