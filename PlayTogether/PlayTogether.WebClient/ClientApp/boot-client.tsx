@@ -8,8 +8,8 @@ import { ConnectedRouter } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
 import configureStore from './configureStore';
 import { ApplicationState }  from './store';
-import * as RoutesModule from './routes';
-let routes = RoutesModule.routes;
+import { Switch, Route } from 'react-router';
+import App from './components/App';
 
 // Create browser history to use in the Redux store
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href')!;
@@ -24,8 +24,12 @@ function renderApp() {
     // and injects the app into a DOM element.
     ReactDOM.render(
         <AppContainer>
-            <Provider store={ store }>
-                <ConnectedRouter history={ history } children={ routes } />
+            <Provider store={store}>
+                <ConnectedRouter history={history}>
+                    <Switch>
+                        <Route path="/" component={App} />
+                    </Switch>
+                </ConnectedRouter>
             </Provider>
         </AppContainer>,
         document.getElementById('react-app')
@@ -34,10 +38,11 @@ function renderApp() {
 
 renderApp();
 
-// Allow Hot Module Replacement
-if (module.hot) {
-    module.hot.accept('./routes', () => {
-        routes = require<typeof RoutesModule>('./routes').routes;
-        renderApp();
-    });
-}
+//// Allow Hot Module Replacement
+//if (module.hot) {
+//    module.hot.
+//    //module.hot.accept('./components/App', () => {
+//    //    routes = require<typeof RoutesModule>('./routes').routes;
+//    //    renderApp();
+//    //});
+//}

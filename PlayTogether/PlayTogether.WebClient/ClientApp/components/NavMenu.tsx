@@ -19,22 +19,25 @@ export class NavMenu extends React.Component<NavMenuProps, {}> {
                         <span className='icon-bar'></span>
                         <span className='icon-bar'></span>
                     </button>
-                    <Link className='navbar-brand' to={'/'}>PlayTogether.WebClient</Link>
+                    {isLoggedIn && <Link className='navbar-brand' to={'/'}>Hi, {userName}</Link>}
                 </div>
                 <div className='clearfix'></div>
                 <div className='navbar-collapse collapse'>
                     <ul className='nav navbar-nav'>
-                        (isLoggedIn &&
-                        <li>
-                            <NavLink exact to={'/'} activeClassName='active'>
-                                Home
+                        {isLoggedIn &&
+                            <li>
+                                <NavLink exact to={'/'} activeClassName='active'>
+                                    Home
                             </NavLink>
-                        </li>)
-                        <li>
-                            <NavLink to={'/login'} activeClassName='active'>
-                                Login
+                            </li>
+                        }
+                        {!isLoggedIn &&
+                            <li>
+                                <NavLink to={'/login'} activeClassName='active'>
+                                    Login
                             </NavLink>
-                        </li>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

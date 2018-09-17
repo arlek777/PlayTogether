@@ -16,13 +16,11 @@ export const AuthActionTypes = {
 export interface LoginAction {
     type: string;
     userName: string;
-    errorMessage?: string;
+    errorMessage: string;
 }
 
 export interface LogoutAction {
     type: string;
-    userName?: string;
-    errorMessage?: string;
 }
 
 export type AuthKnownAction = LoginAction | LogoutAction;
@@ -31,16 +29,15 @@ export const actionCreators = {
     login: (userName: string, password: string): AppThunkAction<AuthKnownAction> => (dispatch, getState) => {
         dispatch({ type: AuthActionTypes.LOGIN_STARTED });
 
-        try {
-            let task = backendService.login(userName, password).then((tokens: JWTTokens) => {
+        let task = backendService.login(userName, password)
+            .then((tokens: JWTTokens) => {
                 window.localStorage.setItem(Constants.AccessTokenKey, tokens.accessToken);
                 window.localStorage.setItem(Constants.UserNameKey, tokens.userName);
                 dispatch({ type: AuthActionTypes.LOGIN_SUCCESS, userName: tokens.userName });
-            });
-            addTask(task);
-        } catch (e) {
-            dispatch({ type: AuthActionTypes.LOGIN_FAILED, errorMessage: e });
-        } 
+            })
+            .catch(e => dispatch({ type: AuthActionTypes.LOGIN_FAILED, errorMessage: e }));
+
+        addTask(task);
     },
     logout: (): AppThunkAction<AuthKnownAction> => async (dispatch, getState) => {
         window.localStorage.clear();
