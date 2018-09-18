@@ -12,7 +12,7 @@ namespace PlayTogether.Domain
             WorkCategories = new List<WorkCategory>();
         }
 
-        [ForeignKey("User")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string ContactEmail { get; set; }
@@ -20,10 +20,12 @@ namespace PlayTogether.Domain
         public string Phone2 { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
-        public string PhotoBase64 { get; set; }
         public string Description { get; set; }
         public double Experience { get; set; }
+
+        public string PhotoBase64 { get; set; }
         public double Rating { get; set; }
+
         public virtual User User { get; set; }
         public virtual ICollection<MusicGenre> MusicGenres { get; set; }
         public virtual ICollection<WorkCategory> WorkCategories { get; set; }
