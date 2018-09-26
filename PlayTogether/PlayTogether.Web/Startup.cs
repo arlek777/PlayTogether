@@ -1,10 +1,13 @@
 using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PlayTogether.Web.Infrastructure;
+using Microsoft.IdentityModel.Tokens;
+using PlayTogether.WebClient.Infrastructure;
+using PlayTogether.WebClient.Models;
 
 namespace PlayTogether.Web
 {
@@ -40,14 +43,34 @@ namespace PlayTogether.Web
             //});
 
             //services.AddScoped<ApiExceptionFilter>();
-            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-            }));
+            //services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            //{
+            //    builder.AllowAnyOrigin()
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader();
+            //}));
 
-            services.AddCodeSchool(Configuration, Env);
+            services.AddMvc(options => {
+                options.Filters.Add(typeof(ApiExceptionFilter));
+            });
+
+            var jwtSettings = new JWTSettings();
+            Configuration.Bind("JWTSettings", jwtSettings);
+            var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.SecretKey));
+            var tokenValidationParameters = GetTokenValidationParameters(signingKey, jwtSettings);
+
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.Audience = jwtSettings.Audience;
+                    options.ClaimsIssuer = jwtSettings.Issuer;
+                    options.TokenValidationParameters = tokenValidationParameters;
+                    options.SaveToken = true;
+                });
+            services.ConfigurePlayTogetherServices(Configuration, Env);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,25 +89,9 @@ namespace PlayTogether.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
-           // Authentication JWT Settings
-            //var jwtSettings = optionsAccessor.Value;
-            //var signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.SecretKey));
-
-            //var tokenValidationParameters = GetTokenValidationParameters(signingKey, jwtSettings);
-
-            //app.UseJwtBearerAuthentication(new JwtBearerOptions
-            //{
-            //    TokenValidationParameters = tokenValidationParameters
-            //});
-
-            //app.UseCookieAuthentication(new CookieAuthenticationOptions
-            //{
-            //    AutomaticAuthenticate = false,
-            //    AutomaticChallenge = false
-            //});
-
-            app.UseCors("CorsPolicy");
             AutoMapperConfig.Configure();
+
+            app.UseAuthentication();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
@@ -99,23 +106,23 @@ namespace PlayTogether.Web
             });
         }
 
-        //private TokenValidationParameters GetTokenValidationParameters(SymmetricSecurityKey signingKey,
-        //    JWTSettings jwtSettings)
-        //{
-        //    var tokenValidationParameters = new TokenValidationParameters
-        //    {
-        //        ValidateIssuerSigningKey = true,
-        //        IssuerSigningKey = signingKey,
+        private TokenValidationParameters GetTokenValidationParameters(SymmetricSecurityKey signingKey,
+            JWTSettings jwtSettings)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
 
-        //        // Validate the JWT Issuer (iss) claim
-        //        ValidateIssuer = true,
-        //        ValidIssuer = jwtSettings.Issuer,
+                // Validate the JWT Issuer (iss) claim
+                ValidateIssuer = true,
+                ValidIssuer = jwtSettings.Issuer,
 
-        //        // Validate the JWT Audience (aud) claim
-        //        ValidateAudience = true,
-        //        ValidAudience = jwtSettings.Audience
-        //    };
-        //    return tokenValidationParameters;
-        //}
+                // Validate the JWT Audience (aud) claim
+                ValidateAudience = true,
+                ValidAudience = jwtSettings.Audience
+            };
+            return tokenValidationParameters;
+        }
     }
 }
