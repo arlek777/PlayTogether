@@ -32,7 +32,7 @@ namespace PlayTogether.WebClient.Controllers
                 to.Phone2 = from.Phone2;
                 to.PhotoBase64 = from.PhotoBase64;
                 to.MusicGenres = from.MusicGenres;
-                to.WorkCategories = from.WorkCategories;
+                //to.WorkCategories = from.WorkCategories;
             });
 
             return Ok();

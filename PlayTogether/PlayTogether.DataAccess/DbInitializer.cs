@@ -17,13 +17,13 @@ namespace PlayTogether.DataAccess
             context.WorkStatuses.AddRange(workStatuses);
             context.SaveChanges();
 
-            var workCategories = new List<WorkCategory>()
+            var workCategories = new List<MusicianRole>()
             {
-                new WorkCategory() {Title = "Барабанщик"},
-                new WorkCategory() {Title = "Бассист" },
-                new WorkCategory() {Title = "Вокалист" },
-                new WorkCategory() {Title = "Гитарист" },
-                new WorkCategory() {Title = "Клавишник" }
+                new MusicianRole() {Title = "Барабанщик"},
+                new MusicianRole() {Title = "Бассист" },
+                new MusicianRole() {Title = "Вокалист" },
+                new MusicianRole() {Title = "Гитарист" },
+                new MusicianRole() {Title = "Клавишник" }
             };
             context.WorkCategories.AddRange(workCategories);
             context.SaveChanges();

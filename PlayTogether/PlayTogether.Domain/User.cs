@@ -25,6 +25,6 @@ namespace PlayTogether.Domain
         public virtual Profile Profile { get; set; }
         public virtual ICollection<SearchRequest> SearchRequests { get; set; }
         public virtual ICollection<SearchResponse> SearchResponses { get; set; }
-        public virtual ICollection<UserToGroup> UserToGroups { get; set; }
+        public virtual ICollection<Group> Groups { get; set; }
     }
 }

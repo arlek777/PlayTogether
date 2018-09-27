@@ -32,6 +32,13 @@
     <ProjectReference Include="..\PlayTogether.BusinessLogic\PlayTogether.BusinessLogic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ClientApp\app\groups\" />
+    <Folder Include="ClientApp\app\login\" />
+    <Folder Include="ClientApp\app\common\" />
+    <Folder Include="ClientApp\app\profile\" />
+  </ItemGroup>
+
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">

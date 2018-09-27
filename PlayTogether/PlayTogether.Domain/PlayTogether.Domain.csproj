@@ -48,14 +48,13 @@
     <Compile Include="ISimpleEntity.cs" />
     <Compile Include="SearchFilter.cs" />
     <Compile Include="SearchResponse.cs" />
-    <Compile Include="WorkCategory.cs" />
+    <Compile Include="MusicianRole.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="MusicGenre.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchRequest.cs" />
     <Compile Include="SearchRequestStatus.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="UserToGroup.cs" />
     <Compile Include="WorkStatus.cs" />
   </ItemGroup>
   <ItemGroup>
