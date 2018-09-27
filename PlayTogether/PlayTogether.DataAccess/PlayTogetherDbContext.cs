@@ -29,6 +29,5 @@ namespace PlayTogether.DataAccess
         public DbSet<SearchRequest> SearchRequests { get; set; }
         public DbSet<SearchFilter> SearchFilters { get; set; }
         public DbSet<WorkStatus> WorkStatuses { get; set; }
-        public DbSet<UserToGroup> UserToGroups { get; set; }
     }
 }

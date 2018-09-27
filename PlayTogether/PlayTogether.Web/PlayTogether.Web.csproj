@@ -33,9 +33,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\app\groups\" />
-    <Folder Include="ClientApp\app\login\" />
     <Folder Include="ClientApp\app\common\" />
+    <Folder Include="ClientApp\app\groups\" />
     <Folder Include="ClientApp\app\profile\" />
   </ItemGroup>
 
