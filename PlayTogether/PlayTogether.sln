@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayTogether.BusinessLogic"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayTogether.WebClient", "PlayTogether.WebClient\PlayTogether.WebClient.csproj", "{55D874B3-708E-4C5B-9933-A31EEDD96CD6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayTogether.Web", "PlayTogether.Web\PlayTogether.Web.csproj", "{B9C62CB8-EC3D-45E5-9697-5A30F922421E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayTogether.Web", "PlayTogether.Web\PlayTogether.Web.csproj", "{C555F07C-D000-47F2-BC00-A0068E471F88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{55D874B3-708E-4C5B-9933-A31EEDD96CD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55D874B3-708E-4C5B-9933-A31EEDD96CD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55D874B3-708E-4C5B-9933-A31EEDD96CD6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B9C62CB8-EC3D-45E5-9697-5A30F922421E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B9C62CB8-EC3D-45E5-9697-5A30F922421E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B9C62CB8-EC3D-45E5-9697-5A30F922421E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B9C62CB8-EC3D-45E5-9697-5A30F922421E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C555F07C-D000-47F2-BC00-A0068E471F88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C555F07C-D000-47F2-BC00-A0068E471F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C555F07C-D000-47F2-BC00-A0068E471F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C555F07C-D000-47F2-BC00-A0068E471F88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
