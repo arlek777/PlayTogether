@@ -31,14 +31,53 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\e2e\**" />
+    <Compile Remove="ClientApp\src\environments\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\e2e\**" />
+    <Content Remove="ClientApp\src\environments\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="ClientApp\e2e\**" />
+    <EmbeddedResource Remove="ClientApp\src\environments\**" />
+    <None Remove="ClientApp\e2e\**" />
+    <None Remove="ClientApp\src\environments\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\.editorconfig" />
+    <None Remove="ClientApp\.editorconfig" />
+    <None Remove="ClientApp\.gitignore" />
+    <None Remove="ClientApp\.gitignore" />
+    <None Remove="ClientApp\karma.conf.js" />
+    <None Remove="ClientApp\karma.conf.js" />
+    <None Remove="ClientApp\package-lock.json" />
+    <None Remove="ClientApp\protractor.conf.js" />
+    <None Remove="ClientApp\protractor.conf.js" />
+    <None Remove="ClientApp\src\assets\.gitkeep" />
+    <None Remove="ClientApp\src\assets\.gitkeep" />
+    <None Remove="ClientApp\src\polyfills.ts" />
+    <None Remove="ClientApp\src\polyfills.ts" />
+    <None Remove="ClientApp\src\test.ts" />
+    <None Remove="ClientApp\src\test.ts" />
+    <None Remove="ClientApp\src\tsconfig.app.json" />
+    <None Remove="ClientApp\src\tsconfig.spec.json" />
+    <None Remove="ClientApp\src\typings.d.ts" />
+    <None Remove="ClientApp\src\typings.d.ts" />
+    <None Remove="ClientApp\tsconfig.json" />
+    <None Remove="ClientApp\tslint.json" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PlayTogether.BusinessLogic\PlayTogether.BusinessLogic.csproj" />
     <ProjectReference Include="..\PlayTogether.DataAccess\PlayTogether.DataAccess.csproj" />
     <ProjectReference Include="..\PlayTogether.Domain\PlayTogether.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\assets\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
