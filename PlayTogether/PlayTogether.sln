@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27428.2011
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayTogether.Domain", "PlayTogether.Domain\PlayTogether.Domain.csproj", "{A3805547-7223-4045-A751-5333CFB23C93}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayTogether.BusinessLogic", "PlayTogether.BusinessLogic\PlayTogether.BusinessLogic.csproj", "{A90B0310-C753-4FD4-A625-3865EC571B36}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayTogether.WebClient", "PlayTogether.WebClient\PlayTogether.WebClient.csproj", "{55D874B3-708E-4C5B-9933-A31EEDD96CD6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlayTogether.Web", "PlayTogether.Web\PlayTogether.Web.csproj", "{B9C62CB8-EC3D-45E5-9697-5A30F922421E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{55D874B3-708E-4C5B-9933-A31EEDD96CD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55D874B3-708E-4C5B-9933-A31EEDD96CD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55D874B3-708E-4C5B-9933-A31EEDD96CD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9C62CB8-EC3D-45E5-9697-5A30F922421E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9C62CB8-EC3D-45E5-9697-5A30F922421E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9C62CB8-EC3D-45E5-9697-5A30F922421E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9C62CB8-EC3D-45E5-9697-5A30F922421E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
