@@ -6,9 +6,9 @@ using JWT.Serializers;
 using Microsoft.Extensions.Options;
 using PlayTogether.BusinessLogic;
 using PlayTogether.Domain;
-using PlayTogether.WebClient.Models;
+using PlayTogether.Web.Models;
 
-namespace PlayTogether.WebClient.Infrastructure
+namespace PlayTogether.Web.Infrastructure
 {
     public class JWTTokenProvider
     {

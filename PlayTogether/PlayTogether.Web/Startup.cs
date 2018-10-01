@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using PlayTogether.WebClient.Infrastructure;
-using PlayTogether.WebClient.Models;
+using PlayTogether.Web.Infrastructure;
+using PlayTogether.Web.Models;
 
 namespace PlayTogether.Web
 {

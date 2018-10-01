@@ -3,8 +3,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PlayTogether.BusinessLogic;
 using PlayTogether.Domain;
-using PlayTogether.WebClient.Infrastructure;
-using PlayTogether.WebClient.Models;
+using PlayTogether.Web.Infrastructure;
+using PlayTogether.Web.Models;
 
 namespace PlayTogether.Web.Controllers
 {

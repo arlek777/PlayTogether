@@ -1,4 +1,4 @@
-﻿namespace PlayTogether.WebClient.Models
+﻿namespace PlayTogether.Web.Models
 {
     public class JWTSettings
     {

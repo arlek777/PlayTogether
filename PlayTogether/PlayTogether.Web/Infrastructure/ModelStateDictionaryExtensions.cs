@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace PlayTogether.WebClient.Infrastructure
+namespace PlayTogether.Web.Infrastructure
 {
     public static class ModelStateDictionaryExtensions
     {

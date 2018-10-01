@@ -1,22 +1,23 @@
 import { AuthActionTypes } from './actions';
-import { CommonAction } from '../../models/action';
+import { CommonAction } from '../../models/common-action';
+import { LoginModel } from 'src/app/models/login';
 
-export interface State {
-  loggedIn: boolean;
+export interface AuthState {
+  isLoggedIn: boolean;
   userName: string | null;
 }
 
-export const initialState: State = {
-  loggedIn: false,
+export const initialState: AuthState = {
+  isLoggedIn: false,
   userName: null
 };
 
-export function reducer(state = initialState, action: CommonAction<AuthActionTypes, string>): State {
+export function authReducer(state = initialState, action: CommonAction<AuthActionTypes, LoginModel>): AuthState {
   switch (action.type) {
     case AuthActionTypes.Login: {
       return {
-        loggedIn: true,
-        userName: action.payload
+        isLoggedIn: true,
+        userName: action.payload.userName
       };
     }
 
@@ -29,6 +30,3 @@ export function reducer(state = initialState, action: CommonAction<AuthActionTyp
     }
   }
 }
-
-//export const getLoggedIn = (state: State) => state.loggedIn;
-//export const getUser = (state: State) => state.user;

@@ -5,10 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PlayTogether.BusinessLogic;
 using PlayTogether.DataAccess;
-using PlayTogether.WebClient.Models;
+using PlayTogether.Web.Models;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
-namespace PlayTogether.WebClient.Infrastructure
+namespace PlayTogether.Web.Infrastructure
 {
     public static class ServiceCollectionExtension
     {

@@ -1,6 +1,6 @@
 using AutoMapper;
 
-namespace PlayTogether.WebClient.Infrastructure
+namespace PlayTogether.Web.Infrastructure
 {
     public static class AutoMapperConfig
     {
