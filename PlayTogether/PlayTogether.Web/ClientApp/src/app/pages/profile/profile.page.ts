@@ -9,25 +9,12 @@ import { LoginModel } from '../../models/login';
 import { AppState } from '../../store';
 
 @Component({
-  templateUrl: './login.page.html',
+  templateUrl: './profile.page.html',
 })
-export class LoginPage {
-  userName: string;
-  password: string;
-
+export class ProfilePage {
   constructor(
     private readonly backendService: BackendService,
     private readonly store: Store<AppState>,
     private readonly router: Router) {
-
-    this.store.subscribe(state => {
-      if (state.auth.isLoggedIn) {
-        this.router.navigate(['/']);
-      }
-    });
-  }
-
-  login() {
-    this.store.dispatch(new Login(new LoginModel(this.userName, this.password)));
   }
 }

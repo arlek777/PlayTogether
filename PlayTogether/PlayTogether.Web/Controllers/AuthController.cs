@@ -40,7 +40,7 @@ namespace PlayTogether.Web.Controllers
                     PasswordHash = _passwordHasher.HashPassword(model.Password)
                 });
 
-                return Ok(GetJWTTokens(user));
+                return Ok(GetJWTTokens(user, true));
             }
             else
             {
@@ -51,15 +51,15 @@ namespace PlayTogether.Web.Controllers
                 }
             }
 
-            return Ok(GetJWTTokens(user));
+            return Ok(GetJWTTokens(user, false));
         }
 
-        private dynamic GetJWTTokens(User user)
+        private dynamic GetJWTTokens(User user, bool isNewUser)
         {
             return new
             {
                 accessToken = _jwtTokenProvider.GetAccessToken(user),
-                userName = user.UserName
+                user = new { userName = user.UserName, isNewUser }
             };
         }
     }

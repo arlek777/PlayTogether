@@ -37,7 +37,7 @@ export class AuthEffects {
         if (!accessToken || !userName) {
           return new Logout();
         } else {
-          return new LoginSuccess(new JwtTokens(accessToken, userName));
+          return new LoginSuccess(new JwtTokens(accessToken, { userName: userName, isNewUser: false }));
         }
       })
   );
@@ -50,10 +50,14 @@ export class AuthEffects {
         const userName = window.localStorage.getItem(Constants.currentUserKey);
         if (!accessToken && !userName) {
           window.localStorage.setItem(Constants.accessTokenKey, action.payload.accessToken);
-          window.localStorage.setItem(Constants.currentUserKey, action.payload.userName);
+          window.localStorage.setItem(Constants.currentUserKey, action.payload.user.userName);
         }
-        this.router.navigate(['/']);
-    })
+        if (action.payload.user.isNewUser) {
+          this.router.navigate(['/profile']);
+        } else {
+          this.router.navigate(['/']);
+        }
+      })
   );
 
   @Effect({ dispatch: false })
