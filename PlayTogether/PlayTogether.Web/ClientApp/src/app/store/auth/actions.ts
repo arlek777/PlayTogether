@@ -1,16 +1,20 @@
 import { Action } from '@ngrx/store';
-import { LoginModel } from 'src/app/models/login';
-import { JwtTokens } from 'src/app/models/jwt-tokens';
+import { LoginModel } from '../../models/login';
+import { JwtTokens } from '../../models/jwt-tokens';
 
 export enum AuthActionTypes {
-  LoginStarted = '[Auth] Login Started',
+  Login = '[Auth] Login',
+  AutoLogin = '[Auth] Auto Login',
   LoginSuccess = '[Auth] Login Success',
   Logout = '[Auth] Logout'
 }
 
+export class AutoLogin implements Action {
+  readonly type = AuthActionTypes.AutoLogin;
+}
 
-export class LoginStarted implements Action {
-  readonly type = AuthActionTypes.LoginStarted;
+export class Login implements Action {
+  readonly type = AuthActionTypes.Login;
 
   constructor(public payload: LoginModel) { }
 }
@@ -24,3 +28,5 @@ export class LoginSuccess implements Action {
 export class Logout implements Action {
   readonly type = AuthActionTypes.Logout;
 }
+
+export type AuthActions = Login | LoginSuccess | Logout | AutoLogin;

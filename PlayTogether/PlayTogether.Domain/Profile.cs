@@ -26,7 +26,6 @@ namespace PlayTogether.Domain
         public string PhotoBase64 { get; set; } // Required for user photo uploader
         public double Rating { get; set; } // auto field - ingore it
 
-        public virtual User User { get; set; }
         public virtual ICollection<MusicGenre> MusicGenres { get; set; }
         public virtual ICollection<MusicianRole> MusicianRoles { get; set; }
     }

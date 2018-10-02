@@ -1,16 +1,17 @@
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
 import { JwtTokens } from "../models/jwt-tokens";
 import { LoginModel } from "../models/login";
+import { map } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 
 
 @Injectable()
 export class BackendService {
-    constructor(private http: Http) {
-    }
+  constructor(private http: HttpClient) {
+  }
 
-  login(login: LoginModel): Promise<JwtTokens> {
-    return this.http.post("/api/auth/login", login).toPromise()
-      .then((result) => { return result.json() as JwtTokens; });
+  login(login: LoginModel): Observable<JwtTokens> {
+    return this.http.post("/auth/login", login).pipe(map(response => response as JwtTokens));
   }
 }

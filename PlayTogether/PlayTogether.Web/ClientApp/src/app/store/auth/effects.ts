@@ -3,9 +3,11 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
-import { AuthActionTypes, LoginSuccess, LoginStarted } from './actions';
+import { AuthActionTypes, LoginSuccess, Login, AutoLogin, Logout } from './actions';
 import { BackendService } from '../../services/backend.service';
-import { LoginModel } from 'src/app/models/login';
+import { LoginModel } from '../../models/login';
+import { Constants } from '../../constants';
+import { JwtTokens } from '../../models/jwt-tokens';
 
 @Injectable()
 export class AuthEffects {
@@ -17,18 +19,49 @@ export class AuthEffects {
 
   @Effect()
   login$ = this.actions$.pipe(
-      ofType<LoginStarted>(AuthActionTypes.LoginStarted),
+      ofType<Login>(AuthActionTypes.Login),
     map(action => action.payload),
       exhaustMap((login: LoginModel) =>
         this.backendService.login(login).pipe(
           map(jwtToken => new LoginSuccess(jwtToken)))
       )
-    );
+  );
+
+  @Effect()
+  autoLogin$ = this.actions$.pipe(
+    ofType<AutoLogin>(AuthActionTypes.AutoLogin),
+      map((action: AutoLogin) => {
+        const accessToken = window.localStorage.getItem(Constants.accessTokenKey);
+        const userName = window.localStorage.getItem(Constants.currentUserKey);
+
+        if (!accessToken || !userName) {
+          return new Logout();
+        } else {
+          return new LoginSuccess(new JwtTokens(accessToken, userName));
+        }
+      })
+  );
+
+  @Effect({ dispatch: false })
+  $loginSuccess = this.actions$.pipe(
+    ofType(AuthActionTypes.LoginSuccess),
+      tap((action: LoginSuccess) => {
+        const accessToken = window.localStorage.getItem(Constants.accessTokenKey);
+        const userName = window.localStorage.getItem(Constants.currentUserKey);
+        if (!accessToken && !userName) {
+          window.localStorage.setItem(Constants.accessTokenKey, action.payload.accessToken);
+          window.localStorage.setItem(Constants.currentUserKey, action.payload.userName);
+        }
+        this.router.navigate(['/']);
+    })
+  );
 
   @Effect({ dispatch: false })
   logout$ = this.actions$.pipe(
     ofType(AuthActionTypes.Logout),
-    tap(authed => {
+      tap(action => {
+        window.localStorage.clear();
+        window.sessionStorage.clear();
       this.router.navigate(['/login']);
     })
   );

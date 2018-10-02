@@ -2,9 +2,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { XHRBackend, RequestOptions, Http } from '@angular/http';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 // Components
 import { AppComponent } from './components/app/app.component';
@@ -13,21 +14,16 @@ import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 // Pages
 import { HomePage } from './pages/home/home.page';
 import { LoginPage } from './pages/login/login.page';
-import { StoreModule } from '@ngrx/store';
 
 // Services
-import { InterceptedHttp } from './http.interceptor';
+import { InterceptService } from './http.interceptor';
 import { GlobalErrorHandler } from './services/global-error-handler.service';
 import { BackendService } from './services/backend.service';
 import { AuthGuard } from './services/auth-guard.service';
 
 // Store
-import { appReducers } from './store';
+import { appReducers, appEffects } from './store';
 
-
-function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Http {
-  return new InterceptedHttp(xhrBackend, requestOptions);
-}
 
 @NgModule({
   declarations: [
@@ -39,7 +35,7 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     StoreModule.forRoot(appReducers),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot(appEffects),
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
@@ -49,9 +45,9 @@ function httpFactory(xhrBackend: XHRBackend, requestOptions: RequestOptions): Ht
   ],
   providers: [
     {
-      provide: Http,
-      useFactory: httpFactory,
-      deps: [XHRBackend, RequestOptions]
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptService,
+      multi: true
     },
     {
       provide: ErrorHandler,
