@@ -16,7 +16,7 @@ export function authReducer(state = initialState, action: AuthActions): AuthStat
     case AuthActionTypes.LoginSuccess: {
       return {
         isLoggedIn: true,
-        userName: action.payload.userName
+        userName: action.payload.user.userName
       };
     }
 
