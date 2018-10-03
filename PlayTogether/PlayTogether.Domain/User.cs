@@ -16,12 +16,9 @@ namespace PlayTogether.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public Guid ProfileId { get; set; }
-        public Guid? WorkStatusId { get; set; }
-
         public string UserName { get; set; } // email
         public string PasswordHash { get; set; }
 
-        public virtual WorkStatus WorkStatus { get; set; }
         public virtual Profile Profile { get; set; }
         public virtual ICollection<SearchRequest> SearchRequests { get; set; }
         public virtual ICollection<SearchResponse> SearchResponses { get; set; }

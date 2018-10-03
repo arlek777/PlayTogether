@@ -55,7 +55,7 @@
     <Compile Include="SearchRequest.cs" />
     <Compile Include="SearchRequestStatus.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="WorkStatus.cs" />
+    <Compile Include="WorkType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
