@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
+using System.Linq;
+using System.Web.Script.Serialization;
 using PlayTogether.Domain;
 
 namespace PlayTogether.DataAccess
@@ -8,11 +11,10 @@ namespace PlayTogether.DataAccess
     {
         protected override void Seed(PlayTogetherDbContext context)
         {
-            var workStatuses = new List<WorkStatus>()
+            var workStatuses = new List<WorkType>()
             {
-                new WorkStatus() {Title = "Занят"},
-                new WorkStatus() {Title = "В поиске"},
-                new WorkStatus() {Title = "Частичная заннятость"}
+                new WorkType() {Title = "В группу на постоянно"},
+                new WorkType() {Title = "Сессионно"}
             };
             context.WorkStatuses.AddRange(workStatuses);
             context.SaveChanges();
@@ -23,19 +25,22 @@ namespace PlayTogether.DataAccess
                 new MusicianRole() {Title = "Бассист" },
                 new MusicianRole() {Title = "Вокалист" },
                 new MusicianRole() {Title = "Гитарист" },
+                new MusicianRole() {Title = "Трубач" },
+                new MusicianRole() {Title = "Скрипач" },
+                new MusicianRole() {Title = "Перкусcионист" },
+                new MusicianRole() {Title = "Dj" },
                 new MusicianRole() {Title = "Клавишник" }
             };
             context.WorkCategories.AddRange(workCategories);
             context.SaveChanges();
 
-            var genres = new List<MusicGenre>()
-            {
-                new MusicGenre() {Title = "Рок"},
-                new MusicGenre() {Title = "Блюз"},
-                new MusicGenre() {Title = "Попса"},
-                new MusicGenre() {Title = "Метал"},
-                new MusicGenre() {Title = "Катри"}
-            };
+            var genresFile = File.ReadAllText("genres.json");
+            var genres = new JavaScriptSerializer().Deserialize<List<dynamic>>(genresFile)
+                .Select(x => new MusicGenre()
+                {
+                    Title = x
+                });
+            
             context.MusicGenres.AddRange(genres);
             context.SaveChanges();
 

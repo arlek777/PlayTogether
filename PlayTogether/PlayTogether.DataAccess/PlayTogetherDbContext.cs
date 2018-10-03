@@ -28,6 +28,6 @@ namespace PlayTogether.DataAccess
         public DbSet<MusicianRole> WorkCategories { get; set; }
         public DbSet<SearchRequest> SearchRequests { get; set; }
         public DbSet<SearchFilter> SearchFilters { get; set; }
-        public DbSet<WorkStatus> WorkStatuses { get; set; }
+        public DbSet<WorkType> WorkStatuses { get; set; }
     }
 }
