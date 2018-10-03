@@ -24,7 +24,6 @@ namespace PlayTogether.Domain
         public string Description { get; set; }
         public int Age { get; set; }
         public double Experience { get; set; }
-
         public string PhotoBase64 { get; set; }
         public double Rating { get; set; }
 
