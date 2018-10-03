@@ -1,4 +1,5 @@
 using AutoMapper;
+using PlayTogether.Web.Models;
 
 namespace PlayTogether.Web.Infrastructure
 {
@@ -8,6 +9,8 @@ namespace PlayTogether.Web.Infrastructure
         {
             Mapper.Initialize(c =>
             {
+                c.CreateMap<MainProfileModel, Profile>().ReverseMap();
+                c.CreateMap<SkillsProfileModel, Profile>().ReverseMap();
             });
         }
     }

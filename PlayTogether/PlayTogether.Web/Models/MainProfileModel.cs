@@ -1,8 +1,11 @@
+using System;
+
 namespace PlayTogether.Web.Models
 {
     public class MainProfileModel
     {
-        public string UserName { get; set; }
+        public Guid ProfileId { get; set; }
+        public bool IsActivated { get; set; }
         public string Name { get; set; } // Required - Text editor (input) Validation max-length/min-length
         public string ContactEmail { get; set; } // Required - Text editor - Validation on email (+ auto-prepopulate your email)
         public string Phone1 { get; set; } // Ruquired - Text - validation on ukrainina phones(optional, mask)

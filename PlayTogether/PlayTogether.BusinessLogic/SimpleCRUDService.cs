@@ -40,21 +40,24 @@ namespace PlayTogether.BusinessLogic
             return (await Where(predicate)).FirstOrDefault();
         }
 
-        public async Task<TEntity> CreateOrUpdate<TEntity>(TEntity entity, Action<TEntity, TEntity> updateFunc = null)
-            where TEntity : class, ISimpleEntity
+        public async Task<TNewEntity> Create<TNewEntity>(TNewEntity newEntity)
+            where TNewEntity : class, ISimpleEntity
         {
-            var dbEntity = await GetById<TEntity>(entity.Id);
-            if (dbEntity == null)
-            {
-                dbEntity = entity;
-                _repository.Add(dbEntity);
-            }
-            else
+            _repository.Add(newEntity);
+            await _repository.SaveChanges();
+            return newEntity;
+        }
+
+        public async Task<TOldEntity> Update<TNewEntity, TOldEntity>(Guid id, TNewEntity entity, Action<TOldEntity, TNewEntity> updateFunc)
+            where TOldEntity : class, ISimpleEntity
+        {
+            var dbEntity = await GetById<TOldEntity>(id);
+            if (dbEntity != null)
             {
                 updateFunc(dbEntity, entity);
+                await _repository.SaveChanges();
             }
 
-            await _repository.SaveChanges();
             return dbEntity;
         }
 
