@@ -1,26 +1,26 @@
-<div class='main-nav'>
-    <div class='navbar navbar-inverse'>
+<div>
+    <div class='navbar navbar-default'>
+      <div class="container">
         <div class='navbar-header'>
           <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
             <span class='sr-only'>Toggle navigation</span>
-            <span class='icon-bar'></span>
-            <span class='icon-bar'></span>
-            <span class='icon-bar'></span>
           </button>
-          <div *ngIf="isLoggedIn$ | async">
-            <a class='navbar-brand'>Привет, {{ userName$ | async }}</a>
-            <a class='navbar-brand' href="javascript: " (click)="logout()">Выйти</a>
-          </div>
         </div>
-        <div class='clearfix'></div>
-        <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
-            <ul class='nav navbar-nav'>
-                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                    <a [routerLink]='["/"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-home'></span> Home
-                    </a>
-                </li>
-            </ul>
-        </div>
+        <nav class='nav' [ngClass]='{ "in": isExpanded }'>
+          <ul class='nav navbar-nav'>
+            <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+              <a [routerLink]='["/"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-home'></span> Home
+              </a>
+            </li>
+            <li class='nav-item' *ngIf="isLoggedIn$ | async">
+              <a class="nav-link">Привет, {{ userName$ | async }}</a>
+            </li>
+            <li class='nav-item' *ngIf="isLoggedIn$ | async" href="javascript: " role="button" (click)="logout()">
+              <a>Выйти</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
 </div>
