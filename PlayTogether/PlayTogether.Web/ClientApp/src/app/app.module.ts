@@ -6,6 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 // Components
 import { AppComponent } from './components/app/app.component';
@@ -44,6 +45,7 @@ import { appReducers, appEffects } from './store';
     EffectsModule.forRoot(appEffects),
     HttpClientModule,
     FormsModule,
+    NgMultiSelectDropDownModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomePage, pathMatch: 'full', canActivate: [AuthGuard] },
       {

@@ -59,7 +59,7 @@ namespace PlayTogether.Web.Controllers
             return new
             {
                 accessToken = _jwtTokenProvider.GetAccessToken(user),
-                user = new { userName = user.UserName, isNewUser }
+                user = new { id = user.Id, userName = user.UserName, isNewUser }
             };
         }
     }

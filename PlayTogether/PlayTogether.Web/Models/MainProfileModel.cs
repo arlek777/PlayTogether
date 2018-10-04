@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using PlayTogether.Domain;
 
 namespace PlayTogether.Web.Models
 {
@@ -16,5 +18,9 @@ namespace PlayTogether.Web.Models
         public int Age { get; set; }
         public double Experience { get; set; } // Required - range input from 0 to 50
         public string PhotoBase64 { get; set; } // Required for user photo uploader
+
+        // Checkboxes
+        public virtual ICollection<WorkType> SelectedWorkTypes { get; set; }
+
     }
 }

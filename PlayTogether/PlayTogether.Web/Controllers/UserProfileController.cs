@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -20,17 +21,17 @@ namespace PlayTogether.Web.Controllers
         }
 
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> GetMainInfo(string userName)
+        public async Task<IActionResult> GetMainInfo(Guid userId)
         {
-            var user = await _crudService.Find<User>(u => u.UserName == userName);
+            var user = await _crudService.Find<User>(u => u.Id == userId);
             var mainInfo = Mapper.Map<MainProfileModel>(user?.Profile);
             return Ok(mainInfo);
         }
 
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> GetSkillsInfo(string userName)
+        public async Task<IActionResult> GetSkills(Guid userId)
         {
-            var user = await _crudService.Find<User>(u => u.UserName == userName);
+            var user = await _crudService.Find<User>(u => u.Id == userId);
             var skills = Mapper.Map<SkillsProfileModel>(user?.Profile);
             return Ok(skills);
         }
@@ -50,6 +51,12 @@ namespace PlayTogether.Web.Controllers
                 to.Phone1 = from.Phone1;
                 to.Phone2 = from.Phone2;
                 to.PhotoBase64 = from.PhotoBase64;
+
+                to.WorkTypes.Clear();
+                foreach (var wt in from.SelectedWorkTypes)
+                {
+                    to.WorkTypes.Add(wt);
+                }
             });
 
             return Ok();
@@ -69,11 +76,6 @@ namespace PlayTogether.Web.Controllers
                 foreach (var mr in from.MusicianRoles)
                 {
                     to.MusicianRoles.Add(mr);
-                }
-                to.WorkTypes.Clear();
-                foreach (var wt in from.WorkTypes)
-                {
-                    to.WorkTypes.Add(wt);
                 }
             });
 

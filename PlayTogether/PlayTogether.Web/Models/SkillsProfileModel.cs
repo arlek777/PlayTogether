@@ -8,9 +8,6 @@ namespace PlayTogether.Web.Models
     {
         public Guid ProfileId { get; set; }
 
-        // Checkboxes
-        public virtual ICollection<WorkType> WorkTypes { get; set; }
-
         // Multiselectors
         public virtual ICollection<MusicGenre> MusicGenres { get; set; }
         public virtual ICollection<MusicianRole> MusicianRoles { get; set; }

@@ -1,1 +1,13 @@
-SKILLS
+<ng-multiselect-dropdown [placeholder]="'Музыкальные жанры'"
+                         [data]="musicGenres"
+                         [(ngModel)]="profileSkillsModel.musicGenres"
+                         [settings]="dropdownSettings">
+</ng-multiselect-dropdown>
+
+<ng-multiselect-dropdown [placeholder]="'Роли'"
+                         [data]="musicianRoles"
+                         [(ngModel)]="profileSkillsModel.musicianRoles"
+                         [settings]="dropdownSettings">
+</ng-multiselect-dropdown>
+
+<button class="btn btn-default" (click)="updateSkills()">Сохранить</button>

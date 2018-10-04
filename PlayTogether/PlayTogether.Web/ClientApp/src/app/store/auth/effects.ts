@@ -32,12 +32,12 @@ export class AuthEffects {
     ofType<AutoLogin>(AuthActionTypes.AutoLogin),
       map((action: AutoLogin) => {
         const accessToken = window.localStorage.getItem(Constants.accessTokenKey);
-        const userName = window.localStorage.getItem(Constants.currentUserKey);
+        const user = window.localStorage.getItem(Constants.currentUserKey);
 
-        if (!accessToken || !userName) {
+        if (!accessToken || !user) {
           return new Logout();
         } else {
-          return new LoginSuccess(new JwtTokens(accessToken, { userName: userName, isNewUser: false }));
+          return new LoginSuccess(new JwtTokens(accessToken, JSON.parse(user)));
         }
       })
   );
@@ -47,10 +47,10 @@ export class AuthEffects {
     ofType(AuthActionTypes.LoginSuccess),
       tap((action: LoginSuccess) => {
         const accessToken = window.localStorage.getItem(Constants.accessTokenKey);
-        const userName = window.localStorage.getItem(Constants.currentUserKey);
-        if (!accessToken && !userName) {
+        const user = window.localStorage.getItem(Constants.currentUserKey);
+        if (!accessToken && !user) {
           window.localStorage.setItem(Constants.accessTokenKey, action.payload.accessToken);
-          window.localStorage.setItem(Constants.currentUserKey, action.payload.user.userName);
+          window.localStorage.setItem(Constants.currentUserKey, JSON.stringify(action.payload.user));
         }
         if (action.payload.user.isNewUser) {
           this.router.navigate(['/profile']);

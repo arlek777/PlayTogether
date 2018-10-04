@@ -4,11 +4,13 @@ import { LoginModel } from '../../models/login';
 export interface AuthState {
   isLoggedIn: boolean;
   userName: string | null;
+  id: string | null;
 }
 
 export const initialState: AuthState = {
   isLoggedIn: false,
-  userName: null
+  userName: null,
+  id: null
 };
 
 export function authReducer(state = initialState, action: AuthActions): AuthState {
@@ -16,7 +18,8 @@ export function authReducer(state = initialState, action: AuthActions): AuthStat
     case AuthActionTypes.LoginSuccess: {
       return {
         isLoggedIn: true,
-        userName: action.payload.user.userName
+        userName: action.payload.user.userName,
+        id: action.payload.user.id
       };
     }
 
