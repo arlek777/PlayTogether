@@ -33,7 +33,7 @@ namespace PlayTogether.Web.Controllers
             var user = await _crudService.Find<User>(u => u.UserName == model.UserName);
             if (user == null)
             {
-                user = await _crudService.CreateOrUpdate<User>(new User()
+                user = await _crudService.Create<User>(new User()
                 {
                     UserName = model.UserName,
                     Profile = new Profile(),
