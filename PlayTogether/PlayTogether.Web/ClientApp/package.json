@@ -30,7 +30,9 @@
     "rxjs": "^6.3.3",
     "@ngrx/store": "6.1.0",
     "@ngrx/effects": "6.1.0",
-    "zone.js": "~0.8.26"
+    "zone.js": "~0.8.26",
+    "ng-multiselect-dropdown": "0.2.1",
+    "jquery": "3.3.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.8.0",
