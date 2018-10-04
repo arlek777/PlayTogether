@@ -13,7 +13,7 @@
       </ul>
       <ul class="navbar-nav" *ngIf="isLoggedIn$ | async">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]='["/profile"]'>Мой профиль</a>
+          <a class="nav-link" [routerLink]='["profile"]'>Мой профиль</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="javascript: " (click)="logout()">Выйти</a>

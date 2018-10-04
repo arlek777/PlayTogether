@@ -15,6 +15,8 @@ import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { HomePage } from './pages/home/home.page';
 import { LoginPage } from './pages/login/login.page';
 import { ProfilePage } from './pages/profile/profile.page';
+import { MainPage } from './pages/profile/main/main.page';
+import { SkillsPage } from './pages/profile/skills/skills.page';
 
 // Services
 import { InterceptService } from './http.interceptor';
@@ -32,7 +34,9 @@ import { appReducers, appEffects } from './store';
     NavMenuComponent,
     HomePage,
     LoginPage,
-    ProfilePage
+    ProfilePage,
+    MainPage,
+    SkillsPage
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -42,7 +46,14 @@ import { appReducers, appEffects } from './store';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomePage, pathMatch: 'full', canActivate: [AuthGuard] },
-      { path: 'profile', component: ProfilePage, pathMatch: 'full', canActivate: [AuthGuard] },
+      {
+        path: 'profile', component: ProfilePage, canActivate: [AuthGuard],
+        children: [
+          { path: 'main', component: MainPage },
+          { path: 'skills', component: SkillsPage },
+          { path: "**", redirectTo: 'main' }
+        ]
+      },
       { path: 'login', component: LoginPage, pathMatch: 'full' },
     ])
   ],
