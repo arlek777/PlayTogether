@@ -31,11 +31,7 @@ namespace PlayTogether.Web.Models
         public string City { get; set; } // Required - google maps?? or how to check it? 
         public string Address { get; set; } // Optional
         public string Description { get; set; } // Text-area optional
-
-        [Required]
         public int Age { get; set; }
-
-        [Required]
         public double Experience { get; set; } // Required - range input from 0 to 50
         public string PhotoBase64 { get; set; } // Required for user photo uploader
 

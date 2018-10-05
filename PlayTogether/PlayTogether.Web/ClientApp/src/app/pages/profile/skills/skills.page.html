@@ -1,4 +1,3 @@
-<form>
   <div class="form-group">
     <div class="row">
       <div class="col-md-2">
@@ -14,20 +13,19 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <div class="row">
-      <div class="col-md-2">
-        <label for="musicRoles">Роли</label>
-      </div>
-      <div class="col-md-5">
-        <ng-multiselect-dropdown [placeholder]="'Роли'"
-                                 [data]="musicianRoles"
-                                 [(ngModel)]="profileSkillsModel.musicianRoles"
-                                 [settings]="dropdownSettings">
-        </ng-multiselect-dropdown>
-      </div>
+<div class="form-group">
+  <div class="row">
+    <div class="col-md-2">
+      <label for="musicRoles">Роли</label>
+    </div>
+    <div class="col-md-5">
+      <ng-multiselect-dropdown [placeholder]="'Роли'"
+                               [data]="musicianRoles"
+                               [(ngModel)]="profileSkillsModel.musicianRoles"
+                               [settings]="dropdownSettings">
+      </ng-multiselect-dropdown>
     </div>
   </div>
-</form>
+</div>
 
 <button class="btn btn-success" (click)="updateSkills()">Сохранить</button>

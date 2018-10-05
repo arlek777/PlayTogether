@@ -1,3 +1,9 @@
+/* General class for all content */
 .content {
   padding-top: 30px;
+}
+
+/* Overrides default ng-autocomplete component selected item */
+.selected-item {
+  margin-bottom: 5px;
 }
