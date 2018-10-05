@@ -46,14 +46,14 @@
   <ItemGroup>
     <Compile Include="Profile.cs" />
     <Compile Include="ISimpleEntity.cs" />
-    <Compile Include="SearchFilter.cs" />
-    <Compile Include="SearchResponse.cs" />
+    <Compile Include="VacancyFilter.cs" />
+    <Compile Include="VacancyResponse.cs" />
     <Compile Include="MusicianRole.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="MusicGenre.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchRequest.cs" />
-    <Compile Include="SearchRequestStatus.cs" />
+    <Compile Include="Vacancy.cs" />
+    <Compile Include="VacancyStatus.cs" />
     <Compile Include="User.cs" />
     <Compile Include="WorkType.cs" />
   </ItemGroup>

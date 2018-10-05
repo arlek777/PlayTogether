@@ -25,7 +25,13 @@ namespace PlayTogether.Web.Controllers
         public async Task<IActionResult> GetMainInfo(Guid userId)
         {
             var user = await _crudService.Find<User>(u => u.Id == userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
             var mainInfo = Mapper.Map<MainProfileModel>(user?.Profile);
+            mainInfo.UserId = user.Id;
             return Ok(mainInfo);
         }
 
@@ -41,6 +47,7 @@ namespace PlayTogether.Web.Controllers
 
             var skills = new SkillsProfileModel()
             {
+                UserId = user.Id,
                 ProfileId = user.ProfileId,
                 MusicGenres = user.Profile.MusicGenres,
                 MusicianRoles = user.Profile.MusicianRoles
@@ -52,6 +59,14 @@ namespace PlayTogether.Web.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> UpdateMainProfile(MainProfileModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ValidationResultMessages.InvalidModelState);
+            }
+
+            var badResult = await CheckIfProfileBelongsToUser(model.UserId, model.ProfileId);
+            if (badResult != null) return badResult;
+
             await _crudService.Update<MainProfileModel, Profile>(model.ProfileId, model, (to, from) =>
             {
                 to.IsActivated = from.IsActivated;
@@ -66,7 +81,7 @@ namespace PlayTogether.Web.Controllers
                 to.PhotoBase64 = from.PhotoBase64;
 
                 to.WorkTypes.Clear();
-                foreach (var wt in from.SelectedWorkTypes)
+                foreach (var wt in from.WorkTypes)
                 {
                     to.WorkTypes.Add(wt);
                 }
@@ -79,6 +94,14 @@ namespace PlayTogether.Web.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> UpdateSkills([FromBody] SkillsProfileModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ValidationResultMessages.InvalidModelState);
+            }
+
+            var badResult = await CheckIfProfileBelongsToUser(model.UserId, model.ProfileId);
+            if (badResult != null) return badResult;
+
             await _crudService.Update<SkillsProfileModel, Profile>(model.ProfileId, model, (to, from) =>
             {
                 to.MusicGenres.Clear();
@@ -94,6 +117,20 @@ namespace PlayTogether.Web.Controllers
             });
 
             return Ok();
+        }
+
+        private async Task<IActionResult> CheckIfProfileBelongsToUser(Guid userId, Guid profileId)
+        {
+            var user = await _crudService.Find<User>(u => u.Id == userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            if (user.Profile.Id != profileId)
+            {
+                return BadRequest(ValidationResultMessages.InvalidModelState);
+            }
+            return null;
         }
     }
 }

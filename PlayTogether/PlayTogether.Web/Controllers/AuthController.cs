@@ -27,7 +27,7 @@ namespace PlayTogether.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ValidationResultMessages.InvalidModelData);
+                return BadRequest(ValidationResultMessages.InvalidModelState);
             }
 
             var user = await _crudService.Find<User>(u => u.UserName == model.UserName);

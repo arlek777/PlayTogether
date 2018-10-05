@@ -11,12 +11,12 @@ namespace PlayTogether.DataAccess
     {
         protected override void Seed(PlayTogetherDbContext context)
         {
-            var workStatuses = new List<WorkType>()
+            var workTypes = new List<WorkType>()
             {
                 new WorkType() {Title = "В группу на постоянно"},
                 new WorkType() {Title = "Сессионно"}
             };
-            context.WorkStatuses.AddRange(workStatuses);
+            context.WorkTypes.AddRange(workTypes);
             context.SaveChanges();
 
             var workCategories = new List<MusicianRole>()

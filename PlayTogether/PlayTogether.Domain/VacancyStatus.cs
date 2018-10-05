@@ -1,6 +1,6 @@
 ﻿namespace PlayTogether.Domain
 {
-    public enum SearchRequestStatus
+    public enum VacancyStatus
     {
         Active,
         NotActive,

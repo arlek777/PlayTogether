@@ -10,6 +10,6 @@
         public const string MaxLength = "Максимальная длина {0} {1} была достигнута.";
         public const string UnhandledError = "Упс:( Возникла не известная ошибка.";
         public const string RequiredField = "Заполните поле {0}.";
-        public const string InvalidModelData = "Одно или несколько полей заполнены не верно.";
+        public const string InvalidModelState = "Одно или несколько полей заполнены не верно.";
     }
 }

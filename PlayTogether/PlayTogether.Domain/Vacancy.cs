@@ -4,26 +4,27 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PlayTogether.Domain
 {
-    public class SearchRequest: ISimpleEntity
+    public class Vacancy: ISimpleEntity
     {
-        public SearchRequest()
+        public Vacancy()
         {
-            SearchResponses = new List<SearchResponse>();
+            VacancyResponses = new List<VacancyResponse>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        public Guid? GroupId { get; set; }
         public Guid? UserId { get; set; }
+        public Guid? GroupId { get; set; }
+        public Guid SearchFilterId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public bool NotifyByEmail { get; set; }
-        public DateTime Date { get; set; }
-        public SearchRequestStatus Status { get; set; }
 
-        public virtual User User { get; set; }
+        public DateTime Date { get; set; }
+        public VacancyStatus Status { get; set; }
+
         public virtual Group Group { get; set; }
-        public virtual SearchFilter SearchFilter { get; set; }
-        public virtual ICollection<SearchResponse> SearchResponses { get; set; }
+        public virtual VacancyFilter VacancyFilter { get; set; }
+        public virtual ICollection<VacancyResponse> VacancyResponses { get; set; }
     }
 }

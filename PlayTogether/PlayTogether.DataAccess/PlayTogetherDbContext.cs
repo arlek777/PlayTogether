@@ -26,8 +26,9 @@ namespace PlayTogether.DataAccess
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<MusicGenre> MusicGenres { get; set; }
         public DbSet<MusicianRole> WorkCategories { get; set; }
-        public DbSet<SearchRequest> SearchRequests { get; set; }
-        public DbSet<SearchFilter> SearchFilters { get; set; }
-        public DbSet<WorkType> WorkStatuses { get; set; }
+        public DbSet<Vacancy> Vacancies { get; set; }
+        public DbSet<VacancyResponse> VacancyResponses { get; set; }
+        public DbSet<VacancyFilter> VacancyFilters { get; set; }
+        public DbSet<WorkType> WorkTypes { get; set; }
     }
 }
