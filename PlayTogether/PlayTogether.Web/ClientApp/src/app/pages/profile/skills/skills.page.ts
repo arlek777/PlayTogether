@@ -7,6 +7,7 @@ import { MasterValueItem } from '../../../models/master-value-item';
 import { ProfileSkills } from '../../../models/profile-skills';
 import { MasterValueTypes } from '../../../models/master-values-types';
 import { AppState } from '../../../store';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   templateUrl: './skills.page.html',
@@ -28,9 +29,10 @@ export class SkillsPage {
   };
 
   constructor(private readonly backendService: BackendService,
-    private store: Store<AppState>) {
+    private readonly store: Store<AppState>,
+    private readonly toastr: ToastrService) {
 
-    this.store.select(s => s.auth.id)
+    this.store.select(s => s.user.id)
       .subscribe((value) => this.userId = value);
   }
 
@@ -46,7 +48,7 @@ export class SkillsPage {
   }
 
   async updateSkills() {
-    await this.backendService.updateProfileSkills(this.profileSkillsModel);
-    alert("Success");
+    this.backendService.updateProfileSkills(this.profileSkillsModel)
+      .subscribe(() => this.toastr.success("Ваш профиль сохранен."));
   }
 }

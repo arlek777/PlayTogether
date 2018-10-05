@@ -11,7 +11,7 @@ import { ProfileSkills } from "../models/profile-skills";
 enum URLS {
   login = '/auth/login',
   updateMainProfileInfo = '/userprofile/updatemaininfo',
-  updateSkillsProfileInfo = '/userprofile/updateskillsinfo',
+  updateSkillsProfileInfo = '/userprofile/updateskills',
   getMainProfileInfo = '/userprofile/getmaininfo',
   getProfileSkills = '/userprofile/getskills',
   getMasterValues = '/mastervalues/get'
@@ -33,8 +33,8 @@ export class BackendService {
       }).pipe(map(response => response as ProfileSkills));
   }
 
-  updateProfileSkills(skills: ProfileSkills): Observable<boolean> {
-    return this.http.post(URLS.getProfileSkills, skills).pipe(map(response => true));
+  updateProfileSkills(skills: ProfileSkills): Observable<any> {
+    return this.http.post(URLS.updateSkillsProfileInfo, skills);
   }
 
   getMasterValues(type: MasterValueTypes): Observable<MasterValueItem[]> {

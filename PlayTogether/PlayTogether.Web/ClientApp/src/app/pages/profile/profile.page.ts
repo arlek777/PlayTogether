@@ -3,7 +3,6 @@ import { BackendService } from '../../services/backend.service';
 import { Store } from '@ngrx/store';
 import { JwtTokens } from '../../models/jwt-tokens';
 import { Constants } from '../../constants';
-import { AuthActionTypes, Login } from '../../store/auth/actions';
 import { Router } from '@angular/router';
 import { LoginModel } from '../../models/login';
 import { AppState } from '../../store';

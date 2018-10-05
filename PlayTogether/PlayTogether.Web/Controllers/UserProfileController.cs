@@ -20,6 +20,7 @@ namespace PlayTogether.Web.Controllers
             _crudService = crudService;
         }
 
+        [HttpGet]
         [Route("[controller]/[action]")]
         public async Task<IActionResult> GetMainInfo(Guid userId)
         {
@@ -28,14 +29,26 @@ namespace PlayTogether.Web.Controllers
             return Ok(mainInfo);
         }
 
+        [HttpGet]
         [Route("[controller]/[action]")]
         public async Task<IActionResult> GetSkills(Guid userId)
         {
             var user = await _crudService.Find<User>(u => u.Id == userId);
-            var skills = Mapper.Map<SkillsProfileModel>(user?.Profile);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var skills = new SkillsProfileModel()
+            {
+                ProfileId = user.ProfileId,
+                MusicGenres = user.Profile.MusicGenres,
+                MusicianRoles = user.Profile.MusicianRoles
+            };
             return Ok(skills);
         }
 
+        [HttpPost]
         [Route("[controller]/[action]")]
         public async Task<IActionResult> UpdateMainProfile(MainProfileModel model)
         {
@@ -62,8 +75,9 @@ namespace PlayTogether.Web.Controllers
             return Ok();
         }
 
+        [HttpPost]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> UpdateSkills(SkillsProfileModel model)
+        public async Task<IActionResult> UpdateSkills([FromBody] SkillsProfileModel model)
         {
             await _crudService.Update<SkillsProfileModel, Profile>(model.ProfileId, model, (to, from) =>
             {

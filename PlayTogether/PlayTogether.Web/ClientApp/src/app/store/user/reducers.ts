@@ -1,21 +1,21 @@
-import { AuthActionTypes, AuthActions } from './actions';
+import { UserActionTypes, UserActions } from './actions';
 import { LoginModel } from '../../models/login';
 
-export interface AuthState {
+export interface UserState {
   isLoggedIn: boolean;
   userName: string | null;
   id: string | null;
 }
 
-export const initialState: AuthState = {
+export const initialState: UserState = {
   isLoggedIn: false,
   userName: null,
   id: null
 };
 
-export function authReducer(state = initialState, action: AuthActions): AuthState {
+export function userReducer(state = initialState, action: UserActions): UserState {
   switch (action.type) {
-    case AuthActionTypes.LoginSuccess: {
+    case UserActionTypes.LoginSuccess: {
       return {
         isLoggedIn: true,
         userName: action.payload.user.userName,
@@ -23,7 +23,7 @@ export function authReducer(state = initialState, action: AuthActions): AuthStat
       };
     }
 
-    case AuthActionTypes.Logout: {
+    case UserActionTypes.Logout: {
       return initialState;
     }
 

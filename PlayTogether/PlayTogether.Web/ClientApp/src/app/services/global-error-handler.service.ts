@@ -6,8 +6,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     constructor(private injector: Injector) { }
 
     handleError(error) {
-      var response = <Response>error.rejection;
-      console.error(response);
+      console.error(error);
         //if (!response || !response.status) {
         //    console.log("Client Error", error);
         //    return;

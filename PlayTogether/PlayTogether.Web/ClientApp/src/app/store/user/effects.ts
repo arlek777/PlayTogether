@@ -3,14 +3,14 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
-import { AuthActionTypes, LoginSuccess, Login, AutoLogin, Logout } from './actions';
+import { UserActionTypes, LoginSuccess, Login, AutoLogin, Logout } from './actions';
 import { BackendService } from '../../services/backend.service';
 import { LoginModel } from '../../models/login';
 import { Constants } from '../../constants';
 import { JwtTokens } from '../../models/jwt-tokens';
 
 @Injectable()
-export class AuthEffects {
+export class UserEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly backendService: BackendService,
@@ -19,7 +19,7 @@ export class AuthEffects {
 
   @Effect()
   login$ = this.actions$.pipe(
-      ofType<Login>(AuthActionTypes.Login),
+      ofType<Login>(UserActionTypes.Login),
     map(action => action.payload),
       exhaustMap((login: LoginModel) =>
         this.backendService.login(login).pipe(
@@ -29,7 +29,7 @@ export class AuthEffects {
 
   @Effect()
   autoLogin$ = this.actions$.pipe(
-    ofType<AutoLogin>(AuthActionTypes.AutoLogin),
+      ofType<AutoLogin>(UserActionTypes.AutoLogin),
       map((action: AutoLogin) => {
         const accessToken = window.localStorage.getItem(Constants.accessTokenKey);
         const user = window.localStorage.getItem(Constants.currentUserKey);
@@ -44,7 +44,7 @@ export class AuthEffects {
 
   @Effect({ dispatch: false })
   $loginSuccess = this.actions$.pipe(
-    ofType(AuthActionTypes.LoginSuccess),
+      ofType(UserActionTypes.LoginSuccess),
       tap((action: LoginSuccess) => {
         const accessToken = window.localStorage.getItem(Constants.accessTokenKey);
         const user = window.localStorage.getItem(Constants.currentUserKey);
@@ -62,7 +62,7 @@ export class AuthEffects {
 
   @Effect({ dispatch: false })
   logout$ = this.actions$.pipe(
-    ofType(AuthActionTypes.Logout),
+      ofType(UserActionTypes.Logout),
       tap(action => {
         window.localStorage.clear();
         window.sessionStorage.clear();
