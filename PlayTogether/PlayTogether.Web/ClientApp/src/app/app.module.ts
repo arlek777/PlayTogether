@@ -5,7 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { ToastrModule } from 'ngx-toastr';
 
 // Components
 import { AppComponent } from './components/app/app.component';
@@ -42,8 +45,13 @@ import { appReducers, appEffects } from './store';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot(appEffects),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-center'
+    }),
     HttpClientModule,
     FormsModule,
+    NgMultiSelectDropDownModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomePage, pathMatch: 'full', canActivate: [AuthGuard] },
       {

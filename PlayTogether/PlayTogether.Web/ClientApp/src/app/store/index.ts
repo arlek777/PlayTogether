@@ -1,14 +1,14 @@
-import { AuthState, authReducer } from "./auth/reducers";
-import { AuthEffects } from "./auth/effects";
+import { UserState, userReducer } from "./user/reducers";
+import { UserEffects } from "./user/effects";
 
 export interface AppState {
-  auth: AuthState
+  user: UserState
 }
 
 export const appReducers = {
-  auth: authReducer
+  user: userReducer
 };
 
 export const appEffects = [
-  AuthEffects
+  UserEffects
 ];

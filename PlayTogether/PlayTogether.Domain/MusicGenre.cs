@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PlayTogether.Domain
 {
-    public class MusicGenre
+    public class MusicGenre: ISimpleEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }

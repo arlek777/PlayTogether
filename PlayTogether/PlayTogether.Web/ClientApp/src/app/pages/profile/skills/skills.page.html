@@ -1,1 +1,33 @@
-SKILLS
+<form>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="musicGenres">Музыкальные жанры</label>
+      </div>
+      <div class="col-md-5">
+        <ng-multiselect-dropdown [placeholder]="'Музыкальные жанры'"
+                                 [data]="musicGenres"
+                                 [(ngModel)]="profileSkillsModel.musicGenres"
+                                 [settings]="dropdownSettings">
+        </ng-multiselect-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="musicRoles">Роли</label>
+      </div>
+      <div class="col-md-5">
+        <ng-multiselect-dropdown [placeholder]="'Роли'"
+                                 [data]="musicianRoles"
+                                 [(ngModel)]="profileSkillsModel.musicianRoles"
+                                 [settings]="dropdownSettings">
+        </ng-multiselect-dropdown>
+      </div>
+    </div>
+  </div>
+</form>
+
+<button class="btn btn-success" (click)="updateSkills()">Сохранить</button>
