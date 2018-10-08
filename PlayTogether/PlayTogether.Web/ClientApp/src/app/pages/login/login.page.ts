@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { BackendService } from '../../services/backend.service';
 import { Store } from '@ngrx/store';
-import { JwtTokens } from '../../models/jwt-tokens';
 import { Constants } from '../../constants';
 import { UserActionTypes, Login } from '../../store/user/actions';
 import { Router } from '@angular/router';
@@ -12,8 +11,8 @@ import { AppState } from '../../store';
   templateUrl: './login.page.html',
 })
 export class LoginPage {
-  userName: string;
-  password: string;
+  public userName: string;
+  public password: string;
 
   constructor(
     private readonly backendService: BackendService,
@@ -27,7 +26,7 @@ export class LoginPage {
     });
   }
 
-  login() {
+  public login() {
     this.store.dispatch(new Login(new LoginModel(this.userName, this.password)));
   }
 }

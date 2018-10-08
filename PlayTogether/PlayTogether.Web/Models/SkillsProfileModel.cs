@@ -8,9 +8,6 @@ namespace PlayTogether.Web.Models
     public class SkillsProfileModel
     {
         [Required]
-        public Guid ProfileId { get; set; }
-
-        [Required]
         public Guid UserId { get; set; }
 
         public ICollection<MusicGenre> MusicGenres { get; set; }

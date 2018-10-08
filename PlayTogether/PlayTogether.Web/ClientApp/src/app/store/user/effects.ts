@@ -3,11 +3,13 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
-import { UserActionTypes, LoginSuccess, Login, AutoLogin, Logout } from './actions';
+import { UserActionTypes, LoginSuccess, Login, AutoLogin, Logout, UpdateUserType } from './actions';
 import { BackendService } from '../../services/backend.service';
 import { LoginModel } from '../../models/login';
 import { Constants } from '../../constants';
-import { JwtTokens } from '../../models/jwt-tokens';
+import { LoginResponse } from '../../models/login-response';
+import { SelectUserType } from '../../models/select-user-type';
+import { UserType } from '../../models/user-type';
 
 @Injectable()
 export class UserEffects {
@@ -37,7 +39,7 @@ export class UserEffects {
         if (!accessToken || !user) {
           return new Logout();
         } else {
-          return new LoginSuccess(new JwtTokens(accessToken, JSON.parse(user)));
+          return new LoginSuccess(new LoginResponse(accessToken, JSON.parse(user), false));
         }
       })
   );
@@ -52,11 +54,19 @@ export class UserEffects {
           window.localStorage.setItem(Constants.accessTokenKey, action.payload.accessToken);
           window.localStorage.setItem(Constants.currentUserKey, JSON.stringify(action.payload.user));
         }
-        if (action.payload.user.isNewUser) {
-          this.router.navigate(['/profile']);
-        } else {
-          this.router.navigate(['/']);
+        if (action.payload.isNewUser || action.payload.user.type === UserType.Uknown) {
+          this.router.navigate(['/select-user-type']);
         }
+      })
+  );
+
+  @Effect({ dispatch: false })
+  $updateUserType = this.actions$.pipe(
+    ofType<UpdateUserType>(UserActionTypes.UpdateUserType),
+      tap((action: UpdateUserType) => {
+        this.backendService.selectUserType(action.payload).subscribe(() => {
+          this.router.navigate(['/']);
+        });
       })
   );
 

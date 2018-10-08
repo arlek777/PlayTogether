@@ -9,8 +9,6 @@ namespace PlayTogether.Web.Models
     {
         [Required]
         public Guid UserId { get; set; }
-        [Required]
-        public Guid ProfileId { get; set; }
         public bool IsActivated { get; set; }
 
         [Required]
