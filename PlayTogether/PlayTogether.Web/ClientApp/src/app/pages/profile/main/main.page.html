@@ -1,1 +1,116 @@
-MAIN INFO
+<div>
+  <div>
+    <!--<uploader-file></uploader-file>-->
+    <div style="width:100px; height:100px; background-color: lightgray;"></div>
+    <button class="btn btn-outline-success">Загрузить фото</button>
+  </div>
+  <form [formGroup]="mainPageForm" (submit)="submitUserMainData()">
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="name">Имя</label>
+        </div>
+        <div class="col-md-5">
+          <input type="text" id="name" class="form-control mx-sm-3" placeholder="Ваше имя" formControlName="name" required />
+          <label *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)" class="text-danger">Обязательное поле</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="email">Email</label>
+        </div>
+        <div class="col-md-5">
+          <input type="email" id="email" class="form-control mx-sm-3" placeholder="Email" formControlName="email" required />
+          <p *ngIf="f.email.invalid && (f.email.dirty || f.email.touched)" class="text-danger">Неверный адрес</p>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="phone1">Телефон 1</label>
+        </div>
+        <div class="col-md-5">
+          <input type="tel" id="phone1" class="form-control mx-sm-3" placeholder="Телефон 1"
+                 formControlName="phone1"
+                 [textMask]="{mask: phoneMask}" required />
+          <label *ngIf="f.phone1.invalid && (f.phone1.dirty || f.phone1.touched)" class="text-danger">Обязательное поле</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="phone2">Телефон 2</label>
+        </div>
+        <div class="col-md-5">
+          <input type="text" id="phone2" class="form-control mx-sm-3"
+                 placeholder="Телефон 2"
+                 [(ngModel)]="phone2"
+                 [ngModelOptions]="{standalone: true}"
+                 [textMask]="{mask: phoneMask}" />
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="city">Город</label>
+        </div>
+        <div class="col-md-5">
+          <input type="text" id="city" class="form-control mx-sm-3" placeholder="Город" formControlName="city" required />
+          <p *ngIf="f.city.invalid && (f.city.dirty || f.city.touched)" class="text-danger">Обязательное поле</p>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="address">Адрес</label>
+        </div>
+        <div class="col-md-5">
+          <input type="text" id="address" class="form-control mx-sm-3"
+                 placeholder="Адрес"
+                 [(ngModel)]="address"
+                 [ngModelOptions]="{standalone: true}" />
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="age">Возраст</label>
+        </div>
+        <div class="col-md-5">
+          <mat-slider id="age" [displayWith]="getAgeSliderValue" thumbLabel tickInterval="1" min="10" max="99"></mat-slider>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="experience">Опыт игры</label>
+        </div>
+        <div class="col-md-5">
+          <input type="number" id="experience" class="form-control mx-sm-3" formControlName="experience" required />
+          <p *ngIf="f.experience.invalid && (f.experience.dirty || f.experience.touched)" class="text-danger">Обязательное поле!</p>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="description">Описание</label>
+        </div>
+        <div class="col-md-6">
+          <textarea id="description" class="form-control" rows="4"
+                    [(ngModel)]="description"
+                    [ngModelOptions]="{standalone: true}"></textarea>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-success" [disabled]="mainPageForm.invalid" type="submit">Сохранить</button>
+  </form>
+</div>

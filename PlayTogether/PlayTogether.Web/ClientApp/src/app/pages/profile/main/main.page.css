@@ -1,0 +1,11 @@
+mat-slider {
+  width: 100%;
+}
+
+input.ng-dirty.ng-invalid {
+  border: 2px solid #f00;
+}
+
+input.ng-dirty.ng-valid {
+  border: 2px solid #6bc502;
+}

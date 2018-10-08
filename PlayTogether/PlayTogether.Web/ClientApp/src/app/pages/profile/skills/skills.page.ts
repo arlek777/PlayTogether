@@ -13,12 +13,10 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './skills.page.html',
 })
 export class SkillsPage {
-  profileSkillsModel: ProfileSkills = new ProfileSkills();
-  musicGenres: MasterValueItem[];
-  musicianRoles: MasterValueItem[];
-  userId: string;
-
-  dropdownSettings: IDropdownSettings = {
+  public profileSkillsModel: ProfileSkills = new ProfileSkills();
+  public musicGenres: MasterValueItem[];
+  public musicianRoles: MasterValueItem[];
+  public dropdownSettings: IDropdownSettings = {
     enableCheckAll: false,
     singleSelection: false,
     idField: 'id',
@@ -27,6 +25,8 @@ export class SkillsPage {
     allowSearchFilter: true,
     closeDropDownOnSelection: true
   };
+
+  private userId: string;
 
   constructor(private readonly backendService: BackendService,
     private readonly store: Store<AppState>,
@@ -47,7 +47,7 @@ export class SkillsPage {
       .subscribe((value) => this.profileSkillsModel = value);
   }
 
-  async updateSkills() {
+  public updateSkills() {
     this.backendService.updateProfileSkills(this.profileSkillsModel)
       .subscribe(() => this.toastr.success("Ваш профиль сохранен."));
   }
