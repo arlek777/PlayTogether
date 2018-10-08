@@ -1,27 +1,17 @@
 import { ErrorHandler, Injectable, Injector } from '@angular/core';
 import { Response } from '@angular/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-    constructor(private injector: Injector) { }
+  constructor(private readonly injector: Injector, private readonly toastrService: ToastrService) { }
 
-    handleError(error) {
-      console.error(error);
-        //if (!response || !response.status) {
-        //    console.log("Client Error", error);
-        //    return;
-        //}
-
-        //var popupService = this.injector.get(PopupService);
-
-        //if (response.status === 400) {
-        //    popupService.newValidationError(response.text());
-        //} else {
-        //    var errorInfo = response.json();
-        //    if (errorInfo) {
-        //        console.log("Server Error", errorInfo);
-        //        popupService.newServerError(errorInfo.message);
-        //    }
-        //}
+  handleError(error) {
+    console.log(error);
+    if (error && error.error && error.status === 400) {
+      this.toastrService.error(error.error, "Ошибка");
+    } else {
+      this.toastrService.error(error.message, "Ошибка");
     }
+  }
 }

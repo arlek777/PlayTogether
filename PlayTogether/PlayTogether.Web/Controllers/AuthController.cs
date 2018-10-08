@@ -36,11 +36,12 @@ namespace PlayTogether.Web.Controllers
                 user = await _crudService.Create<User>(new User()
                 {
                     UserName = model.UserName,
+                    Type = UserType.Uknown,
                     Profile = new Profile(),
                     PasswordHash = _passwordHasher.HashPassword(model.Password)
                 });
 
-                return Ok(GetJWTTokens(user, true));
+                return Ok(GetLoginResponse(user, true));
             }
             else
             {
@@ -51,15 +52,39 @@ namespace PlayTogether.Web.Controllers
                 }
             }
 
-            return Ok(GetJWTTokens(user, false));
+            return Ok(GetLoginResponse(user, false));
         }
 
-        private dynamic GetJWTTokens(User user, bool isNewUser)
+        [Route("[controller]/[action]")]
+        [HttpPost]
+        public async Task<IActionResult> SelectUserType([FromBody] SelectUserTypeModel model)
+        {
+            var user = await _crudService.Find<User>(u => u.Id == model.UserId);
+            if (user == null || user.Type != UserType.Uknown)
+            {
+                return BadRequest();
+            }
+
+            await _crudService.Update<SelectUserTypeModel, User>(model.UserId, model, (to, from) =>
+            {
+                to.Type = from.UserType;
+            });
+
+            return Ok();
+        }
+
+        private dynamic GetLoginResponse(User user, bool isNewUser)
         {
             return new
             {
                 accessToken = _jwtTokenProvider.GetAccessToken(user),
-                user = new { id = user.Id, userName = user.UserName, isNewUser }
+                isNewUser,
+                user = new
+                {
+                    id = user.Id,
+                    userName = user.UserName,
+                    userType = user.Type
+                }
             };
         }
     }

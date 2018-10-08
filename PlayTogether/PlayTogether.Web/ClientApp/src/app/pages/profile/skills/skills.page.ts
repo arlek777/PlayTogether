@@ -16,6 +16,8 @@ export class SkillsPage {
   public profileSkillsModel: ProfileSkills = new ProfileSkills();
   public musicGenres: MasterValueItem[];
   public musicianRoles: MasterValueItem[];
+  public userId: string;
+
   public dropdownSettings: IDropdownSettings = {
     enableCheckAll: false,
     singleSelection: false,
@@ -25,8 +27,6 @@ export class SkillsPage {
     allowSearchFilter: true,
     closeDropDownOnSelection: true
   };
-
-  private userId: string;
 
   constructor(private readonly backendService: BackendService,
     private readonly store: Store<AppState>,

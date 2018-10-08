@@ -19,22 +19,13 @@ namespace PlayTogether.Web.Infrastructure
             _jwtSettings = optionsAccessor.Value;
         }
 
-        public string GetIdToken(User user)
-        {
-            var payload = new Dictionary<string, object>
-            {
-                {"id", user.Id},
-                {"username", user.UserName}
-            };
-            return GetToken(payload);
-        }
-
         public string GetAccessToken(User user)
         {
             var payload = new Dictionary<string, object>
             {
                 { "sub", user.Id },
-                { "email", user.UserName }
+                { "email", user.UserName },
+                { "roles", new [] { user.Type.ToString() } }
             };
             return GetToken(payload);
         }
