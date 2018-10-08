@@ -17,6 +17,7 @@ import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 // Pages
 import { HomePage } from './pages/home/home.page';
 import { LoginPage } from './pages/login/login.page';
+import { SelectUserTypePage } from './pages/select-user-type/select-user-type.page';
 import { ProfilePage } from './pages/profile/profile.page';
 import { MainPage } from './pages/profile/main/main.page';
 import { SkillsPage } from './pages/profile/skills/skills.page';
@@ -37,6 +38,7 @@ import { appReducers, appEffects } from './store';
     NavMenuComponent,
     HomePage,
     LoginPage,
+    SelectUserTypePage,
     ProfilePage,
     MainPage,
     SkillsPage
@@ -63,6 +65,7 @@ import { appReducers, appEffects } from './store';
         ]
       },
       { path: 'login', component: LoginPage, pathMatch: 'full' },
+      { path: 'select-user-type', component: SelectUserTypePage, pathMatch: 'full', canActivate: [AuthGuard] },
     ])
   ],
   providers: [

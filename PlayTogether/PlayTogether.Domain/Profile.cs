@@ -12,7 +12,7 @@ namespace PlayTogether.Domain
             MusicianRoles = new List<MusicianRole>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [ForeignKey("User")]
         public Guid Id { get; set; }
         public bool IsActivated { get; set; } 
         public string Name { get; set; }
@@ -27,6 +27,7 @@ namespace PlayTogether.Domain
         public string PhotoBase64 { get; set; }
         public double Rating { get; set; }
 
+        public virtual User User { get; set; }
         public virtual ICollection<WorkType> WorkTypes { get; set; }
         public virtual ICollection<MusicGenre> MusicGenres { get; set; }
         public virtual ICollection<MusicianRole> MusicianRoles { get; set; }

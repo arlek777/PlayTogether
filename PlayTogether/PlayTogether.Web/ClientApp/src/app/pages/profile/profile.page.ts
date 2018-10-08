@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { BackendService } from '../../services/backend.service';
 import { Store } from '@ngrx/store';
-import { JwtTokens } from '../../models/jwt-tokens';
 import { Constants } from '../../constants';
 import { Router } from '@angular/router';
 import { LoginModel } from '../../models/login';

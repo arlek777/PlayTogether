@@ -1,0 +1,22 @@
+<div>
+  <form (submit)="submit()">
+    <div class="form-group">
+      <label>Как вы хотите зарегистрироваться: </label>
+    </div>
+    <div class="form-group">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" name="musician" type="radio" [(ngModel)]="selectUserType.userType" id="musician" [value]="UserType.Musician">
+        <label class="form-check-label" for="musician">Как исполнитель</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" name="musician" type="radio" [(ngModel)]="selectUserType.userType" id="group" [value]="UserType.Group">
+        <label class="form-check-label" for="group">Как группа</label>
+      </div>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-default" type="submit">Подтвердить выбор</button>
+    </div>
+  </form>
+</div>
