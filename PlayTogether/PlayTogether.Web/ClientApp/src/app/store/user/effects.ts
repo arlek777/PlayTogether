@@ -64,7 +64,9 @@ export class UserEffects {
   $updateUserType = this.actions$.pipe(
     ofType<UpdateUserType>(UserActionTypes.UpdateUserType),
       tap((action: UpdateUserType) => {
-        this.backendService.selectUserType(action.payload).subscribe(() => {});
+        this.backendService.selectUserType(action.payload).subscribe(() => {
+          this.router.navigate(['/']);
+        });
       })
   );
 

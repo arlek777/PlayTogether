@@ -1,11 +1,14 @@
-<div>
-  <form (submit)="login()">
-    <div class="form-group">
-      <input required [(ngModel)]="userName" class="form-control" name="email" type="text" placeholder="E-mail" />
-    </div>
-    <div class="form-group">
-      <input required [(ngModel)]="password" class="form-control" name="password" type="password" placeholder="Пароль" />
-    </div>
-    <button class="btn btn-default" type="submit">Войти</button>
-  </form>
+<div class="row justify-content-md-center">
+  <div class="col-md-5 border px-5 py-5">
+    <h2>Вход</h2>
+    <form (submit)="login()">
+      <div class="form-group">
+        <input required [(ngModel)]="userName" class="form-control" name="email" type="text" placeholder="E-mail"/>
+      </div>
+      <div class="form-group">
+        <input required [(ngModel)]="password" class="form-control" name="password" type="password" placeholder="Пароль"/>
+      </div>
+      <button class="btn btn-success" type="submit">Войти</button>
+    </form>
+  </div>
 </div>
