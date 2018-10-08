@@ -56,8 +56,6 @@ export class UserEffects {
         }
         if (action.payload.isNewUser || action.payload.user.type === UserType.Uknown) {
           this.router.navigate(['/select-user-type']);
-        } else {
-          this.router.navigate(['/']);
         }
       })
   );
