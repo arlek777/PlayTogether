@@ -27,6 +27,7 @@ namespace PlayTogether.Web
         {
             services.AddMvc(options => {
                 options.Filters.Add(typeof(ApiExceptionFilter));
+                options.Filters.Add(typeof(ActionValidationFilter));
             });
 
             var jwtSettings = new JWTSettings();
