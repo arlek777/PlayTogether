@@ -13,12 +13,14 @@ namespace PlayTogether.Web.Controllers
         private readonly ISimpleCRUDService _crudService;
         private readonly IPasswordHasher _passwordHasher;
         private readonly JWTTokenProvider _jwtTokenProvider;
+        private readonly WebSession _webSession;
 
-        public AuthController(ISimpleCRUDService crudService, JWTTokenProvider jwtTokenProvider, IPasswordHasher passwordHasher)
+        public AuthController(ISimpleCRUDService crudService, JWTTokenProvider jwtTokenProvider, IPasswordHasher passwordHasher, WebSession webSession)
         {
             _crudService = crudService;
             _jwtTokenProvider = jwtTokenProvider;
             _passwordHasher = passwordHasher;
+            _webSession = webSession;
         }
 
         [Route("[controller]/[action]")]
@@ -59,13 +61,13 @@ namespace PlayTogether.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> SelectUserType([FromBody] SelectUserTypeModel model)
         {
-            var user = await _crudService.Find<User>(u => u.Id == model.UserId);
-            if (user == null || user.Type != UserType.Uknown)
+            var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
+            if (user.Type != UserType.Uknown)
             {
                 return BadRequest();
             }
 
-            await _crudService.Update<SelectUserTypeModel, User>(model.UserId, model, (to, from) =>
+            await _crudService.Update<SelectUserTypeModel, User>(_webSession.UserId, model, (to, from) =>
             {
                 to.Type = from.UserType;
             });
@@ -77,11 +79,10 @@ namespace PlayTogether.Web.Controllers
         {
             return new
             {
-                accessToken = _jwtTokenProvider.GetAccessToken(user),
+                accessToken = _jwtTokenProvider.CreateEncodedAccessToken(user),
                 isNewUser,
                 user = new
                 {
-                    id = user.Id,
                     userName = user.UserName,
                     userType = user.Type
                 }

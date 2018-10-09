@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using PlayTogether.BusinessLogic;
 using PlayTogether.DataAccess;
 using PlayTogether.Web.Models;
@@ -38,6 +39,7 @@ namespace PlayTogether.Web.Infrastructure
             services.AddTransient<IPasswordHasher, PasswordHasher>();
             services.Configure<JWTSettings>(configuration.GetSection("JWTSettings"));
             services.AddTransient<JWTTokenProvider>();
+            services.TryAddSingleton<WebSession>();
         }
     }
 }

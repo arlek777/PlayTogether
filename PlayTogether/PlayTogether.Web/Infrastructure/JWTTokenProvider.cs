@@ -13,13 +13,23 @@ namespace PlayTogether.Web.Infrastructure
     public class JWTTokenProvider
     {
         private readonly JWTSettings _jwtSettings;
+        private readonly IJwtEncoder _encoder;
+        private readonly IJwtDecoder _decoder;
 
         public JWTTokenProvider(IOptions<JWTSettings> optionsAccessor)
         {
             _jwtSettings = optionsAccessor.Value;
+
+            IJwtAlgorithm algorithm = new HMACSHA256Algorithm();
+            IJsonSerializer serializer = new JsonNetSerializer();
+            IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
+            IJwtValidator validator = new JwtValidator(serializer, new UtcDateTimeProvider());
+
+            _encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
+            _decoder = new JwtDecoder(serializer, validator, urlEncoder);
         }
 
-        public string GetAccessToken(User user)
+        public string CreateEncodedAccessToken(User user)
         {
             var payload = new Dictionary<string, object>
             {
@@ -27,10 +37,15 @@ namespace PlayTogether.Web.Infrastructure
                 { "email", user.UserName },
                 { "roles", new [] { user.Type.ToString() } }
             };
-            return GetToken(payload);
+            return CreateJwtEncodedToken(payload);
         }
 
-        private string GetToken(Dictionary<string, object> payload)
+        public IDictionary<string, object> GetDecodedAccessToken(string token)
+        {
+            return _decoder.DecodeToObject(token, _jwtSettings.SecretKey, true);
+        }
+
+        private string CreateJwtEncodedToken(Dictionary<string, object> payload)
         {
             var secret = _jwtSettings.SecretKey;
 
@@ -39,12 +54,7 @@ namespace PlayTogether.Web.Infrastructure
             payload.Add("iat", DateTime.Now.ConvertToUnixTimestamp());
             payload.Add("exp", DateTime.Now.AddYears(1).ConvertToUnixTimestamp());
 
-            IJwtAlgorithm algorithm = new HMACSHA256Algorithm();
-            IJsonSerializer serializer = new JsonNetSerializer();
-            IBase64UrlEncoder urlEncoder = new JwtBase64UrlEncoder();
-            IJwtEncoder encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
-
-            return encoder.Encode(payload, secret);
+            return _encoder.Encode(payload, secret);
         }
     }
 }

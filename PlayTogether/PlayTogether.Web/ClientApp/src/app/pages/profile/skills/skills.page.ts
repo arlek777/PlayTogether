@@ -16,7 +16,6 @@ export class SkillsPage {
   public profileSkillsModel: ProfileSkills = new ProfileSkills();
   public musicGenres: MasterValueItem[];
   public musicianRoles: MasterValueItem[];
-  public userId: string;
 
   public dropdownSettings: IDropdownSettings = {
     enableCheckAll: false,
@@ -31,9 +30,6 @@ export class SkillsPage {
   constructor(private readonly backendService: BackendService,
     private readonly store: Store<AppState>,
     private readonly toastr: ToastrService) {
-
-    this.store.select(s => s.user.id)
-      .subscribe((value) => this.userId = value);
   }
 
   ngOnInit() {
@@ -43,7 +39,7 @@ export class SkillsPage {
     this.backendService.getMasterValues(MasterValueTypes.MusicianRoles)
       .subscribe((values) => this.musicianRoles = values);
 
-    this.backendService.getProfileSkills(this.userId)
+    this.backendService.getProfileSkills()
       .subscribe((value) => this.profileSkillsModel = value);
   }
 
