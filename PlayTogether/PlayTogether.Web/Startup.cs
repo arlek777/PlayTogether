@@ -2,9 +2,11 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using PlayTogether.Web.Infrastructure;
 using PlayTogether.Web.Models;
@@ -27,6 +29,7 @@ namespace PlayTogether.Web
         {
             services.AddMvc(options => {
                 options.Filters.Add(typeof(ApiExceptionFilter));
+                options.Filters.Add(typeof(ActionValidationFilter));
             });
 
             var jwtSettings = new JWTSettings();
@@ -46,6 +49,7 @@ namespace PlayTogether.Web
                     options.SaveToken = true;
                 });
             services.ConfigurePlayTogetherServices(Configuration, Env);
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

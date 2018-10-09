@@ -1,5 +1,6 @@
 using AutoMapper;
 using PlayTogether.Web.Models;
+using PlayTogether.Web.Models.Profile;
 
 namespace PlayTogether.Web.Infrastructure
 {

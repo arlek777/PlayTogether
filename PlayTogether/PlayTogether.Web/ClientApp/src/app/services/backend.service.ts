@@ -32,11 +32,8 @@ export class BackendService {
     return this.http.post(URLS.selectUserType, model).pipe(map(response => true));
   }
 
-  getProfileSkills(userId: string): Observable<ProfileSkills> {
-    return this.http.get(URLS.getProfileSkills,
-      {
-        params: { "userId": userId }
-      }).pipe(map(response => response as ProfileSkills));
+  getProfileSkills(): Observable<ProfileSkills> {
+    return this.http.get(URLS.getProfileSkills).pipe(map(response => response as ProfileSkills));
   }
 
   updateProfileSkills(skills: ProfileSkills): Observable<any> {
