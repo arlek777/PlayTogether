@@ -10,7 +10,7 @@ using PlayTogether.Web.Models.Vacancy;
 
 namespace PlayTogether.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Group")]
     public class VacancyController : Controller
     {
         private readonly ISimpleCRUDService _crudService;

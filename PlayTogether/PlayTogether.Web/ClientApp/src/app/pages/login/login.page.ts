@@ -18,7 +18,7 @@ export class LoginPage {
     private readonly backendService: BackendService,
     private readonly store: Store<AppState>,
     private readonly router: Router,
-    private formBuilder: FormBuilder) {
+    private readonly formBuilder: FormBuilder) {
 
     this.store.subscribe(state => {
       if (state.user.isLoggedIn) {
