@@ -3,20 +3,22 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
-import { UserActionTypes, LoginSuccess, Login, AutoLogin, Logout, UpdateUserType } from './actions';
+import { UserActionTypes, LoginSuccess, Login, AutoLogin, Logout, UpdateUserType, LoginFailed } from './actions';
 import { BackendService } from '../../services/backend.service';
 import { LoginModel } from '../../models/login';
 import { Constants } from '../../constants';
 import { LoginResponse } from '../../models/login-response';
 import { SelectUserType } from '../../models/select-user-type';
 import { UserType } from '../../models/user-type';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class UserEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly backendService: BackendService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly toastr: ToastrService
   ) { }
 
   @Effect()
@@ -25,7 +27,12 @@ export class UserEffects {
     map(action => action.payload),
       exhaustMap((login: LoginModel) =>
         this.backendService.login(login).pipe(
-          map(jwtToken => new LoginSuccess(jwtToken)))
+          map(response => new LoginSuccess(response)),
+          catchError((error) => {
+            this.toastr.error(error.error);
+            return of(new LoginFailed());
+          })
+          )
       )
   );
 
@@ -54,7 +61,8 @@ export class UserEffects {
           window.localStorage.setItem(Constants.accessTokenKey, action.payload.accessToken);
           window.localStorage.setItem(Constants.currentUserKey, JSON.stringify(action.payload.user));
         }
-        if (action.payload.isNewUser || action.payload.user.type === UserType.Uknown) {
+
+        if (action.payload.isNewUser || action.payload.user.userType === UserType.Uknown) {
           this.router.navigate(['/select-user-type']);
         }
       })
@@ -65,6 +73,9 @@ export class UserEffects {
     ofType<UpdateUserType>(UserActionTypes.UpdateUserType),
       tap((action: UpdateUserType) => {
         this.backendService.selectUserType(action.payload).subscribe(() => {
+          const user = JSON.parse(window.localStorage.getItem(Constants.currentUserKey));
+          user.userType = action.payload.userType;
+          window.localStorage.setItem(Constants.currentUserKey, JSON.stringify(user));
           this.router.navigate(['/']);
         });
       })

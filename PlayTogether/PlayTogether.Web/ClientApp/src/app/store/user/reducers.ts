@@ -20,7 +20,7 @@ export function userReducer(state = initialState, action: UserActions): UserStat
       return {
         isLoggedIn: true,
         userName: action.payload.user.userName,
-        userType: action.payload.user.type
+        userType: action.payload.user.userType
       };
     }
 

@@ -1,7 +1,7 @@
 // Angular/libs
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
@@ -10,9 +10,11 @@ import { StoreModule } from '@ngrx/store';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ToastrModule } from 'ngx-toastr';
 
+
 // Components
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
+import { ControlValidationComponent } from './components/control-validation/control-validation.component';
 
 // Pages
 import { HomePage } from './pages/home/home.page';
@@ -36,6 +38,7 @@ import { appReducers, appEffects } from './store';
   declarations: [
     AppComponent,
     NavMenuComponent,
+    ControlValidationComponent,
     HomePage,
     LoginPage,
     SelectUserTypePage,
@@ -53,6 +56,7 @@ import { appReducers, appEffects } from './store';
     }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomePage, pathMatch: 'full', canActivate: [AuthGuard] },
