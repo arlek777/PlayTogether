@@ -11,6 +11,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ToastrModule } from 'ngx-toastr';
 import { MatSliderModule } from '@angular/material/slider';
 import { TextMaskModule } from 'angular2-text-mask';
+import 'hammerjs';
 
 // Components
 import { AppComponent } from './components/app/app.component';

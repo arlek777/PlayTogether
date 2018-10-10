@@ -11,8 +11,8 @@
           <label for="name">Имя</label>
         </div>
         <div class="col-md-5">
-          <input type="text" id="name" class="form-control mx-sm-3" placeholder="Ваше имя" formControlName="name" required />
-          <label *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)" class="text-danger">Обязательное поле</label>
+          <input type="text" id="name" class="form-control mx-sm-3" placeholder="Имя" formControlName="name" />
+          <p *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)" class="text-danger">Обязательное поле</p>
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@
           <label for="email">Email</label>
         </div>
         <div class="col-md-5">
-          <input type="email" id="email" class="form-control mx-sm-3" placeholder="Email" formControlName="email" required />
+          <input type="email" id="email" class="form-control mx-sm-3" placeholder="Email" formControlName="email" />
           <p *ngIf="f.email.invalid && (f.email.dirty || f.email.touched)" class="text-danger">Неверный адрес</p>
         </div>
       </div>
@@ -35,7 +35,7 @@
         <div class="col-md-5">
           <input type="tel" id="phone1" class="form-control mx-sm-3" placeholder="Телефон 1"
                  formControlName="phone1"
-                 [textMask]="{mask: phoneMask}" required />
+                 [textMask]="{mask: phoneMask}" />
           <label *ngIf="f.phone1.invalid && (f.phone1.dirty || f.phone1.touched)" class="text-danger">Обязательное поле</label>
         </div>
       </div>
@@ -60,7 +60,7 @@
           <label for="city">Город</label>
         </div>
         <div class="col-md-5">
-          <input type="text" id="city" class="form-control mx-sm-3" placeholder="Город" formControlName="city" required />
+          <input type="text" id="city" class="form-control mx-sm-3" placeholder="Город" formControlName="city" />
           <p *ngIf="f.city.invalid && (f.city.dirty || f.city.touched)" class="text-danger">Обязательное поле</p>
         </div>
       </div>
@@ -84,7 +84,8 @@
           <label for="age">Возраст</label>
         </div>
         <div class="col-md-5">
-          <mat-slider id="age" [displayWith]="getAgeSliderValue" thumbLabel tickInterval="1" min="10" max="99"></mat-slider>
+          <input type="number" id="age" class="form-control mx-sm-3" formControlName="age" />
+          <p *ngIf="f.age.invalid && (f.age.dirty || f.age.touched)" class="text-danger">Обязательное поле</p>
         </div>
       </div>
     </div>
@@ -94,8 +95,7 @@
           <label for="experience">Опыт игры</label>
         </div>
         <div class="col-md-5">
-          <input type="number" id="experience" class="form-control mx-sm-3" formControlName="experience" required />
-          <p *ngIf="f.experience.invalid && (f.experience.dirty || f.experience.touched)" class="text-danger">Обязательное поле!</p>
+          <mat-slider id="experience" [displayWith]="getexperienceSliderValue" thumbLabel tickInterval="1" min="0" max="50"></mat-slider>
         </div>
       </div>
     </div>
@@ -104,7 +104,7 @@
         <div class="col-md-2">
           <label for="description">Описание</label>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
           <textarea id="description" class="form-control" rows="4"
                     [(ngModel)]="description"
                     [ngModelOptions]="{standalone: true}"></textarea>

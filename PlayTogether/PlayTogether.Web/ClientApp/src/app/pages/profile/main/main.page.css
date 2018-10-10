@@ -1,11 +1,16 @@
 mat-slider {
   width: 100%;
+  margin-left: 10px;
+}
+
+textarea.form-control {
+  margin-left: 10px;
 }
 
 input.ng-dirty.ng-invalid {
   border: 2px solid #f00;
 }
 
-input.ng-dirty.ng-valid {
-  border: 2px solid #6bc502;
+.text-danger {
+  margin-left: 15px;
 }

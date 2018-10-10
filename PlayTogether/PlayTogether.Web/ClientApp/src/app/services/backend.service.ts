@@ -8,6 +8,7 @@ import { MasterValueTypes } from "../models/master-values-types";
 import { MasterValueItem } from "../models/master-value-item";
 import { ProfileSkills } from "../models/profile-skills";
 import { SelectUserType } from "../models/select-user-type";
+import { MainInfoDataModel } from "src/app/models/main-info";
 
 enum URLS {
   login = '/auth/login',
@@ -41,6 +42,10 @@ export class BackendService {
 
   updateProfileSkills(skills: ProfileSkills): Observable<any> {
     return this.http.post(URLS.updateSkillsProfileInfo, skills);
+  }
+
+  updateMainProfileInfo(mainInfoData: MainInfoDataModel): Observable<any> {
+    return this.http.post(URLS.updateMainProfileInfo, mainInfoData);
   }
 
   getMasterValues(type: MasterValueTypes): Observable<MasterValueItem[]> {
