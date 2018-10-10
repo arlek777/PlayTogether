@@ -23,9 +23,9 @@ namespace PlayTogether.BusinessLogic
         Task<TNewEntity> Create<TNewEntity>(TNewEntity newEntity)
             where TNewEntity : class, ISimpleEntity;
 
-        Task<TOldEntity> Update<TNewEntity, TOldEntity>(Guid id, TNewEntity entity,
-            Action<TOldEntity, TNewEntity> updateFunc)
-            where TOldEntity : class, ISimpleEntity;
+        Task<TToEntity> Update<TFromEntity, TToEntity>(Guid id, TFromEntity entity,
+            Action<TToEntity, TFromEntity> updateFunc)
+            where TToEntity : class, ISimpleEntity;
 
         Task RemoveById<TEntity>(Guid id)
             where TEntity : class, ISimpleEntity;

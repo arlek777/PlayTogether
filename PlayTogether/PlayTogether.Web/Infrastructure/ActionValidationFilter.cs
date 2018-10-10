@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization.Formatters.Binary;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using PlayTogether.Web.Models;

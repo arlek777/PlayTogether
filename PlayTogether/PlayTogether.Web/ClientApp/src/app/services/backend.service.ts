@@ -8,6 +8,7 @@ import { MasterValueTypes } from "../models/master-values-types";
 import { MasterValueItem } from "../models/master-value-item";
 import { ProfileSkills } from "../models/profile-skills";
 import { SelectUserType } from "../models/select-user-type";
+import { Vacancy, VacancyDetail } from "../models/vacancy";
 
 enum URLS {
   login = '/auth/login',
@@ -16,6 +17,9 @@ enum URLS {
   updateSkillsProfileInfo = '/profile/updateskills',
   getMainProfileInfo = '/profile/getmaininfo',
   getProfileSkills = '/profile/getskills',
+  getVacancy = '/vacancy/getvacancy',
+  getVacancies = '/vacancy/getvacancies',
+  updateOrCreateVacancy = '/vacancy/updateorcreate',
   getMasterValues = '/mastervalues/get'
 };
 
@@ -38,6 +42,18 @@ export class BackendService {
 
   updateProfileSkills(skills: ProfileSkills): Observable<any> {
     return this.http.post(URLS.updateSkillsProfileInfo, skills);
+  }
+
+  getVacancy(id: string): Observable<VacancyDetail> {
+    return this.http.get(URLS.getVacancy, { params: { "id": id } }).pipe(map(response => response as VacancyDetail));
+  }
+
+  getVacancies(): Observable<Vacancy[]> {
+    return this.http.get(URLS.getVacancies).pipe(map(response => response as Vacancy[]));
+  }
+
+  updateOrCreateVacancy(vacancy: VacancyDetail): Observable<any> {
+    return this.http.post(URLS.updateOrCreateVacancy, vacancy);
   }
 
   getMasterValues(type: MasterValueTypes): Observable<MasterValueItem[]> {

@@ -10,7 +10,7 @@
         <li class="nav-item" [routerLinkActive]='["active"]' [routerLinkActiveOptions]='{ exact: true }'>
           <a class="nav-link" [routerLink]='["/"]'>Home <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item" [routerLinkActive]='["active"]'>
+        <li class="nav-item" [routerLinkActive]='["active"]' *ngIf="isGroupUser">
           <a class="nav-link" [routerLink]='["/vacancies"]'>Мои вакансии</a>
         </li>
       </ul>
