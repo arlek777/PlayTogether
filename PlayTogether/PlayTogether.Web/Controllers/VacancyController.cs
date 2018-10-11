@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PlayTogether.BusinessLogic;
+using PlayTogether.DataAccess;
 using PlayTogether.Domain;
 using PlayTogether.Web.Infrastructure;
 using PlayTogether.Web.Models.Vacancy;
@@ -15,14 +18,14 @@ namespace PlayTogether.Web.Controllers
     public class VacancyController : Controller
     {
         private readonly ISimpleCRUDService _crudService;
-        private readonly IMasterValueService _masterValueService;
+        private readonly DbContext _dbContext;
         private readonly WebSession _webSession;
 
-        public VacancyController(ISimpleCRUDService crudService, IMasterValueService masterValueService, WebSession webSession)
+        public VacancyController(ISimpleCRUDService crudService, WebSession webSession,  DbContext dbContext)
         {
             _crudService = crudService;
             _webSession = webSession;
-            _masterValueService = masterValueService;
+            _dbContext = dbContext;
         }
 
         [HttpGet]
@@ -37,12 +40,16 @@ namespace PlayTogether.Web.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> GetVacancy(Guid id)
         {
+            var v2 = ((PlayTogetherDbContext) _dbContext).Vacancies.Where(v => v.UserId == _webSession.UserId && v.Id == id).ToList();
             var vacancy = await _crudService.Find<Vacancy>(v => v.UserId == _webSession.UserId && v.Id == id);
             if (vacancy == null)
             {
                 return NotFound();
             }
-            return Ok(Mapper.Map<VacancyDetailModel>(vacancy));
+
+            var filter = vacancy.VacancyFilter; // it's to include it
+            var detail = Mapper.Map<VacancyDetailModel>(vacancy);
+            return Ok(detail);
         }
 
         [HttpPost]
@@ -65,25 +72,14 @@ namespace PlayTogether.Web.Controllers
                         to.Description = from.Description;
                         to.Title = from.Title;
                         to.IsClosed = from.IsClosed;
-                        to.VacancyFilter.Cities = from.VacancyFilter.Cities;
+                       
                         to.VacancyFilter.MinExpirience = from.VacancyFilter.MinExpirience;
                         to.VacancyFilter.MinRating = from.VacancyFilter.MinRating;
 
-                        to.VacancyFilter.MusicGenreIds.Clear();
-                        foreach (var mg in from.VacancyFilter.MusicGenres)
-                        {
-                            to.VacancyFilter.MusicGenreIds.Add(mg.Id);
-                        }
-                        to.VacancyFilter.MusicianRoleIds.Clear();
-                        foreach (var mr in from.VacancyFilter.MusicianRoles)
-                        {
-                            to.VacancyFilter.MusicianRoleIds.Add(mr.Id);
-                        }
-                        to.VacancyFilter.WorkTypeIds.Clear();
-                        foreach (var wt in from.VacancyFilter.WorkTypes)
-                        {
-                            to.VacancyFilter.WorkTypeIds.Add(wt.Id);
-                        }
+                        to.VacancyFilter.JsonMusicianRoles = from.VacancyFilter.MusicianRoles.ToJson();
+                        to.VacancyFilter.JsonMusicGenres = from.VacancyFilter.MusicGenres.ToJson();
+                        to.VacancyFilter.JsonCities = from.VacancyFilter.Cities.ToJson();
+                        to.VacancyFilter.JsonWorkTypes = from.VacancyFilter.WorkTypes.ToJson();
                     });
             }
 

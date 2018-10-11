@@ -33,6 +33,6 @@ namespace PlayTogether.Web.Models.Profile
         public double Experience { get; set; }
         public string PhotoBase64 { get; set; }
 
-        public virtual ICollection<WorkType> WorkTypes { get; set; }
+        public ICollection<WorkType> WorkTypes { get; set; }
     }
 }

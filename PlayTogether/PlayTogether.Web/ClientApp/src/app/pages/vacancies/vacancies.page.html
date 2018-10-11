@@ -13,13 +13,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let vacancy of vacancies; let i=$index">
+    <tr *ngFor="let vacancy of vacancies; let i=index">
       <th scope="row">{{ i+1 }}</th>
       <td><a [routerLink]="['/vacancy', vacancy.id]">{{ vacancy.title }}</a></td>
       <td>{{ vacancy.isClosed ? 'Закрыта' : 'Открыта' }}</td>
       <td>
-        <a *ngIf="isClosed" href="javascript: " (click)="reopenVacancy(vacancy.id)"></a>
-        <a *ngIf="!isClosed" href="javascript: " (click)="closeVacancy(vacancy.id)"></a>
+        <a *ngIf="vacancy.isClosed" href="javascript: " (click)="reopenVacancy(vacancy)">Открыть вакансию</a>
+        <a *ngIf="!vacancy.isClosed" href="javascript: " (click)="closeVacancy(vacancy)">Закрыть вакансию</a>
       </td>
     </tr>
     </tbody>

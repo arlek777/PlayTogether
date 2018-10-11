@@ -37,13 +37,6 @@ namespace PlayTogether.Web.Controllers
                     UserName = model.UserName,
                     Type = UserType.Uknown,
                     Profile = new Profile(),
-                    Vacancies = new List<Vacancy>()
-                    {
-                        new Vacancy()
-                        {
-                            Date = DateTime.Now
-                        }
-                    },
                     PasswordHash = _passwordHasher.HashPassword(model.Password)
                 });
 
@@ -74,6 +67,14 @@ namespace PlayTogether.Web.Controllers
             await _crudService.Update<SelectUserTypeModel, User>(_webSession.UserId, model, (to, from) =>
             {
                 to.Type = from.UserType;
+                if (to.Type == UserType.Musician)
+                {
+                    to.Vacancies.Add(new Vacancy()
+                    {
+                        Date = DateTime.Now,
+                        IsClosed = true
+                    });
+                }
             });
 
             return Ok();

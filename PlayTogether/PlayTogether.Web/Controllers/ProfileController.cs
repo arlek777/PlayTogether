@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -16,14 +16,12 @@ namespace PlayTogether.Web.Controllers
     public class ProfileController : Controller
     {
         private readonly ISimpleCRUDService _crudService;
-        private readonly IMasterValueService _masterValueService;
         private readonly WebSession _webSession;
 
-        public ProfileController(ISimpleCRUDService crudService, IMasterValueService masterValueService, WebSession webSession)
+        public ProfileController(ISimpleCRUDService crudService, WebSession webSession)
         {
             _crudService = crudService;
             _webSession = webSession;
-            _masterValueService = masterValueService;
         }
 
         [HttpGet]
@@ -42,8 +40,8 @@ namespace PlayTogether.Web.Controllers
             var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
             var skills = new SkillsProfileModel()
             {
-                MusicGenres = await _masterValueService.GetMasterValuesByIds<MusicGenre>(user.Profile.MusicGenreIds),
-                MusicianRoles = await _masterValueService.GetMasterValuesByIds<MusicianRole>(user.Profile.MusicianRoleIds)
+                MusicGenres = user.Profile.JsonMusicGenres.FromJson<ICollection<MusicGenre>>(),
+                MusicianRoles = user.Profile.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>()
             };
             return Ok(skills);
         }
@@ -63,21 +61,14 @@ namespace PlayTogether.Web.Controllers
                 to.Phone1 = from.Phone1;
                 to.Phone2 = from.Phone2;
                 to.PhotoBase64 = from.PhotoBase64;
-
-                to.WorkTypeIds.Clear();
-                foreach (var wt in from.WorkTypes)
-                {
-                    to.WorkTypeIds.Add(wt.Id);
-                }
-
+                to.JsonWorkTypes = from.WorkTypes.ToJson();
                 if(to.User.Type == UserType.Musician)
                 {
                     var vacancy = to.User.Vacancies.FirstOrDefault();
                     vacancy.Title = from.VacancyFilterTitle;
                     vacancy.Description = from.Description;
                     vacancy.IsClosed = !from.IsVacancyOpen;
-                    vacancy.VacancyFilter.Cities.Clear();
-                    vacancy.VacancyFilter.Cities.Add(from.City);
+                    vacancy.VacancyFilter.JsonCities = from.City.ToJson();
                 }
             });
 
@@ -90,30 +81,14 @@ namespace PlayTogether.Web.Controllers
         {
             await _crudService.Update<SkillsProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
-                to.MusicGenreIds.Clear();
-                foreach (var mg in from.MusicGenres)
-                {
-                    to.MusicGenreIds.Add(mg.Id);
-                }
-                to.MusicianRoleIds.Clear();
-                foreach (var mr in from.MusicianRoles)
-                {
-                    to.MusicianRoleIds.Add(mr.Id);
-                }
+                to.JsonMusicianRoles = from.MusicianRoles.ToJson();
+                to.JsonMusicGenres = from.MusicGenres.ToJson();
 
                 if (to.User.Type == UserType.Musician)
                 {
                     var vacancy = to.User.Vacancies.FirstOrDefault();
-                    vacancy.VacancyFilter.MusicGenreIds.Clear();
-                    foreach (var mg in from.MusicGenres)
-                    {
-                        vacancy.VacancyFilter.MusicGenreIds.Add(mg.Id);
-                    }
-                    vacancy.VacancyFilter.MusicianRoleIds.Clear();
-                    foreach (var mr in from.MusicianRoles)
-                    {
-                        vacancy.VacancyFilter.MusicianRoleIds.Add(mr.Id);
-                    }
+                    vacancy.VacancyFilter.JsonMusicianRoles = from.MusicianRoles.ToJson();
+                    vacancy.VacancyFilter.JsonMusicGenres = from.MusicGenres.ToJson();
                 }
             });
 

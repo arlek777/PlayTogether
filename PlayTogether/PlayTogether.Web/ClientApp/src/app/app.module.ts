@@ -78,6 +78,7 @@ import { appReducers, appEffects } from './store';
       { path: 'login', component: LoginPage },
       { path: 'select-user-type', component: SelectUserTypePage, canActivate: [AuthGuard] },
       { path: 'vacancies', component: VacanciesPage, canActivate: [AuthGuard] },
+      { path: 'vacancy', component: VacancyPage, canActivate: [AuthGuard] },
       { path: 'vacancy/:id', component: VacancyPage, canActivate: [AuthGuard] },
     ])
   ],

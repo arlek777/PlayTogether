@@ -41,7 +41,6 @@ export class VacancyPage {
 
   ngOnInit() {
     this.vacancyFormGroup = this.formBuilder.group({
-      status: ['', [Validators.required]],
       title: ['', [Validators.required]],
       description: [''],
       minExpirience: [0],
@@ -61,7 +60,6 @@ export class VacancyPage {
         this.backendService.getVacancy(params["id"])
           .subscribe((vacancy: VacancyDetail) => {
             this.vacancyId = vacancy.id;
-            this.formControls.status.setValue(vacancy.isClosed);
             this.formControls.description.setValue(vacancy.description);
             this.formControls.title.setValue(vacancy.title);
             this.formControls.minExpirience.setValue(vacancy.vacancyFilter.minExpirience);
@@ -85,7 +83,6 @@ export class VacancyPage {
     vacancy.id = this.vacancyId;
     vacancy.title = this.formControls.title.value;
     vacancy.description = this.formControls.description.value;
-    vacancy.isClosed = this.formControls.isClosed.value;
     vacancy.vacancyFilter.cities = [];
     vacancy.vacancyFilter.minExpirience = this.formControls.minExpirience.value;
     vacancy.vacancyFilter.musicGenres = this.selectedMusicGenres;

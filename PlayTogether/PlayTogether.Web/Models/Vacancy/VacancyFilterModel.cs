@@ -11,11 +11,11 @@ namespace PlayTogether.Web.Models.Vacancy
         public double MinRating { get; set; }
         public double MinExpirience { get; set; }
         [Required]
-        public ICollection<string> Cities { get; set; }
+        public List<string> Cities { get; set; }
         [Required]
-        public ICollection<MusicGenre> MusicGenres { get; set; }
+        public List<MusicGenre> MusicGenres { get; set; }
         [Required]
-        public ICollection<MusicianRole> MusicianRoles { get; set; }
-        public ICollection<WorkType> WorkTypes { get; set; }
+        public List<MusicianRole> MusicianRoles { get; set; }
+        public List<WorkType> WorkTypes { get; set; }
     }
 }
