@@ -10,27 +10,26 @@ namespace PlayTogether.Web.Models.Profile
 
         [Required]
         [MaxLength(256)]
-        public string Name { get; set; } // Required - Text editor (input) Validation max-length/min-length
+        public string Name { get; set; } 
 
         [Required]
         [MaxLength(256)]
-        public string ContactEmail { get; set; } // Required - Text editor - Validation on email (+ auto-prepopulate your email)
+        public string ContactEmail { get; set; }
 
         [Required]
         [MaxLength(256)]
-        public string Phone1 { get; set; } // Ruquired - Text - validation on ukrainina phones(optional, mask)
-        public string Phone2 { get; set; } // Optional - the same on phone1
+        public string Phone1 { get; set; }
+        public string Phone2 { get; set; } 
 
         [Required]
         [MaxLength(256)]
-        public string City { get; set; } // Required - google maps?? or how to check it? 
-        public string Address { get; set; } // Optional
-        public string Description { get; set; } // Text-area optional
+        public string City { get; set; } 
+        public string Address { get; set; }
+        public string Description { get; set; }
         public int Age { get; set; }
-        public double Experience { get; set; } // Required - range input from 0 to 50
-        public string PhotoBase64 { get; set; } // Required for user photo uploader
+        public double Experience { get; set; }
+        public string PhotoBase64 { get; set; }
 
-        // Checkboxes
         public virtual ICollection<WorkType> WorkTypes { get; set; }
     }
 }

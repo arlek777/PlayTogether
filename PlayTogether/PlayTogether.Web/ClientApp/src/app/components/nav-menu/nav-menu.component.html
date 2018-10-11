@@ -10,8 +10,11 @@
         <li class="nav-item" [routerLinkActive]='["active"]' [routerLinkActiveOptions]='{ exact: true }'>
           <a class="nav-link" [routerLink]='["/"]'>Home <span class="sr-only">(current)</span></a>
         </li>
+        <li class="nav-item" [routerLinkActive]='["active"]' *ngIf="isGroupUser">
+          <a class="nav-link" [routerLink]='["/vacancies"]'>Мои вакансии</a>
+        </li>
       </ul>
-      <ul class="navbar-nav" *ngIf="isLoggedIn$ | async">
+      <ul class="navbar-nav" *ngIf="user.isLoggedIn">
         <li class="nav-item">
           <a class="nav-link" [routerLink]='["profile"]'>Мой профиль</a>
         </li>

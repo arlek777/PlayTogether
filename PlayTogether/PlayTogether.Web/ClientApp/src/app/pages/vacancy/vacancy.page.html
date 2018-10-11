@@ -1,0 +1,118 @@
+<form [formGroup]="vacancyFormGroup" [ngClass]="{ 'form-submitted': formSubmitted }">
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="status">Статус</label>
+      </div>
+      <div class="col-md-5">
+        <input type="text" class="form-control" name="status" formControlName="status" placeholder="Статус" />
+        <control-validation [control]="formControls.status"></control-validation>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="title">Название (Ищу рок-группу и т.д.)</label>
+      </div>
+      <div class="col-md-5">
+        <input type="text" class="form-control" name="title" formControlName="title" placeholder="Название" />
+        <control-validation [control]="formControls.title"></control-validation>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="description">Описание (Что вы ищете, ваши пожелания)</label>
+      </div>
+      <div class="col-md-5">
+        <textarea class="form-control" name="description" formControlName="description" placeholder="Описание"></textarea>
+        <control-validation [control]="formControls.description"></control-validation>
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="form-group">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="title">Рейтинг не меньше</label>
+      </div>
+      <div class="col-md-5">
+        <input type="text" class="form-control" name="title" formControlName="title" placeholder="Название"/>
+        <control-validation [control]="formControls.userName"></control-validation>
+      </div>
+    </div>
+  </div>-->
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="minExpirience">Опыт не меньше</label>
+      </div>
+      <div class="col-md-5">
+        <input type="number" class="form-control" name="minExpirience" formControlName="minExpirience" placeholder="Опыт не меньше" />
+        <control-validation [control]="formControls.minExpirience"></control-validation>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="cities">Города</label>
+      </div>
+      <div class="col-md-5">
+        <input type="text" class="form-control" name="cities" formControlName="cities" placeholder="Города" />
+        <control-validation [control]="formControls.cities"></control-validation>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="workTypes">Вид работы</label>
+      </div>
+      <div class="col-md-5">
+        // TODO multiple checkboxes
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="form-group">
+  <div class="row">
+    <div class="col-md-2">
+      <label for="musicRoles">Музыкальные жанры</label>
+    </div>
+    <div class="col-md-5">
+      <ng-multiselect-dropdown [placeholder]="'Музыкальные жанры'"
+                               [data]="musicGenres"
+                               [(ngModel)]="selectedMusicGenres"
+                               [settings]="dropdownSettings">
+      </ng-multiselect-dropdown>
+    </div>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="row">
+    <div class="col-md-2">
+      <label for="musicGenres">Кого вы ищете</label>
+    </div>
+    <div class="col-md-5">
+      <ng-multiselect-dropdown [placeholder]="'Кого вы ищете'"
+                               [data]="musicianRoles"
+                               [(ngModel)]="selectedMusicRoles"
+                               [settings]="dropdownSettings">
+      </ng-multiselect-dropdown>
+    </div>
+  </div>
+</div>
+
+<button type="submit" class="btn btn-success" (click)="submit()" [disabled]="vacancyFormGroup.touched && vacancyFormGroup.invalid">Сохранить</button>
+
+

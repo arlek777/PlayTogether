@@ -35,7 +35,7 @@ namespace PlayTogether.Web.Infrastructure
             {
                 { "sub", user.Id },
                 { "email", user.UserName },
-                { "roles", new [] { user.Type.ToString() } }
+                { "roles", new [] { user.Type.ToString("G") } }
             };
             return CreateJwtEncodedToken(payload);
         }

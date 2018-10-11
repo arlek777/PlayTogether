@@ -1,14 +1,16 @@
 <div class="row justify-content-md-center">
   <div class="col-md-5 border px-5 py-5">
     <h2>Вход</h2>
-    <form (submit)="login()">
+    <form (submit)="login()" [formGroup]="loginForm" [ngClass]="{ 'form-submitted': formSubmitted }">
       <div class="form-group">
-        <input required [(ngModel)]="userName" class="form-control" name="email" type="text" placeholder="E-mail"/>
+        <input class="form-control" formControlName="userName" name="userName" type="email" placeholder="E-mail" />
+        <control-validation [control]="formControls.userName"></control-validation>
       </div>
       <div class="form-group">
-        <input required [(ngModel)]="password" class="form-control" name="password" type="password" placeholder="Пароль"/>
+        <input formControlName="password" class="form-control" name="password" type="password" placeholder="Пароль"/>
+        <control-validation [control]="formControls.password"></control-validation>
       </div>
-      <button class="btn btn-success" type="submit">Войти</button>
+      <button class="btn btn-success" type="submit" [disabled]="loginForm.invalid && loginForm.touched">Войти</button>
     </form>
   </div>
 </div>

@@ -11,7 +11,7 @@ namespace PlayTogether.Web.Infrastructure
         {
             if (!context.ModelState.IsValid)
             {
-                context.Result = new BadRequestObjectResult(ValidationResultMessages.InvalidModelState);
+                context.Result = new BadRequestObjectResult(context.ModelState);
             }
 
             await base.OnActionExecutionAsync(context, next);

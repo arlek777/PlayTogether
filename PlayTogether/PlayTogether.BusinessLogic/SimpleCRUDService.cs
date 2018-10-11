@@ -48,10 +48,10 @@ namespace PlayTogether.BusinessLogic
             return newEntity;
         }
 
-        public async Task<TOldEntity> Update<TNewEntity, TOldEntity>(Guid id, TNewEntity entity, Action<TOldEntity, TNewEntity> updateFunc)
-            where TOldEntity : class, ISimpleEntity
+        public async Task<TToEntity> Update<TFromEntity, TToEntity>(Guid id, TFromEntity entity, Action<TToEntity, TFromEntity> updateFunc)
+            where TToEntity : class, ISimpleEntity
         {
-            var dbEntity = await GetById<TOldEntity>(id);
+            var dbEntity = await GetById<TToEntity>(id);
             if (dbEntity != null)
             {
                 updateFunc(dbEntity, entity);

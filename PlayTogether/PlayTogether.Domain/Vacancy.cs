@@ -17,7 +17,6 @@ namespace PlayTogether.Domain
         public Guid VacancyFilterId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public bool NotifyByEmail { get; set; }
 
         public DateTime Date { get; set; }
         public VacancyStatus Status { get; set; }

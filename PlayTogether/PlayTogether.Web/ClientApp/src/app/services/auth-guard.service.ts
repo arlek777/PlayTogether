@@ -4,6 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AppState } from '../store';
+import { UserType } from '../models/user-type';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -11,12 +12,12 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return this.store.pipe(
-      select(state => state.user.isLoggedIn),
-      map(authed => {
-        if (!authed) {
+      select(state => state.user),
+      map(user => {
+        if (!user.isLoggedIn) {
           this.router.navigate(['/login']);
           return false;
-        }
+        } 
 
         return true;
       }),

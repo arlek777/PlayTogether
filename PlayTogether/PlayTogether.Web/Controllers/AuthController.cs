@@ -27,11 +27,6 @@ namespace PlayTogether.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ValidationResultMessages.InvalidModelState);
-            }
-
             var user = await _crudService.Find<User>(u => u.UserName == model.UserName);
             if (user == null)
             {

@@ -26,7 +26,7 @@ namespace PlayTogether.Domain
         public double Experience { get; set; }
         public string PhotoBase64 { get; set; }
         public double Rating { get; set; }
-
+        public bool NotifyByEmail { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<WorkType> WorkTypes { get; set; }
         public virtual ICollection<MusicGenre> MusicGenres { get; set; }

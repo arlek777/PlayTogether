@@ -7,6 +7,7 @@ export enum UserActionTypes {
   Login = '[User] Login',
   AutoLogin = '[User] Auto Login',
   LoginSuccess = '[User] Login Success',
+  LoginFailed = '[User] Login Failed',
   UpdateUserType = '[User] Update type',
   Logout = '[User] Logout'
 }
@@ -25,6 +26,10 @@ export class LoginSuccess implements Action {
   readonly type = UserActionTypes.LoginSuccess;
 
   constructor(public payload: LoginResponse) { }
+}
+
+export class LoginFailed implements Action {
+  readonly type = UserActionTypes.LoginFailed;
 }
 
 export class UpdateUserType implements Action {

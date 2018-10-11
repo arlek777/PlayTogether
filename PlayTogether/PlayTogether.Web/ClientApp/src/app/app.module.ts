@@ -1,7 +1,7 @@
 // Angular/libs
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
@@ -10,9 +10,11 @@ import { StoreModule } from '@ngrx/store';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ToastrModule } from 'ngx-toastr';
 
+
 // Components
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
+import { ControlValidationComponent } from './components/control-validation/control-validation.component';
 
 // Pages
 import { HomePage } from './pages/home/home.page';
@@ -21,6 +23,8 @@ import { SelectUserTypePage } from './pages/select-user-type/select-user-type.pa
 import { ProfilePage } from './pages/profile/profile.page';
 import { MainPage } from './pages/profile/main/main.page';
 import { SkillsPage } from './pages/profile/skills/skills.page';
+import { VacanciesPage } from './pages/vacancies/vacancies.page';
+import { VacancyPage } from './pages/vacancy/vacancy.page';
 
 // Services
 import { InterceptService } from './http.interceptor';
@@ -36,12 +40,15 @@ import { appReducers, appEffects } from './store';
   declarations: [
     AppComponent,
     NavMenuComponent,
+    ControlValidationComponent,
     HomePage,
     LoginPage,
     SelectUserTypePage,
     ProfilePage,
     MainPage,
-    SkillsPage
+    SkillsPage,
+    VacanciesPage,
+    VacancyPage
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -53,6 +60,7 @@ import { appReducers, appEffects } from './store';
     }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomePage, pathMatch: 'full', canActivate: [AuthGuard] },
@@ -66,6 +74,8 @@ import { appReducers, appEffects } from './store';
       },
       { path: 'login', component: LoginPage, pathMatch: 'full' },
       { path: 'select-user-type', component: SelectUserTypePage, pathMatch: 'full', canActivate: [AuthGuard] },
+      { path: 'vacancies', component: VacanciesPage, pathMatch: 'full', canActivate: [AuthGuard] },
+      { path: 'vacancy', component: VacancyPage, pathMatch: 'full', canActivate: [AuthGuard] },
     ])
   ],
   providers: [
