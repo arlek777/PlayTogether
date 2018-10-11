@@ -1,7 +1,7 @@
 <div class="row justify-content-md-center">
   <div class="col-md-5 border px-5 py-5">
     <h2>Вход</h2>
-    <form (submit)="login()" [formGroup]="loginForm">
+    <form (submit)="login()" [formGroup]="loginForm" [ngClass]="{ 'form-submitted': formSubmitted }">
       <div class="form-group">
         <input class="form-control" formControlName="userName" name="userName" type="email" placeholder="E-mail" />
         <control-validation [control]="formControls.userName"></control-validation>

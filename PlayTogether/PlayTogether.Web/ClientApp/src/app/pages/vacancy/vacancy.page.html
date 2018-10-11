@@ -1,4 +1,4 @@
-<form [formGroup]="vacancyFormGroup">
+<form [formGroup]="vacancyFormGroup" [ngClass]="{ 'form-submitted': formSubmitted }">
   <div class="form-group">
     <div class="row">
       <div class="col-md-2">
@@ -86,12 +86,12 @@
 <div class="form-group">
   <div class="row">
     <div class="col-md-2">
-      <label for="musicGenres">Музыкальные жанры</label>
+      <label for="musicRoles">Музыкальные жанры</label>
     </div>
     <div class="col-md-5">
       <ng-multiselect-dropdown [placeholder]="'Музыкальные жанры'"
                                [data]="musicGenres"
-                               [(ngModel)]="selectedMusicRoles"
+                               [(ngModel)]="selectedMusicGenres"
                                [settings]="dropdownSettings">
       </ng-multiselect-dropdown>
     </div>
@@ -101,12 +101,12 @@
 <div class="form-group">
   <div class="row">
     <div class="col-md-2">
-      <label for="musicRoles">Кого вы ищете</label>
+      <label for="musicGenres">Кого вы ищете</label>
     </div>
     <div class="col-md-5">
       <ng-multiselect-dropdown [placeholder]="'Кого вы ищете'"
                                [data]="musicianRoles"
-                               [(ngModel)]="selectedMusicGenres"
+                               [(ngModel)]="selectedMusicRoles"
                                [settings]="dropdownSettings">
       </ng-multiselect-dropdown>
     </div>

@@ -13,6 +13,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class LoginPage {
   public loginForm: FormGroup;
+  public formSubmitted = false;
 
   constructor(
     private readonly backendService: BackendService,
@@ -35,9 +36,11 @@ export class LoginPage {
   }
 
   public login() {
+    this.formSubmitted = true;
     if (this.loginForm.invalid) return;
     const loginModel = new LoginModel(this.formControls.userName.value, this.formControls.password.value);
     this.store.dispatch(new Login(loginModel));
+    this.formSubmitted = false;
   }
 
   public get formControls() {

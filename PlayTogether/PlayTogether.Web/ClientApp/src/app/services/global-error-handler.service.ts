@@ -1,17 +1,18 @@
-import { ErrorHandler, Injectable, Injector } from '@angular/core';
+import { ErrorHandler, Injectable, NgZone } from '@angular/core';
 import { Response } from '@angular/http';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-  constructor(private readonly injector: Injector, private readonly toastrService: ToastrService) { }
+  constructor(private readonly ngZone: NgZone,
+    private readonly toastrService: ToastrService) { }
 
   handleError(error) {
     console.log(error);
-    if (error && error.error && error.status === 400) {
-      this.toastrService.error(error.error, "Ошибка");
-    } else {
-      this.toastrService.error(error.message, "Ошибка");
-    }
+    this.ngZone.run(() => {
+      if (this.toastrService) {
+        this.toastrService.error("Произошла ошибка.");
+      }
+    });
   }
 }

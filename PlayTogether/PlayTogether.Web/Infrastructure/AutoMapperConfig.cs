@@ -1,6 +1,8 @@
 using AutoMapper;
-using PlayTogether.Web.Models;
+using PlayTogether.Domain;
 using PlayTogether.Web.Models.Profile;
+using PlayTogether.Web.Models.Vacancy;
+using Profile = AutoMapper.Profile;
 
 namespace PlayTogether.Web.Infrastructure
 {
@@ -11,6 +13,9 @@ namespace PlayTogether.Web.Infrastructure
             Mapper.Initialize(c =>
             {
                 c.CreateMap<MainProfileModel, Profile>().ReverseMap();
+                c.CreateMap<Vacancy, VacancyModel>().ReverseMap();
+                c.CreateMap<Vacancy, VacancyDetailModel>().ReverseMap();
+                c.CreateMap<VacancyFilter, VacancyFilterModel>().ReverseMap();
             });
         }
     }

@@ -8,6 +8,10 @@
   margin-bottom: 5px;
 }
 
+form.form-submitted.ng-invalid input.ng-invalid {
+  border-left: 5px solid #a94442; /* red */
+}
+
 form.ng-touched.ng-invalid input.ng-touched.ng-invalid {
   border-left: 5px solid #a94442; /* red */
 }

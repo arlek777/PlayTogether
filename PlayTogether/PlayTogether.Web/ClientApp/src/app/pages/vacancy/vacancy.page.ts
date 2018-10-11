@@ -18,6 +18,7 @@ export class VacancyPage {
   public selectedMusicGenres: MasterValueItem[];
   public musicGenres: MasterValueItem[];
   public musicianRoles: MasterValueItem[];
+  public formSubmitted = false;
 
   public dropdownSettings: IDropdownSettings = {
     enableCheckAll: false,
@@ -29,7 +30,7 @@ export class VacancyPage {
     closeDropDownOnSelection: true
   };
 
-  private vacancy: VacancyDetail;
+  private vacancyId: string;
 
   constructor(
     private readonly backendService: BackendService,
@@ -43,7 +44,7 @@ export class VacancyPage {
       status: ['', [Validators.required]],
       title: ['', [Validators.required]],
       description: [''],
-      minExpirience: [''],
+      minExpirience: [0],
       cities: ['']
     });
 
@@ -53,18 +54,20 @@ export class VacancyPage {
     this.backendService.getMasterValues(MasterValueTypes.MusicianRoles)
       .subscribe((values) => this.musicianRoles = values);
 
+    // TODO add work types
+
     this.route.params.subscribe((params) => {
       if (params["id"]) {
         this.backendService.getVacancy(params["id"])
           .subscribe((vacancy: VacancyDetail) => {
-            this.vacancy = vacancy;
+            this.vacancyId = vacancy.id;
             this.formControls.status.setValue(vacancy.status);
             this.formControls.description.setValue(vacancy.description);
             this.formControls.title.setValue(vacancy.title);
             this.formControls.minExpirience.setValue(vacancy.vacancyFilter.minExpirience);
             this.formControls.cities.setValue(vacancy.vacancyFilter.cities);
-            this.selectedMusicGenres = vacancy.vacancyFilter.musicGenreIds;
-            this.selectedMusicRoles = vacancy.vacancyFilter.musicianRoleIds;
+            this.selectedMusicGenres = vacancy.vacancyFilter.musicGenres;
+            this.selectedMusicRoles = vacancy.vacancyFilter.musicianRoles;
           });
       }
     });
@@ -75,20 +78,25 @@ export class VacancyPage {
   }
 
   public submit() {
+    this.formSubmitted = true;
     if (this.vacancyFormGroup.invalid) return;
 
     const vacancy = new VacancyDetail();
-    vacancy.id = this.vacancy.id;
+    vacancy.id = this.vacancyId;
     vacancy.title = this.formControls.title.value;
     vacancy.description = this.formControls.description.value;
     vacancy.status = this.formControls.status.value;
-    vacancy.vacancyFilter.cities = this.formControls.cities.value;
+    vacancy.vacancyFilter.cities = [];
     vacancy.vacancyFilter.minExpirience = this.formControls.minExpirience.value;
-    vacancy.vacancyFilter.musicGenreIds = this.selectedMusicGenres;
+    vacancy.vacancyFilter.musicGenres = this.selectedMusicGenres;
     //vacancy.vacancyFilter.workTypeIds = this.formControls.title.value;
-    vacancy.vacancyFilter.musicianRoleIds = this.selectedMusicRoles;
+    vacancy.vacancyFilter.musicianRoles = this.selectedMusicRoles;
 
-    this.backendService.updateVacancy(vacancy)
-      .subscribe(() => this.toastr.success("Вакансия успешно сохранена."));
+    this.backendService.updateOrCreateVacancy(vacancy)
+      .subscribe((vacancy) => {
+        this.vacancyId = vacancy.id;
+        this.toastr.success("Вакансия успешно сохранена.");
+        this.formSubmitted = false;
+      });
   }
 }

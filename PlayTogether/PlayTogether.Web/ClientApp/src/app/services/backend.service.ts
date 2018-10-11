@@ -53,7 +53,7 @@ export class BackendService {
   }
 
   updateOrCreateVacancy(vacancy: VacancyDetail): Observable<any> {
-    return this.http.post(URLS.updateOrCreateVacancy, vacancy);
+    return this.http.post(URLS.updateOrCreateVacancy, vacancy).pipe(map(response => response as VacancyDetail));
   }
 
   getMasterValues(type: MasterValueTypes): Observable<MasterValueItem[]> {

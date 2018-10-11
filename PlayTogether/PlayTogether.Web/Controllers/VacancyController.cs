@@ -43,7 +43,7 @@ namespace PlayTogether.Web.Controllers
             return Ok(Mapper.Map<VacancyDetailModel>(vacancy));
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("[controller]/[action]")]
         public async Task<IActionResult> UpdateOrCreate([FromBody] VacancyDetailModel model)
         {
@@ -51,7 +51,10 @@ namespace PlayTogether.Web.Controllers
             if (vacancy == null)
             {
                 model.Date = DateTime.Now;
-                vacancy = await _crudService.Create(Mapper.Map<Vacancy>(model));
+                vacancy = Mapper.Map<Vacancy>(model);
+                vacancy.UserId = _webSession.UserId;
+                vacancy = await _crudService.Create(vacancy);
+                model.Id = vacancy.Id;
             }
             else
             {
@@ -63,11 +66,26 @@ namespace PlayTogether.Web.Controllers
                         to.VacancyFilter.Cities = from.VacancyFilter.Cities;
                         to.VacancyFilter.MinExpirience = from.VacancyFilter.MinExpirience;
                         to.VacancyFilter.MinRating = from.VacancyFilter.MinRating;
-                        to.VacancyFilter.
+
+                        to.VacancyFilter.MusicGenres.Clear();
+                        foreach (var mg in from.VacancyFilter.MusicGenres)
+                        {
+                            to.VacancyFilter.MusicGenres.Add(mg);
+                        }
+                        to.VacancyFilter.MusicianRoles.Clear();
+                        foreach (var mr in from.VacancyFilter.MusicianRoles)
+                        {
+                            to.VacancyFilter.MusicianRoles.Add(mr);
+                        }
+                        to.VacancyFilter.WorkTypes.Clear();
+                        foreach (var wt in from.VacancyFilter.WorkTypes)
+                        {
+                            to.VacancyFilter.WorkTypes.Add(wt);
+                        }
                     });
             }
 
-            return Ok(vacancy);
+            return Ok(model);
         }
     }
 }

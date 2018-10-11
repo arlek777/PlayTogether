@@ -1,3 +1,5 @@
+import { MasterValueItem } from "./master-value-item";
+
 export enum VacancyStatus {
   Active = 0,
   NotActive,
@@ -11,6 +13,11 @@ export class Vacancy {
 }
 
 export class VacancyDetail extends Vacancy {
+  constructor() {
+    super();
+    this.vacancyFilter = new VacancyFilter();
+  }
+
   searchFilterId: string;
   description: string;
   vacancyFilter: VacancyFilter;
@@ -21,7 +28,7 @@ export class VacancyFilter {
   minRating: number;
   minExpirience: number;
   cities: string[];
-  musicGenreIds: string[];
-  musicianRoleIds: string[];
-  workTypeIds: string[];
+  musicGenres: MasterValueItem[];
+  musicianRoles: MasterValueItem[];
+  workTypes: MasterValueItem[];
 }
