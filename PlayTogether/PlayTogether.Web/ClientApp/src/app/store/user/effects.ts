@@ -87,7 +87,7 @@ export class UserEffects {
       tap(action => {
         window.localStorage.clear();
         window.sessionStorage.clear();
-      this.router.navigate(['/login']);
-    })
+        this.backendService.logout();
+      })
   );
 }

@@ -5,8 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { BackendService } from '../../../services/backend.service';
 import { RegExp } from '../../../constants';
-
-import { MainInfoDataModel } from '../../../models/main-info';
+import { MainInfo } from '../../../models/main-info';
 import { AppState } from '../../../store';
 
 @Component({
@@ -14,16 +13,20 @@ import { AppState } from '../../../store';
   styleUrls: ['./main.page.css'],
 })
 export class MainPage implements OnInit {
+  public mainPageForm: FormGroup;
+  public phoneMask = RegExp.phoneMask;
+  public ageSliderValue: number;
+  private mainInfoDataModel: MainInfoDataModel;
+  public phone1: string = '';
+  public phone2: string = '';
+  public address: string = '';
+  public description: string = '';
+  public ageSliderValue: number;
 
   constructor(private readonly formBuilder: FormBuilder,
     private readonly toastr: ToastrService,
     private readonly backendService: BackendService,
     private readonly store: Store<AppState>,) {
-
-    this.store.select(s => s.user.id)
-      .subscribe((value) => this.userId = value);
-    this.backendService.updateMainProfileInfo(this.userId)
-      .subscribe((value) => this.mainInfoDataModel.userId = value);
 
     this.mainInfoDataModel = new MainInfoDataModel();
   }
@@ -36,20 +39,9 @@ export class MainPage implements OnInit {
     return this.mainPageForm.controls;
   };
 
-  public userId: any;
-  public mainPageForm: FormGroup;
-  public phoneMask = RegExp.phoneMask;
-  public phone1:string = '';
-  public phone2:string = '';
-  public address:string = '';
-  public description:string = '';
-  public ageSliderValue: number;
-  private mainInfoDataModel: MainInfoDataModel;
-
   public submitUserMainData() {
     if (this.mainPageForm.invalid) return;
 
-    this.mainInfoDataModel.userId = this.userId;
     this.mainInfoDataModel.isActivated = true;
     this.mainInfoDataModel.name = this.f.name.value;
     this.mainInfoDataModel.contactEmail = this.f.email.value;
@@ -68,7 +60,7 @@ export class MainPage implements OnInit {
      .subscribe(() => this.toastr.success("Ваш профиль сохранен."));
   }
 
-  public getexperienceSliderValue(value: number | null) {
+  public getExperienceSliderValue(value: number | null) {
     this.ageSliderValue = value;
     return this.ageSliderValue;
   }

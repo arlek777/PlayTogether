@@ -12,6 +12,7 @@ import { Vacancy, VacancyDetail } from "../models/vacancy";
 
 enum URLS {
   login = '/auth/login',
+  logout = '/auth/logout',
   selectUserType = '/auth/selectusertype',
   updateMainProfileInfo = '/profile/updatemaininfo',
   updateSkillsProfileInfo = '/profile/updateskills',
@@ -32,8 +33,20 @@ export class BackendService {
     return this.http.post(URLS.login, login).pipe(map(response => response as LoginResponse));
   }
 
+  logout(): Observable<boolean> {
+    return this.http.post(URLS.logout, null).pipe(map(response => true));
+  }
+
   selectUserType(model: SelectUserType): Observable<boolean> {
     return this.http.post(URLS.selectUserType, model).pipe(map(response => true));
+  }
+
+  getMainProfileInfo() {
+    return this.http.get(URLS.getMainProfileInfo).pipe(map(response => response as MainInfo));
+  }
+
+  updateMainProfileInfo(model: MainInfo): Observable<any> {
+    return this.http.post(URLS.updateMainProfileInfo, model);
   }
 
   getProfileSkills(): Observable<ProfileSkills> {

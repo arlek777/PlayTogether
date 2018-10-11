@@ -31,5 +31,10 @@ namespace PlayTogether.Web.Infrastructure
             _httpContext = httpContext;
             _jwtTokenProvider = jwtTokenProvider;
         }
+
+        public void Logout()
+        {
+            _userId = Guid.Empty;
+        }
     }
 }

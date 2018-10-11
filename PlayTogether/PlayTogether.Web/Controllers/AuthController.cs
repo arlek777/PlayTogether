@@ -70,6 +70,14 @@ namespace PlayTogether.Web.Controllers
             return Ok();
         }
 
+        [Route("[controller]/[action]")]
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            _webSession.Logout();
+            return Ok();
+        }
+
         private dynamic GetLoginResponse(User user, bool isNewUser)
         {
             return new
