@@ -4,7 +4,7 @@
     <div style="width:100px; height:100px; background-color: lightgray;"></div>
     <button class="btn btn-outline-success">Загрузить фото</button>
   </div>
-  <form [formGroup]="mainPageForm" (submit)="submitUserMainData()">
+  <form [formGroup]="mainPageForm" (submit)="submit()">
     <div class="form-group">
       <div class="row">
         <div class="col-md-2">
@@ -12,7 +12,7 @@
         </div>
         <div class="col-md-5">
           <input type="text" id="name" class="form-control mx-sm-3" placeholder="Имя" formControlName="name" />
-          <p *ngIf="f.name.invalid && (f.name.dirty || f.name.touched)" class="text-danger">Обязательное поле</p>
+          <control-validation [control]="formControls.name"></control-validation>
         </div>
       </div>
     </div>
@@ -23,7 +23,7 @@
         </div>
         <div class="col-md-5">
           <input type="email" id="email" class="form-control mx-sm-3" placeholder="Email" formControlName="email" />
-          <p *ngIf="f.email.invalid && (f.email.dirty || f.email.touched)" class="text-danger">Неверный адрес</p>
+          <control-validation [control]="formControls.email"></control-validation>
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
           <input type="tel" id="phone1" class="form-control mx-sm-3" placeholder="Телефон 1"
                  formControlName="phone1"
                  [textMask]="{mask: phoneMask}" />
-          <label *ngIf="f.phone1.invalid && (f.phone1.dirty || f.phone1.touched)" class="text-danger">Обязательное поле</label>
+          <control-validation [control]="formControls.phone1"></control-validation>
         </div>
       </div>
     </div>
@@ -48,7 +48,7 @@
         <div class="col-md-5">
           <input type="text" id="phone2" class="form-control mx-sm-3"
                  placeholder="Телефон 2"
-                 [(ngModel)]="phone2"
+                 [(ngModel)]="mainInfoModel.phone2"
                  [ngModelOptions]="{standalone: true}"
                  [textMask]="{mask: phoneMask}" />
         </div>
@@ -61,7 +61,7 @@
         </div>
         <div class="col-md-5">
           <input type="text" id="city" class="form-control mx-sm-3" placeholder="Город" formControlName="city" />
-          <p *ngIf="f.city.invalid && (f.city.dirty || f.city.touched)" class="text-danger">Обязательное поле</p>
+          <control-validation [control]="formControls.city"></control-validation>
         </div>
       </div>
     </div>
@@ -73,7 +73,7 @@
         <div class="col-md-5">
           <input type="text" id="address" class="form-control mx-sm-3"
                  placeholder="Адрес"
-                 [(ngModel)]="address"
+                 [(ngModel)]="mainInfoModel.address"
                  [ngModelOptions]="{standalone: true}" />
         </div>
       </div>
@@ -85,7 +85,7 @@
         </div>
         <div class="col-md-5">
           <input type="number" id="age" class="form-control mx-sm-3" formControlName="age" />
-          <p *ngIf="f.age.invalid && (f.age.dirty || f.age.touched)" class="text-danger">Обязательное поле</p>
+          <control-validation [control]="formControls.age"></control-validation>
         </div>
       </div>
     </div>
@@ -106,11 +106,11 @@
         </div>
         <div class="col-md-5">
           <textarea id="description" class="form-control" rows="4"
-                    [(ngModel)]="description"
+                    [(ngModel)]="mainInfoModel.description"
                     [ngModelOptions]="{standalone: true}"></textarea>
         </div>
       </div>
     </div>
-    <button class="btn btn-success" [disabled]="mainPageForm.invalid" type="submit">Сохранить</button>
+    <button class="btn btn-success" [disabled]="mainPageForm.invalid && mainPageForm.touched" type="submit">Сохранить</button>
   </form>
 </div>

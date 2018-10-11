@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { BackendService } from '../../../services/backend.service';
 import { RegExp } from '../../../constants';
-import { MainInfo } from '../../../models/main-info';
+import { MainProfileInfo } from '../../../models/main-profile-info';
 import { AppState } from '../../../store';
 
 @Component({
@@ -13,50 +13,40 @@ import { AppState } from '../../../store';
   styleUrls: ['./main.page.css'],
 })
 export class MainPage implements OnInit {
+  public mainInfoModel = new MainProfileInfo();
   public mainPageForm: FormGroup;
   public phoneMask = RegExp.phoneMask;
-  public ageSliderValue: number;
-  private mainInfoDataModel: MainInfoDataModel;
-  public phone1: string = '';
-  public phone2: string = '';
-  public address: string = '';
-  public description: string = '';
   public ageSliderValue: number;
 
   constructor(private readonly formBuilder: FormBuilder,
     private readonly toastr: ToastrService,
     private readonly backendService: BackendService,
-    private readonly store: Store<AppState>,) {
-
-    this.mainInfoDataModel = new MainInfoDataModel();
+    private readonly store: Store<AppState>) {
   }
 
   ngOnInit() {
     this.setMainPageValidator();
   }
 
-  get f() {
+  get formControls() {
     return this.mainPageForm.controls;
-  };
+  }
 
-  public submitUserMainData() {
+  public submit() {
     if (this.mainPageForm.invalid) return;
 
-    this.mainInfoDataModel.isActivated = true;
-    this.mainInfoDataModel.name = this.f.name.value;
-    this.mainInfoDataModel.contactEmail = this.f.email.value;
-    this.mainInfoDataModel.phone1 = this.f.phone1.value;
-    this.mainInfoDataModel.phone2 = this.phone2;
-    this.mainInfoDataModel.city = this.f.city.value;
-    this.mainInfoDataModel.address = this.address;
-    this.mainInfoDataModel.age = this.f.age;
-    this.mainInfoDataModel.experience = this.ageSliderValue || 0;
-    this.mainInfoDataModel.description = this.description;
-    this.mainInfoDataModel.photoBase64 = 'test';
+    this.mainInfoModel.isActivated = true;
+    this.mainInfoModel.name = this.formControls.name.value;
+    this.mainInfoModel.contactEmail = this.formControls.email.value;
+    this.mainInfoModel.phone1 = this.formControls.phone1.value;
+    this.mainInfoModel.city = this.formControls.city.value;
+    this.mainInfoModel.age = this.formControls.age;
+    this.mainInfoModel.experience = this.ageSliderValue || 0;
+    this.mainInfoModel.photoBase64 = 'test';
 
-    console.log(this.mainInfoDataModel);
+    console.log(this.mainInfoModel);
 
-    this.backendService.updateMainProfileInfo(this.mainInfoDataModel)
+    this.backendService.updateMainProfileInfo(this.mainInfoModel)
      .subscribe(() => this.toastr.success("Ваш профиль сохранен."));
   }
 

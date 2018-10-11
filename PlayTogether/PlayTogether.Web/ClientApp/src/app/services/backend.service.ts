@@ -9,6 +9,7 @@ import { MasterValueItem } from "../models/master-value-item";
 import { ProfileSkills } from "../models/profile-skills";
 import { SelectUserType } from "../models/select-user-type";
 import { Vacancy, VacancyDetail } from "../models/vacancy";
+import { MainProfileInfo } from "../models/main-profile-info";
 
 enum URLS {
   login = '/auth/login',
@@ -42,10 +43,10 @@ export class BackendService {
   }
 
   getMainProfileInfo() {
-    return this.http.get(URLS.getMainProfileInfo).pipe(map(response => response as MainInfo));
+    return this.http.get(URLS.getMainProfileInfo).pipe(map(response => response as MainProfileInfo));
   }
 
-  updateMainProfileInfo(model: MainInfo): Observable<any> {
+  updateMainProfileInfo(model: MainProfileInfo): Observable<any> {
     return this.http.post(URLS.updateMainProfileInfo, model);
   }
 
