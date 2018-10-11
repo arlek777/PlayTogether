@@ -1,11 +1,11 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PlayTogether.BusinessLogic;
 using PlayTogether.Domain;
-using PlayTogether.Web.Infrastructure;
-using PlayTogether.Web.Models.Profile;
+using PlayTogether.Web.Models;
 using Profile = PlayTogether.Domain.Profile;
 
 namespace PlayTogether.Web.Controllers
@@ -14,30 +14,40 @@ namespace PlayTogether.Web.Controllers
     public class ProfileController : Controller
     {
         private readonly ISimpleCRUDService _crudService;
-        private readonly WebSession _webSession;
 
-        public ProfileController(ISimpleCRUDService crudService, WebSession webSession)
+        public ProfileController(ISimpleCRUDService crudService)
         {
             _crudService = crudService;
-            _webSession = webSession;
         }
 
         [HttpGet]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> GetMainInfo()
+        public async Task<IActionResult> GetMainInfo(Guid userId)
         {
-            var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
-            var mainInfo = Mapper.Map<MainProfileModel>(user.Profile);
+            var user = await _crudService.Find<User>(u => u.Id == userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var mainInfo = Mapper.Map<MainProfileModel>(user?.Profile);
+            mainInfo.UserId = user.Id;
             return Ok(mainInfo);
         }
 
         [HttpGet]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> GetSkills()
+        public async Task<IActionResult> GetSkills(Guid userId)
         {
-            var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
+            var user = await _crudService.Find<User>(u => u.Id == userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
             var skills = new SkillsProfileModel()
             {
+                UserId = user.Id,
                 MusicGenres = user.Profile.MusicGenres,
                 MusicianRoles = user.Profile.MusicianRoles
             };
@@ -48,7 +58,17 @@ namespace PlayTogether.Web.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> UpdateMainProfile(MainProfileModel model)
         {
-            await _crudService.Update<MainProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ValidationResultMessages.InvalidModelState);
+            }
+            var user = await _crudService.Find<User>(u => u.Id == model.UserId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            await _crudService.Update<MainProfileModel, Profile>(model.UserId, model, (to, from) =>
             {
                 to.IsActivated = from.IsActivated;
                 to.Name = from.Name;
@@ -75,7 +95,17 @@ namespace PlayTogether.Web.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> UpdateSkills([FromBody] SkillsProfileModel model)
         {
-            await _crudService.Update<SkillsProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ValidationResultMessages.InvalidModelState);
+            }
+            var user = await _crudService.Find<User>(u => u.Id == model.UserId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            await _crudService.Update<SkillsProfileModel, Profile>(model.UserId, model, (to, from) =>
             {
                 to.MusicGenres.Clear();
                 foreach (var mg in from.MusicGenres)

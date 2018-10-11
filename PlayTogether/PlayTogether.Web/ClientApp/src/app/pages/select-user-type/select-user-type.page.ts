@@ -23,6 +23,8 @@ export class SelectUserTypePage {
 
     this.selectUserType = new SelectUserType();
     this.selectUserType.userType = UserType.Musician;
+    this.store.select(s => s.user.id)
+      .subscribe((value) => this.selectUserType.userId = value);
   }
 
   public submit() {

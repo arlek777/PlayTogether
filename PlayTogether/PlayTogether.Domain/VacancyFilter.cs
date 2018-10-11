@@ -10,6 +10,7 @@ namespace PlayTogether.Domain
         public Guid Id { get; set; }
         public double MinRating { get; set; }
         public double MinExpirience { get; set; }
+        public double MaxAge { get; set; }
         public ICollection<string> Cities { get; set; }
         public ICollection<Guid> MusicGenreIds { get; set; }
         public ICollection<Guid> MusicianRoleIds { get; set; }

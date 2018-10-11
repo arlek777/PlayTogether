@@ -1,7 +1,7 @@
 // Angular/libs
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
@@ -9,6 +9,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ToastrModule } from 'ngx-toastr';
+import { MatSliderModule } from '@angular/material/slider';
+import { TextMaskModule } from 'angular2-text-mask';
+import 'hammerjs';
 
 // Components
 import { AppComponent } from './components/app/app.component';
@@ -51,8 +54,11 @@ import { appReducers, appEffects } from './store';
     ToastrModule.forRoot({
       positionClass: 'toast-top-center'
     }),
+    MatSliderModule,
+    TextMaskModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomePage, pathMatch: 'full', canActivate: [AuthGuard] },

@@ -1,11 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using PlayTogether.Domain;
 
-namespace PlayTogether.Web.Models.Profile
+namespace PlayTogether.Web.Models
 {
     public class MainProfileModel
     {
+        [Required]
+        public Guid UserId { get; set; }
         public bool IsActivated { get; set; }
 
         [Required]
