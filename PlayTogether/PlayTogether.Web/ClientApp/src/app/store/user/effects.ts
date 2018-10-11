@@ -29,7 +29,8 @@ export class UserEffects {
         this.backendService.login(login).pipe(
           map(response => new LoginSuccess(response)),
           catchError((error) => {
-            this.toastr.error(error.error);
+            console.log(error);
+            this.toastr.error("Произошла ошибка.");
             return of(new LoginFailed());
           })
           )
@@ -88,6 +89,7 @@ export class UserEffects {
         window.localStorage.clear();
         window.sessionStorage.clear();
         this.backendService.logout();
+        this.router.navigate(['/login']);
       })
   );
 }
