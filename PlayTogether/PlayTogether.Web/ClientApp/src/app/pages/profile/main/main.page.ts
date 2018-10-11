@@ -7,7 +7,7 @@ import { BackendService } from '../../../services/backend.service';
 import { RegExp } from '../../../constants';
 
 import { MainInfoDataModel } from '../../../models/main-info';
-import { AppState } from 'src/app/store';
+import { AppState } from '../../../store';
 
 @Component({
   templateUrl: './main.page.html',
@@ -39,10 +39,10 @@ export class MainPage implements OnInit {
   public userId: any;
   public mainPageForm: FormGroup;
   public phoneMask = RegExp.phoneMask;
-  public phone1 = '';
-  public phone2 = '';
-  public address = '';
-  public description = '';
+  public phone1:string = '';
+  public phone2:string = '';
+  public address:string = '';
+  public description:string = '';
   public ageSliderValue: number;
   private mainInfoDataModel: MainInfoDataModel;
 
@@ -60,7 +60,7 @@ export class MainPage implements OnInit {
     this.mainInfoDataModel.age = this.f.age;
     this.mainInfoDataModel.experience = this.ageSliderValue || 0; //this.f.experience.value
     this.mainInfoDataModel.description = this.description;
-    this.mainInfoDataModel.photoBase64 = null;
+    this.mainInfoDataModel.photoBase64 = '';
 
     console.log(this.mainInfoDataModel);
 

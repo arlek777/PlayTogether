@@ -3,12 +3,12 @@ export class MainInfoDataModel {
   isActivated: boolean;
   name: string;
   contactEmail: string;
-  phone1: any;
-  phone2: any;
+  phone1: string;
+  phone2: string;
   city: string;
   address: string;
   age: any;
   experience: number;
   description: string;
-  photoBase64: any;
+  photoBase64: string;
 }
