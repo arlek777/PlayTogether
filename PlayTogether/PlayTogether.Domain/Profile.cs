@@ -8,13 +8,13 @@ namespace PlayTogether.Domain
     {
         public Profile()
         {
-            MusicGenres = new List<MusicGenre>();
-            MusicianRoles = new List<MusicianRole>();
+            MusicGenreIds = new List<Guid>();
+            MusicianRoleIds = new List<Guid>();
+            WorkTypeIds = new List<Guid>();
         }
 
         [ForeignKey("User")]
         public Guid Id { get; set; }
-        public bool IsActivated { get; set; } 
         public string Name { get; set; }
         public string ContactEmail { get; set; }
         public string Phone1 { get; set; }
@@ -28,9 +28,10 @@ namespace PlayTogether.Domain
         public double Rating { get; set; }
         public bool NotifyByEmail { get; set; }
         public virtual User User { get; set; }
-        public virtual ICollection<WorkType> WorkTypes { get; set; }
-        public virtual ICollection<MusicGenre> MusicGenres { get; set; }
-        public virtual ICollection<MusicianRole> MusicianRoles { get; set; }
+
+        public ICollection<Guid> WorkTypeIds { get; set; }
+        public ICollection<Guid> MusicGenreIds { get; set; }
+        public ICollection<Guid> MusicianRoleIds { get; set; }
     }
 
 }

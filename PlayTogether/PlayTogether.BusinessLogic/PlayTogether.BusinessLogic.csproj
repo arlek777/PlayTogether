@@ -41,7 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DateTimeExtensions.cs" />
+    <Compile Include="IMasterValueService.cs" />
     <Compile Include="ISimpleCRUDService.cs" />
+    <Compile Include="MasterValueService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleCRUDService.cs" />
   </ItemGroup>

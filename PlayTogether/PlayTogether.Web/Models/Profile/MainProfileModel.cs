@@ -6,11 +6,14 @@ namespace PlayTogether.Web.Models.Profile
 {
     public class MainProfileModel
     {
-        public bool IsActivated { get; set; }
+        public bool IsVacancyOpen { get; set; }
 
         [Required]
         [MaxLength(256)]
-        public string Name { get; set; } 
+        public string Name { get; set; }
+
+        [MaxLength(256)]
+        public string VacancyFilterTitle { get; set; }
 
         [Required]
         [MaxLength(256)]

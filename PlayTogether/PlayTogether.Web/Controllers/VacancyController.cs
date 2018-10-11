@@ -15,12 +15,14 @@ namespace PlayTogether.Web.Controllers
     public class VacancyController : Controller
     {
         private readonly ISimpleCRUDService _crudService;
+        private readonly IMasterValueService _masterValueService;
         private readonly WebSession _webSession;
 
-        public VacancyController(ISimpleCRUDService crudService, WebSession webSession)
+        public VacancyController(ISimpleCRUDService crudService, IMasterValueService masterValueService, WebSession webSession)
         {
             _crudService = crudService;
             _webSession = webSession;
+            _masterValueService = masterValueService;
         }
 
         [HttpGet]
@@ -62,25 +64,25 @@ namespace PlayTogether.Web.Controllers
                     {
                         to.Description = from.Description;
                         to.Title = from.Title;
-                        to.Status = from.Status;
+                        to.IsClosed = from.IsClosed;
                         to.VacancyFilter.Cities = from.VacancyFilter.Cities;
                         to.VacancyFilter.MinExpirience = from.VacancyFilter.MinExpirience;
                         to.VacancyFilter.MinRating = from.VacancyFilter.MinRating;
 
-                        to.VacancyFilter.MusicGenres.Clear();
+                        to.VacancyFilter.MusicGenreIds.Clear();
                         foreach (var mg in from.VacancyFilter.MusicGenres)
                         {
-                            to.VacancyFilter.MusicGenres.Add(mg);
+                            to.VacancyFilter.MusicGenreIds.Add(mg.Id);
                         }
-                        to.VacancyFilter.MusicianRoles.Clear();
+                        to.VacancyFilter.MusicianRoleIds.Clear();
                         foreach (var mr in from.VacancyFilter.MusicianRoles)
                         {
-                            to.VacancyFilter.MusicianRoles.Add(mr);
+                            to.VacancyFilter.MusicianRoleIds.Add(mr.Id);
                         }
-                        to.VacancyFilter.WorkTypes.Clear();
+                        to.VacancyFilter.WorkTypeIds.Clear();
                         foreach (var wt in from.VacancyFilter.WorkTypes)
                         {
-                            to.VacancyFilter.WorkTypes.Add(wt);
+                            to.VacancyFilter.WorkTypeIds.Add(wt.Id);
                         }
                     });
             }

@@ -22,6 +22,7 @@ enum URLS {
   getVacancy = '/vacancy/getvacancy',
   getVacancies = '/vacancy/getvacancies',
   updateOrCreateVacancy = '/vacancy/updateorcreate',
+  changeVacancyStatus = '/vacancy/changevacancystatus',
   getMasterValues = '/mastervalues/get'
 };
 
@@ -68,6 +69,10 @@ export class BackendService {
 
   updateOrCreateVacancy(vacancy: VacancyDetail): Observable<any> {
     return this.http.post(URLS.updateOrCreateVacancy, vacancy).pipe(map(response => response as VacancyDetail));
+  }
+
+  changeVacancyStatus(id: string): Observable<boolean> {
+    return this.http.post(URLS.changeVacancyStatus, { id: id }).pipe(map(response => true));
   }
 
   getMasterValues(type: MasterValueTypes): Observable<MasterValueItem[]> {

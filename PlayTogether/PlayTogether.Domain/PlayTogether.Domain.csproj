@@ -52,7 +52,6 @@
     <Compile Include="MusicGenre.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vacancy.cs" />
-    <Compile Include="VacancyStatus.cs" />
     <Compile Include="User.cs" />
     <Compile Include="WorkType.cs" />
   </ItemGroup>

@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +37,13 @@ namespace PlayTogether.Web.Controllers
                     UserName = model.UserName,
                     Type = UserType.Uknown,
                     Profile = new Profile(),
+                    Vacancies = new List<Vacancy>()
+                    {
+                        new Vacancy()
+                        {
+                            Date = DateTime.Now
+                        }
+                    },
                     PasswordHash = _passwordHasher.HashPassword(model.Password)
                 });
 

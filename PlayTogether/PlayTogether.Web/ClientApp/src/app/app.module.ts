@@ -75,10 +75,10 @@ import { appReducers, appEffects } from './store';
           { path: "**", redirectTo: 'main' }
         ]
       },
-      { path: 'login', component: LoginPage, pathMatch: 'full' },
-      { path: 'select-user-type', component: SelectUserTypePage, pathMatch: 'full', canActivate: [AuthGuard] },
-      { path: 'vacancies', component: VacanciesPage, pathMatch: 'full', canActivate: [AuthGuard] },
-      { path: 'vacancy', component: VacancyPage, pathMatch: 'full', canActivate: [AuthGuard] },
+      { path: 'login', component: LoginPage },
+      { path: 'select-user-type', component: SelectUserTypePage, canActivate: [AuthGuard] },
+      { path: 'vacancies', component: VacanciesPage, canActivate: [AuthGuard] },
+      { path: 'vacancy/:id', component: VacancyPage, canActivate: [AuthGuard] },
     ])
   ],
   providers: [

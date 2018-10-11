@@ -16,12 +16,14 @@ namespace PlayTogether.Web.Controllers
     public class ProfileController : Controller
     {
         private readonly ISimpleCRUDService _crudService;
+        private readonly IMasterValueService _masterValueService;
         private readonly WebSession _webSession;
 
-        public ProfileController(ISimpleCRUDService crudService, WebSession webSession)
+        public ProfileController(ISimpleCRUDService crudService, IMasterValueService masterValueService, WebSession webSession)
         {
             _crudService = crudService;
             _webSession = webSession;
+            _masterValueService = masterValueService;
         }
 
         [HttpGet]
@@ -40,8 +42,8 @@ namespace PlayTogether.Web.Controllers
             var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
             var skills = new SkillsProfileModel()
             {
-                MusicGenres = user.Profile.MusicGenres,
-                MusicianRoles = user.Profile.MusicianRoles
+                MusicGenres = await _masterValueService.GetMasterValuesByIds<MusicGenre>(user.Profile.MusicGenreIds),
+                MusicianRoles = await _masterValueService.GetMasterValuesByIds<MusicianRole>(user.Profile.MusicianRoleIds)
             };
             return Ok(skills);
         }
@@ -52,7 +54,6 @@ namespace PlayTogether.Web.Controllers
         {
             await _crudService.Update<MainProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
-                to.IsActivated = from.IsActivated;
                 to.Name = from.Name;
                 to.City = from.City;
                 to.Age = from.Age;
@@ -63,10 +64,20 @@ namespace PlayTogether.Web.Controllers
                 to.Phone2 = from.Phone2;
                 to.PhotoBase64 = from.PhotoBase64;
 
-                to.WorkTypes.Clear();
+                to.WorkTypeIds.Clear();
                 foreach (var wt in from.WorkTypes)
                 {
-                    to.WorkTypes.Add(wt);
+                    to.WorkTypeIds.Add(wt.Id);
+                }
+
+                if(to.User.Type == UserType.Musician)
+                {
+                    var vacancy = to.User.Vacancies.FirstOrDefault();
+                    vacancy.Title = from.VacancyFilterTitle;
+                    vacancy.Description = from.Description;
+                    vacancy.IsClosed = !from.IsVacancyOpen;
+                    vacancy.VacancyFilter.Cities.Clear();
+                    vacancy.VacancyFilter.Cities.Add(from.City);
                 }
             });
 
@@ -79,15 +90,30 @@ namespace PlayTogether.Web.Controllers
         {
             await _crudService.Update<SkillsProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
-                to.MusicGenres.Clear();
+                to.MusicGenreIds.Clear();
                 foreach (var mg in from.MusicGenres)
                 {
-                    to.MusicGenres.Add(mg);
+                    to.MusicGenreIds.Add(mg.Id);
                 }
-                to.MusicianRoles.Clear();
+                to.MusicianRoleIds.Clear();
                 foreach (var mr in from.MusicianRoles)
                 {
-                    to.MusicianRoles.Add(mr);
+                    to.MusicianRoleIds.Add(mr.Id);
+                }
+
+                if (to.User.Type == UserType.Musician)
+                {
+                    var vacancy = to.User.Vacancies.FirstOrDefault();
+                    vacancy.VacancyFilter.MusicGenreIds.Clear();
+                    foreach (var mg in from.MusicGenres)
+                    {
+                        vacancy.VacancyFilter.MusicGenreIds.Add(mg.Id);
+                    }
+                    vacancy.VacancyFilter.MusicianRoleIds.Clear();
+                    foreach (var mr in from.MusicianRoles)
+                    {
+                        vacancy.VacancyFilter.MusicianRoleIds.Add(mr.Id);
+                    }
                 }
             });
 
