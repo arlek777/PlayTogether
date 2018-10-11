@@ -13,7 +13,7 @@ import { MainInfoDataModel } from "../models/main-info";
 enum URLS {
   login = '/auth/login',
   selectUserType = '/auth/selectusertype',
-  updateMainProfileInfo = '/profile/updatemaininfo',
+  updateMainProfileInfo = '/profile/updatemainprofile',
   updateSkillsProfileInfo = '/profile/updateskills',
   getMainProfileInfo = '/profile/getmaininfo',
   getProfileSkills = '/profile/getskills',

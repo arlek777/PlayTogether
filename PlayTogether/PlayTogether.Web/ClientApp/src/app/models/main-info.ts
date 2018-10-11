@@ -1,5 +1,5 @@
 export class MainInfoDataModel {
-  userId: any;
+  userId: string;
   isActivated: boolean;
   name: string;
   contactEmail: string;

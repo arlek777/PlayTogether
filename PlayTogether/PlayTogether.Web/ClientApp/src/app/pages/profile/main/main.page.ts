@@ -58,9 +58,9 @@ export class MainPage implements OnInit {
     this.mainInfoDataModel.city = this.f.city.value;
     this.mainInfoDataModel.address = this.address;
     this.mainInfoDataModel.age = this.f.age;
-    this.mainInfoDataModel.experience = this.ageSliderValue || 0; //this.f.experience.value
+    this.mainInfoDataModel.experience = this.ageSliderValue || 0;
     this.mainInfoDataModel.description = this.description;
-    this.mainInfoDataModel.photoBase64 = '';
+    this.mainInfoDataModel.photoBase64 = 'test';
 
     console.log(this.mainInfoDataModel);
 
@@ -91,6 +91,7 @@ export class MainPage implements OnInit {
         Validators.required,
       ]],
       age: ['', [
+        Validators.required,
         Validators.minLength(1),
         Validators.maxLength(2),
         Validators.min(0),
