@@ -9,6 +9,7 @@ namespace PlayTogether.Web.Models.Vacancy
     public class VacancyFilterModel
     {
         public Guid Id { get; set; }
+        public string VacancyTitle { get; set; }
         public double MinRating { get; set; }
         public double MinExpirience { get; set; }
         [Required]
@@ -19,6 +20,7 @@ namespace PlayTogether.Web.Models.Vacancy
         public List<MusicianRole> MusicianRoles { get; set; }
         public List<WorkType> WorkTypes { get; set; }
 
+        public bool ApplyTitle() => !String.IsNullOrEmpty(VacancyTitle);
         public bool ApplyMinRating() => MinRating != 0;
         public bool ApplyMinExpirience() => MinExpirience != 0;
         public bool ApplyCities() => Cities != null && Cities.Any();

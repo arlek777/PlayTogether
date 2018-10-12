@@ -1,15 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PlayTogether.BusinessLogic;
 using PlayTogether.Domain;
+using PlayTogether.Web.Infrastructure;
 using PlayTogether.Web.Models.Vacancy;
 
 namespace PlayTogether.Web.Controllers
 {
+    
+
     [Authorize]
     public class SearchVacancyController : Controller
     {
@@ -29,9 +33,8 @@ namespace PlayTogether.Web.Controllers
             }
             else
             {
-                Expression<Func<Vacancy, bool>> vacancyFilter = v => !v.IsClosed && v.User.Type == UserType.Group;
-                vacancyFilter.AndAlso(model.ApplyCities() ? (v) => v.Cities.Any() : x => true);
-                //vacancies = await _crudService.Where<Vacancy>(v => );
+               
+                
             }
 
             return Ok(vacancies);
