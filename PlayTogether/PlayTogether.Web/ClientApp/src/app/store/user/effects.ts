@@ -73,10 +73,9 @@ export class UserEffects {
   $updateUserType = this.actions$.pipe(
     ofType<UpdateUserType>(UserActionTypes.UpdateUserType),
       tap((action: UpdateUserType) => {
-        this.backendService.selectUserType(action.payload).subscribe(() => {
-          const user = JSON.parse(window.localStorage.getItem(Constants.currentUserKey));
-          user.userType = action.payload.userType;
-          window.localStorage.setItem(Constants.currentUserKey, JSON.stringify(user));
+        this.backendService.selectUserType(action.payload).subscribe((response: LoginResponse) => {
+          window.localStorage.setItem(Constants.accessTokenKey, response.accessToken);
+          window.localStorage.setItem(Constants.currentUserKey, JSON.stringify(response.user));
           this.router.navigate(['/']);
         });
       })

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BackendService } from '../../services/backend.service';
 import { Constants } from '../../constants';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MasterValueItem } from '../../models/master-value-item';
 import { IDropdownSettings } from 'ng-multiselect-dropdown/multiselect.model';
@@ -36,6 +36,7 @@ export class VacancyPage {
     private readonly backendService: BackendService,
     private readonly toastr: ToastrService,
     private readonly route: ActivatedRoute,
+    private readonly router: Router,
     private readonly formBuilder: FormBuilder) {
   }
 
@@ -94,6 +95,7 @@ export class VacancyPage {
         this.vacancyId = vacancy.id;
         this.toastr.success("Вакансия успешно сохранена.");
         this.formSubmitted = false;
+        this.router.navigate(['/vacancy', this.vacancyId]);
       });
   }
 }

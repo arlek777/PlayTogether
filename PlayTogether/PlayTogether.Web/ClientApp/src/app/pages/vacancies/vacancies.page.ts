@@ -25,14 +25,16 @@ export class VacanciesPage {
   }
 
   reopenVacancy(vacancy: Vacancy) {
-    this.backendService.changeVacancyStatus(vacancy.id);
-    vacancy.isClosed = false;
+    this.backendService.changeVacancyStatus(vacancy.id).subscribe(() => {
+      vacancy.isClosed = false;
+    });
   }
 
   closeVacancy(vacancy: Vacancy) {
-    if (prompt("Вы уверены, что хотите закрыть вакансию?")) {
-      this.backendService.changeVacancyStatus(vacancy.id);
-      vacancy.isClosed = true;
+    if (confirm("Вы уверены, что хотите закрыть вакансию?")) {
+      this.backendService.changeVacancyStatus(vacancy.id).subscribe(() => {
+        vacancy.isClosed = true;
+      });
     }
   }
 }

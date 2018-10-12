@@ -9,11 +9,11 @@ namespace PlayTogether.Domain
         public Vacancy()
         {
             VacancyResponses = new List<VacancyResponse>();
-            VacancyFilter = new VacancyFilter();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
+        public Guid VacancyFilterId { get; set; }
         public Guid UserId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -21,6 +21,7 @@ namespace PlayTogether.Domain
         public DateTime Date { get; set; }
         public bool IsClosed { get; set; }
 
+        public virtual User User { get; set; }
         public virtual VacancyFilter VacancyFilter { get; set; }
         public virtual ICollection<VacancyResponse> VacancyResponses { get; set; }
     }

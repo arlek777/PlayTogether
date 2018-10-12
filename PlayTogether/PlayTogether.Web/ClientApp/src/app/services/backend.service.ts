@@ -39,8 +39,8 @@ export class BackendService {
     return this.http.post(URLS.logout, null).pipe(map(response => true));
   }
 
-  selectUserType(model: SelectUserType): Observable<boolean> {
-    return this.http.post(URLS.selectUserType, model).pipe(map(response => true));
+  selectUserType(model: SelectUserType): Observable<LoginResponse> {
+    return this.http.post(URLS.selectUserType, model).pipe(map(response => response as LoginResponse));
   }
 
   getMainProfileInfo() {
@@ -72,7 +72,9 @@ export class BackendService {
   }
 
   changeVacancyStatus(id: string): Observable<boolean> {
-    return this.http.post(URLS.changeVacancyStatus, { id: id }).pipe(map(response => true));
+    var vacancy = new Vacancy();
+    vacancy.id = id;
+    return this.http.post(URLS.changeVacancyStatus, vacancy).pipe(map(response => true));
   }
 
   getMasterValues(type: MasterValueTypes): Observable<MasterValueItem[]> {

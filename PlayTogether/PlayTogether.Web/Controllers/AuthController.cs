@@ -64,7 +64,7 @@ namespace PlayTogether.Web.Controllers
                 return BadRequest();
             }
 
-            await _crudService.Update<SelectUserTypeModel, User>(_webSession.UserId, model, (to, from) =>
+            user = await _crudService.Update<SelectUserTypeModel, User>(_webSession.UserId, model, (to, from) =>
             {
                 to.Type = from.UserType;
                 if (to.Type == UserType.Musician)
@@ -72,12 +72,13 @@ namespace PlayTogether.Web.Controllers
                     to.Vacancies.Add(new Vacancy()
                     {
                         Date = DateTime.Now,
+                        VacancyFilter = new VacancyFilter(),
                         IsClosed = true
                     });
                 }
             });
 
-            return Ok();
+            return Ok(GetLoginResponse(user, false));
         }
 
         [Route("[controller]/[action]")]
