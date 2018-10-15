@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -62,11 +64,28 @@ namespace PlayTogether.Web.Controllers
                 return BadRequest();
             }
 
-            await _crudService.Update<SelectUserTypeModel, User>(_webSession.UserId, model, (to, from) =>
+            user = await _crudService.Update<SelectUserTypeModel, User>(_webSession.UserId, model, (to, from) =>
             {
                 to.Type = from.UserType;
+                if (to.Type == UserType.Musician)
+                {
+                    to.Vacancies.Add(new Vacancy()
+                    {
+                        Date = DateTime.Now,
+                        VacancyFilter = new VacancyFilter(),
+                        IsClosed = true
+                    });
+                }
             });
 
+            return Ok(GetLoginResponse(user, false));
+        }
+
+        [Route("[controller]/[action]")]
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            _webSession.Logout();
             return Ok();
         }
 

@@ -1,15 +1,9 @@
 import { MasterValueItem } from "./master-value-item";
 
-export enum VacancyStatus {
-  Active = 0,
-  NotActive,
-  Closed
-}
-
 export class Vacancy {
   id: string;
   title: string;
-  status: VacancyStatus;
+  isClosed: boolean;
 }
 
 export class VacancyDetail extends Vacancy {

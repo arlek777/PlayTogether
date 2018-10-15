@@ -10,9 +10,9 @@ import { VacancyDetail } from '../../models/vacancy';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  templateUrl: './vacancy.page.html',
+  templateUrl: './manage-vacancy.page.html',
 })
-export class VacancyPage {
+export class ManageVacancyPage {
   public vacancyFormGroup: FormGroup;
   public selectedMusicRoles: MasterValueItem[];
   public selectedMusicGenres: MasterValueItem[];

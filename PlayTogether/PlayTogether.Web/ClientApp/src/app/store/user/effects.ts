@@ -29,7 +29,8 @@ export class UserEffects {
         this.backendService.login(login).pipe(
           map(response => new LoginSuccess(response)),
           catchError((error) => {
-            this.toastr.error(error.error);
+            console.log(error);
+            this.toastr.error("Произошла ошибка.");
             return of(new LoginFailed());
           })
           )
@@ -72,10 +73,9 @@ export class UserEffects {
   $updateUserType = this.actions$.pipe(
     ofType<UpdateUserType>(UserActionTypes.UpdateUserType),
       tap((action: UpdateUserType) => {
-        this.backendService.selectUserType(action.payload).subscribe(() => {
-          const user = JSON.parse(window.localStorage.getItem(Constants.currentUserKey));
-          user.userType = action.payload.userType;
-          window.localStorage.setItem(Constants.currentUserKey, JSON.stringify(user));
+        this.backendService.selectUserType(action.payload).subscribe((response: LoginResponse) => {
+          window.localStorage.setItem(Constants.accessTokenKey, response.accessToken);
+          window.localStorage.setItem(Constants.currentUserKey, JSON.stringify(response.user));
           this.router.navigate(['/']);
         });
       })
@@ -87,7 +87,8 @@ export class UserEffects {
       tap(action => {
         window.localStorage.clear();
         window.sessionStorage.clear();
-      this.router.navigate(['/login']);
-    })
+        this.backendService.logout();
+        this.router.navigate(['/login']);
+      })
   );
 }

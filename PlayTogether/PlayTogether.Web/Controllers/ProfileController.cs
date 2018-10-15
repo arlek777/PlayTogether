@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -40,8 +40,8 @@ namespace PlayTogether.Web.Controllers
             var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
             var skills = new SkillsProfileModel()
             {
-                MusicGenres = user.Profile.MusicGenres,
-                MusicianRoles = user.Profile.MusicianRoles
+                MusicGenres = user.Profile.JsonMusicGenres.FromJson<ICollection<MusicGenre>>(),
+                MusicianRoles = user.Profile.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>()
             };
             return Ok(skills);
         }
@@ -52,7 +52,6 @@ namespace PlayTogether.Web.Controllers
         {
             await _crudService.Update<MainProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
-                to.IsActivated = from.IsActivated;
                 to.Name = from.Name;
                 to.City = from.City;
                 to.Age = from.Age;
@@ -62,11 +61,14 @@ namespace PlayTogether.Web.Controllers
                 to.Phone1 = from.Phone1;
                 to.Phone2 = from.Phone2;
                 to.PhotoBase64 = from.PhotoBase64;
-
-                to.WorkTypes.Clear();
-                foreach (var wt in from.WorkTypes)
+                to.JsonWorkTypes = from.WorkTypes.ToJson();
+                if(to.User.Type == UserType.Musician)
                 {
-                    to.WorkTypes.Add(wt);
+                    var vacancy = to.User.Vacancies.FirstOrDefault();
+                    vacancy.Title = from.VacancyFilterTitle;
+                    vacancy.Description = from.Description;
+                    vacancy.IsClosed = !from.IsVacancyOpen;
+                    vacancy.VacancyFilter.JsonCities = from.City.ToJson();
                 }
             });
 
@@ -79,15 +81,14 @@ namespace PlayTogether.Web.Controllers
         {
             await _crudService.Update<SkillsProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
-                to.MusicGenres.Clear();
-                foreach (var mg in from.MusicGenres)
+                to.JsonMusicianRoles = from.MusicianRoles.ToJson();
+                to.JsonMusicGenres = from.MusicGenres.ToJson();
+
+                if (to.User.Type == UserType.Musician)
                 {
-                    to.MusicGenres.Add(mg);
-                }
-                to.MusicianRoles.Clear();
-                foreach (var mr in from.MusicianRoles)
-                {
-                    to.MusicianRoles.Add(mr);
+                    var vacancy = to.User.Vacancies.FirstOrDefault();
+                    vacancy.VacancyFilter.JsonMusicianRoles = from.MusicianRoles.ToJson();
+                    vacancy.VacancyFilter.JsonMusicGenres = from.MusicGenres.ToJson();
                 }
             });
 

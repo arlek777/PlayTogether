@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +12,7 @@ using PlayTogether.Web.Models.Vacancy;
 
 namespace PlayTogether.Web.Controllers
 {
-    [Authorize(Roles = "Group")]
+    [Authorize]
     public class VacancyController : Controller
     {
         private readonly ISimpleCRUDService _crudService;
@@ -25,9 +26,34 @@ namespace PlayTogether.Web.Controllers
 
         [HttpGet]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> GetVacancies()
+        public async Task<IActionResult> GetUserVacancies()
         {
             var vacancies = await _crudService.Where<Vacancy>(v => v.UserId == _webSession.UserId);
+            return Ok(Mapper.Map<ICollection<VacancyModel>>(vacancies));
+        }
+
+        [HttpGet]
+        [Route("[controller]/[action]")]
+        public async Task<IActionResult> GetFilteredVacancies(VacancyFilterModel model)
+        {
+            var conditionalFilter = new ConditionalFilter();
+            var filters = conditionalFilter.GetFilters(model);
+            var vacancies = await _crudService.Where<Vacancy>(v => filters.All(f => f.PassFilter(v)));
+
+            return Ok(Mapper.Map<ICollection<VacancyModel>>(vacancies));
+        }
+
+        [HttpGet]
+        [Route("[controller]/[action]")]
+        public async Task<IActionResult> GetVacanciesByUserProfile()
+        {
+            var userProfile = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
+            var filterModel = Mapper.Map<VacancyFilterModel>(userProfile.Vacancies.FirstOrDefault());
+
+            var conditionalFilter = new ConditionalFilter();
+            var filters = conditionalFilter.GetFilters(filterModel);
+            var vacancies = await _crudService.Where<Vacancy>(v => filters.All(f => f.PassFilter(v)));
+
             return Ok(Mapper.Map<ICollection<VacancyModel>>(vacancies));
         }
 
@@ -40,9 +66,12 @@ namespace PlayTogether.Web.Controllers
             {
                 return NotFound();
             }
-            return Ok(Mapper.Map<VacancyDetailModel>(vacancy));
+
+            var detail = Mapper.Map<VacancyDetailModel>(vacancy);
+            return Ok(detail);
         }
 
+        [Authorize(Roles = "Group")]
         [HttpPost]
         [Route("[controller]/[action]")]
         public async Task<IActionResult> UpdateOrCreate([FromBody] VacancyDetailModel model)
@@ -59,33 +88,40 @@ namespace PlayTogether.Web.Controllers
             else
             {
                 await _crudService.Update<VacancyDetailModel, Vacancy>(model.Id, model, (to, from) =>
-                    {
-                        to.Description = from.Description;
-                        to.Title = from.Title;
-                        to.Status = from.Status;
-                        to.VacancyFilter.Cities = from.VacancyFilter.Cities;
-                        to.VacancyFilter.MinExpirience = from.VacancyFilter.MinExpirience;
-                        to.VacancyFilter.MinRating = from.VacancyFilter.MinRating;
+                {
+                    to.Description = from.Description;
+                    to.Title = from.Title;
+                    to.IsClosed = from.IsClosed;
 
-                        to.VacancyFilter.MusicGenres.Clear();
-                        foreach (var mg in from.VacancyFilter.MusicGenres)
-                        {
-                            to.VacancyFilter.MusicGenres.Add(mg);
-                        }
-                        to.VacancyFilter.MusicianRoles.Clear();
-                        foreach (var mr in from.VacancyFilter.MusicianRoles)
-                        {
-                            to.VacancyFilter.MusicianRoles.Add(mr);
-                        }
-                        to.VacancyFilter.WorkTypes.Clear();
-                        foreach (var wt in from.VacancyFilter.WorkTypes)
-                        {
-                            to.VacancyFilter.WorkTypes.Add(wt);
-                        }
-                    });
+                    to.VacancyFilter.MinExpirience = from.VacancyFilter.MinExpirience;
+                    to.VacancyFilter.MinRating = from.VacancyFilter.MinRating;
+
+                    to.VacancyFilter.JsonMusicianRoles = from.VacancyFilter.MusicianRoles.ToJson();
+                    to.VacancyFilter.JsonMusicGenres = from.VacancyFilter.MusicGenres.ToJson();
+                    to.VacancyFilter.JsonCities = from.VacancyFilter.Cities.ToJson();
+                    to.VacancyFilter.JsonWorkTypes = from.VacancyFilter.WorkTypes.ToJson();
+                });
             }
 
             return Ok(model);
+        }
+
+        [Authorize(Roles = "Group")]
+        [HttpPost]
+        [Route("[controller]/[action]")]
+        public async Task<IActionResult> ChangeVacancyStatus([FromBody] ChangeVacancyStatusModel model)
+        {
+            var vacancy = await _crudService.Find<Vacancy>(v => v.UserId == _webSession.UserId && v.Id == model.Id);
+            if (vacancy == null)
+            {
+                return NotFound();
+            }
+
+            await _crudService.Update<ChangeVacancyStatusModel, Vacancy>(model.Id, model, (to, from) =>
+                {
+                    to.IsClosed = !to.IsClosed;
+                });
+            return Ok();
         }
     }
 }

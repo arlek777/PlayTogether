@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PlayTogether.Domain
 {
-    public class Profile: ISimpleEntity
+    public class Profile: BaseSkills, ISimpleEntity
     {
-        public Profile()
-        {
-            MusicGenres = new List<MusicGenre>();
-            MusicianRoles = new List<MusicianRole>();
-        }
-
         [ForeignKey("User")]
         public Guid Id { get; set; }
-        public bool IsActivated { get; set; } 
         public string Name { get; set; }
         public string ContactEmail { get; set; }
         public string Phone1 { get; set; }
@@ -27,10 +19,8 @@ namespace PlayTogether.Domain
         public string PhotoBase64 { get; set; }
         public double Rating { get; set; }
         public bool NotifyByEmail { get; set; }
+
         public virtual User User { get; set; }
-        public virtual ICollection<WorkType> WorkTypes { get; set; }
-        public virtual ICollection<MusicGenre> MusicGenres { get; set; }
-        public virtual ICollection<MusicianRole> MusicianRoles { get; set; }
     }
 
 }

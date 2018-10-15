@@ -9,17 +9,25 @@ import { MasterValueItem } from "../models/master-value-item";
 import { ProfileSkills } from "../models/profile-skills";
 import { SelectUserType } from "../models/select-user-type";
 import { Vacancy, VacancyDetail } from "../models/vacancy";
+import { MainProfileInfo } from "../models/main-profile-info";
 
 enum URLS {
   login = '/auth/login',
+  logout = '/auth/logout',
   selectUserType = '/auth/selectusertype',
+
   updateMainProfileInfo = '/profile/updatemaininfo',
   updateSkillsProfileInfo = '/profile/updateskills',
   getMainProfileInfo = '/profile/getmaininfo',
   getProfileSkills = '/profile/getskills',
+
   getVacancy = '/vacancy/getvacancy',
-  getVacancies = '/vacancy/getvacancies',
+  getUserVacancies = '/vacancy/getuservacancies',
+  getFilteredVacancies = '/vacancy/getFilteredVacancies',
+  getFilteredVacanciesByUserProfile = '/vacancy/getFilteredVacanciesByUserProfile',
   updateOrCreateVacancy = '/vacancy/updateorcreate',
+  changeVacancyStatus = '/vacancy/changevacancystatus',
+
   getMasterValues = '/mastervalues/get'
 };
 
@@ -32,8 +40,20 @@ export class BackendService {
     return this.http.post(URLS.login, login).pipe(map(response => response as LoginResponse));
   }
 
-  selectUserType(model: SelectUserType): Observable<boolean> {
-    return this.http.post(URLS.selectUserType, model).pipe(map(response => true));
+  logout(): Observable<boolean> {
+    return this.http.post(URLS.logout, null).pipe(map(response => true));
+  }
+
+  selectUserType(model: SelectUserType): Observable<LoginResponse> {
+    return this.http.post(URLS.selectUserType, model).pipe(map(response => response as LoginResponse));
+  }
+
+  getMainProfileInfo() {
+    return this.http.get(URLS.getMainProfileInfo).pipe(map(response => response as MainProfileInfo));
+  }
+
+  updateMainProfileInfo(model: MainProfileInfo): Observable<any> {
+    return this.http.post(URLS.updateMainProfileInfo, model);
   }
 
   getProfileSkills(): Observable<ProfileSkills> {
@@ -48,12 +68,26 @@ export class BackendService {
     return this.http.get(URLS.getVacancy, { params: { "id": id } }).pipe(map(response => response as VacancyDetail));
   }
 
-  getVacancies(): Observable<Vacancy[]> {
-    return this.http.get(URLS.getVacancies).pipe(map(response => response as Vacancy[]));
+  getUserVacancies(): Observable<Vacancy[]> {
+    return this.http.get(URLS.getUserVacancies).pipe(map(response => response as Vacancy[]));
+  }
+
+  getFilteredVacancies(): Observable<Vacancy[]> {
+    return this.http.get(URLS.getFilteredVacancies).pipe(map(response => response as Vacancy[]));
+  }
+
+  getFilteredVacanciesByUserProfile(): Observable<Vacancy[]> {
+    return this.http.get(URLS.getFilteredVacanciesByUserProfile).pipe(map(response => response as Vacancy[]));
   }
 
   updateOrCreateVacancy(vacancy: VacancyDetail): Observable<any> {
     return this.http.post(URLS.updateOrCreateVacancy, vacancy).pipe(map(response => response as VacancyDetail));
+  }
+
+  changeVacancyStatus(id: string): Observable<boolean> {
+    var vacancy = new Vacancy();
+    vacancy.id = id;
+    return this.http.post(URLS.changeVacancyStatus, vacancy).pipe(map(response => true));
   }
 
   getMasterValues(type: MasterValueTypes): Observable<MasterValueItem[]> {
