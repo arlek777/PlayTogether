@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +12,7 @@ using PlayTogether.Web.Models.Vacancy;
 
 namespace PlayTogether.Web.Controllers
 {
-    [Authorize(Roles = "Group")]
+    [Authorize]
     public class VacancyController : Controller
     {
         private readonly ISimpleCRUDService _crudService;
@@ -25,9 +26,34 @@ namespace PlayTogether.Web.Controllers
 
         [HttpGet]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> GetVacancies()
+        public async Task<IActionResult> GetUserVacancies()
         {
             var vacancies = await _crudService.Where<Vacancy>(v => v.UserId == _webSession.UserId);
+            return Ok(Mapper.Map<ICollection<VacancyModel>>(vacancies));
+        }
+
+        [HttpGet]
+        [Route("[controller]/[action]")]
+        public async Task<IActionResult> GetFilteredVacancies(VacancyFilterModel model)
+        {
+            var conditionalFilter = new ConditionalFilter();
+            var filters = conditionalFilter.GetFilters(model);
+            var vacancies = await _crudService.Where<Vacancy>(v => filters.All(f => f.PassFilter(v)));
+
+            return Ok(Mapper.Map<ICollection<VacancyModel>>(vacancies));
+        }
+
+        [HttpGet]
+        [Route("[controller]/[action]")]
+        public async Task<IActionResult> GetVacanciesByUserProfile()
+        {
+            var userProfile = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
+            var filterModel = Mapper.Map<VacancyFilterModel>(userProfile.Vacancies.FirstOrDefault());
+
+            var conditionalFilter = new ConditionalFilter();
+            var filters = conditionalFilter.GetFilters(filterModel);
+            var vacancies = await _crudService.Where<Vacancy>(v => filters.All(f => f.PassFilter(v)));
+
             return Ok(Mapper.Map<ICollection<VacancyModel>>(vacancies));
         }
 
@@ -45,6 +71,7 @@ namespace PlayTogether.Web.Controllers
             return Ok(detail);
         }
 
+        [Authorize(Roles = "Group")]
         [HttpPost]
         [Route("[controller]/[action]")]
         public async Task<IActionResult> UpdateOrCreate([FromBody] VacancyDetailModel model)
@@ -79,6 +106,7 @@ namespace PlayTogether.Web.Controllers
             return Ok(model);
         }
 
+        [Authorize(Roles = "Group")]
         [HttpPost]
         [Route("[controller]/[action]")]
         public async Task<IActionResult> ChangeVacancyStatus([FromBody] ChangeVacancyStatusModel model)

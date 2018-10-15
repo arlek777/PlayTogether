@@ -9,6 +9,7 @@ namespace PlayTogether.Web.Models.Vacancy
     public class VacancyFilterModel
     {
         public Guid Id { get; set; }
+        public UserType UserType { get; set; }
         public string VacancyTitle { get; set; }
         public double MinRating { get; set; }
         public double MinExpirience { get; set; }

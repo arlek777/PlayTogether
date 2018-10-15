@@ -21,11 +21,15 @@ import { ControlValidationComponent } from './components/control-validation/cont
 import { HomePage } from './pages/home/home.page';
 import { LoginPage } from './pages/login/login.page';
 import { SelectUserTypePage } from './pages/select-user-type/select-user-type.page';
-import { ProfilePage } from './pages/profile/profile.page';
-import { MainPage } from './pages/profile/main/main.page';
-import { SkillsPage } from './pages/profile/skills/skills.page';
-import { VacanciesPage } from './pages/vacancies/vacancies.page';
+import { UserProfilePage } from './pages/user-profile/user-profile.page';
+import { MainPage } from './pages//user-profile/main/main.page';
+import { SkillsPage } from './pages//user-profile/skills/skills.page';
+import { ManageVacanciesPage } from './pages/manage-vacancies/manage-vacancies.page';
+import { ManageVacancyPage } from './pages/manage-vacancy/manage-vacancy.page';
+import { SearchVacanciesPage } from './pages/search-vacancies/search-vacancies.page';
 import { VacancyPage } from './pages/vacancy/vacancy.page';
+import { ProfilePage } from './pages/profile/profile.page';
+
 
 // Services
 import { InterceptService } from './http.interceptor';
@@ -45,11 +49,14 @@ import { appReducers, appEffects } from './store';
     HomePage,
     LoginPage,
     SelectUserTypePage,
-    ProfilePage,
+    UserProfilePage,
     MainPage,
     SkillsPage,
-    VacanciesPage,
-    VacancyPage
+    ManageVacanciesPage,
+    ManageVacancyPage,
+    ProfilePage,
+    VacancyPage,
+    SearchVacanciesPage
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -68,7 +75,7 @@ import { appReducers, appEffects } from './store';
     RouterModule.forRoot([
       { path: '', component: HomePage, pathMatch: 'full', canActivate: [AuthGuard] },
       {
-        path: 'profile', component: ProfilePage, canActivate: [AuthGuard],
+        path: 'user-profile', component: UserProfilePage, canActivate: [AuthGuard],
         children: [
           { path: 'main', component: MainPage },
           { path: 'skills', component: SkillsPage },
@@ -77,9 +84,14 @@ import { appReducers, appEffects } from './store';
       },
       { path: 'login', component: LoginPage },
       { path: 'select-user-type', component: SelectUserTypePage, canActivate: [AuthGuard] },
-      { path: 'vacancies', component: VacanciesPage, canActivate: [AuthGuard] },
+      { path: 'manage-vacancies', component: ManageVacanciesPage, canActivate: [AuthGuard] },
+      { path: 'manage-vacancy', component: ManageVacancyPage, canActivate: [AuthGuard] },
+      { path: 'manage-vacancy/:id', component: ManageVacancyPage, canActivate: [AuthGuard] },
+
+      { path: 'search-vacancies', component: SearchVacanciesPage, canActivate: [AuthGuard] },
       { path: 'vacancy', component: VacancyPage, canActivate: [AuthGuard] },
       { path: 'vacancy/:id', component: VacancyPage, canActivate: [AuthGuard] },
+      { path: 'profile/:id', component: ProfilePage, canActivate: [AuthGuard] },
     ])
   ],
   providers: [

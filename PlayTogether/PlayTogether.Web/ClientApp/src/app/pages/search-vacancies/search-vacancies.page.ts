@@ -7,9 +7,9 @@ import { AppState } from '../../store';
 import { Vacancy } from '../../models/vacancy';
 
 @Component({
-  templateUrl: './vacancies.page.html',
+  templateUrl: './search-vacancies.page.html',
 })
-export class VacanciesPage {
+export class SearchVacanciesPage {
   public vacancies: Vacancy[];
 
   constructor(
@@ -19,7 +19,7 @@ export class VacanciesPage {
   }
 
   ngOnInit() {
-    this.backendService.getVacancies().subscribe((vacancies) => {
+    this.backendService.getUserVacancies().subscribe((vacancies) => {
       this.vacancies = vacancies;
     });
   }
