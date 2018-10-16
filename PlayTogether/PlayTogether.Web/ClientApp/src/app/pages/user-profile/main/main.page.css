@@ -7,10 +7,6 @@ textarea.form-control {
   margin-left: 10px;
 }
 
-input.ng-dirty.ng-invalid {
-  border: 2px solid #f00;
-}
-
 .text-danger {
   margin-left: 15px;
 }

@@ -36,10 +36,18 @@ namespace PlayTogether.Web.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> SearchVacancies([FromBody] VacancyFilterModel model)
         {
-            model.UserType = _webSession.UserType;
+            if (_webSession.UserType == UserType.Group)
+            {
+                model.UserType = UserType.Musician;
+            }
+            else if (_webSession.UserType == UserType.Musician)
+            {
+                model.UserType = UserType.Group;
+            }
+
             var filters = VacancyConditionalFilter.GetFilters(model);
-            var vacancies = await _crudService.Where<Vacancy>(v => v.IsClosed && v.User.Type == model.UserType);
-            var foundVacancies = vacancies.ToList().Where(v => filters.All(f => f.PassFilter(v)));
+            var vacancies = await _crudService.Where<Vacancy>(v => !v.IsClosed && v.User.Type == model.UserType);
+            var foundVacancies = vacancies.ToList().Where(v => filters.All(f => f.PassFilter(v))).ToList();
 
             return Ok(Mapper.Map<ICollection<VacancyModel>>(foundVacancies));
         }

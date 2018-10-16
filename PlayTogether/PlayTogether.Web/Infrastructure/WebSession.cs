@@ -48,6 +48,7 @@ namespace PlayTogether.Web.Infrastructure
         public void Logout()
         {
             _userId = Guid.Empty;
+            _userType = UserType.Uknown;
         }
 
         private void Init()

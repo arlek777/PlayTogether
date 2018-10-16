@@ -48,7 +48,7 @@ namespace PlayTogether.Web.Controllers
 
         [HttpPost]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> UpdateMainProfile(MainProfileModel model)
+        public async Task<IActionResult> UpdateMainInfo([FromBody] MainProfileModel model)
         {
             await _crudService.Update<MainProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
@@ -67,7 +67,7 @@ namespace PlayTogether.Web.Controllers
                     var vacancy = to.User.Vacancies.FirstOrDefault();
                     vacancy.Title = from.VacancyFilterTitle;
                     vacancy.Description = from.Description;
-                    vacancy.IsClosed = !from.IsVacancyOpen;
+                    vacancy.IsClosed = false;//!from.IsVacancyOpen;
                     vacancy.VacancyFilter.JsonCities = from.City.ToJson();
                 }
             });

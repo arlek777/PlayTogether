@@ -17,6 +17,7 @@ export class MainPage implements OnInit {
   public mainPageForm: FormGroup;
   public phoneMask = RegExp.phoneMask;
   public ageSliderValue: number;
+  public formSubmitted = false;
 
   constructor(private readonly formBuilder: FormBuilder,
     private readonly toastr: ToastrService,
@@ -25,6 +26,13 @@ export class MainPage implements OnInit {
   }
 
   ngOnInit() {
+    this.backendService.getMainProfileInfo().subscribe(profile => {
+      this.mainInfoModel = profile;
+      this.formControls.description.setValue(vacancy.description);
+      this.formControls.title.setValue(vacancy.title);
+      this.formControls.minExpirience.setValue(vacancy.vacancyFilter.minExpirience);
+      this.formControls.cities.setValue(vacancy.vacancyFilter.cities);
+    });
     this.setMainPageValidator();
   }
 
@@ -33,6 +41,7 @@ export class MainPage implements OnInit {
   }
 
   public submit() {
+    this.formSubmitted = true;
     if (this.mainPageForm.invalid) return;
 
     this.mainInfoModel.isActivated = true;
@@ -40,14 +49,17 @@ export class MainPage implements OnInit {
     this.mainInfoModel.contactEmail = this.formControls.email.value;
     this.mainInfoModel.phone1 = this.formControls.phone1.value;
     this.mainInfoModel.city = this.formControls.city.value;
-    this.mainInfoModel.age = this.formControls.age;
+    this.mainInfoModel.age = this.formControls.age.value;
     this.mainInfoModel.experience = this.ageSliderValue || 0;
     this.mainInfoModel.photoBase64 = 'test';
 
     console.log(this.mainInfoModel);
 
     this.backendService.updateMainProfileInfo(this.mainInfoModel)
-     .subscribe(() => this.toastr.success("Ваш профиль сохранен."));
+      .subscribe(() => {
+        this.formSubmitted = false;
+        this.toastr.success("Ваш профиль сохранен.")
+      });
   }
 
   public getExperienceSliderValue(value: number | null) {
@@ -59,7 +71,6 @@ export class MainPage implements OnInit {
     this.mainPageForm = this.formBuilder.group({
       name: ['', [
         Validators.required,
-        Validators.pattern(RegExp.namePattern),
         Validators.minLength(2),
       ]],
       email: ['', [
