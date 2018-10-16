@@ -73,9 +73,9 @@ import { appReducers, appEffects } from './store';
     ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot(),
     RouterModule.forRoot([
-      { path: '', component: HomePage, pathMatch: 'full', canActivate: [AuthGuard] },
+      { path: '', component: SearchVacanciesPage, pathMatch: 'full', canActivate: [AuthGuard] },
       {
-        path: 'user-profile', component: UserProfilePage, canActivate: [AuthGuard],
+        path: 'my/profile', component: UserProfilePage, canActivate: [AuthGuard],
         children: [
           { path: 'main', component: MainPage },
           { path: 'skills', component: SkillsPage },
@@ -84,11 +84,10 @@ import { appReducers, appEffects } from './store';
       },
       { path: 'login', component: LoginPage },
       { path: 'select-user-type', component: SelectUserTypePage, canActivate: [AuthGuard] },
-      { path: 'manage-vacancies', component: ManageVacanciesPage, canActivate: [AuthGuard] },
-      { path: 'manage-vacancy', component: ManageVacancyPage, canActivate: [AuthGuard] },
-      { path: 'manage-vacancy/:id', component: ManageVacancyPage, canActivate: [AuthGuard] },
-
-      { path: 'search-vacancies', component: SearchVacanciesPage, canActivate: [AuthGuard] },
+      { path: 'my/vacancies', component: ManageVacanciesPage, canActivate: [AuthGuard] },
+      { path: 'my/vacancy', component: ManageVacancyPage, canActivate: [AuthGuard] },
+      { path: 'my/vacancy/:id', component: ManageVacancyPage, canActivate: [AuthGuard] },
+      //{ path: 'search-vacancies', component: SearchVacanciesPage, canActivate: [AuthGuard] },
       { path: 'vacancy', component: VacancyPage, canActivate: [AuthGuard] },
       { path: 'vacancy/:id', component: VacancyPage, canActivate: [AuthGuard] },
       { path: 'profile/:id', component: ProfilePage, canActivate: [AuthGuard] },

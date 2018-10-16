@@ -8,15 +8,15 @@
     <div class="collapse navbar-collapse" [ngClass]='{ "show": isExpanded }'>
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" [routerLinkActive]='["active"]' [routerLinkActiveOptions]='{ exact: true }'>
-          <a class="nav-link" [routerLink]='["/"]'>Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" [routerLink]='["/"]'>Поиск</a>
         </li>
         <li class="nav-item" [routerLinkActive]='["active"]' *ngIf="isGroupUser">
-          <a class="nav-link" [routerLink]='["/vacancies"]'>Мои вакансии</a>
+          <a class="nav-link" [routerLink]='["my/vacancies"]'>Мои вакансии</a>
         </li>
       </ul>
       <ul class="navbar-nav" *ngIf="user.isLoggedIn">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]='["profile"]'>Мой профиль</a>
+          <a class="nav-link" [routerLink]='["my/profile"]'>Мой профиль</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="javascript: " (click)="logout()">Выйти</a>
