@@ -20,9 +20,10 @@ enum URLS {
   updateSkillsProfileInfo = '/profile/updateskills',
   getMainProfileInfo = '/profile/getmaininfo',
   getProfileSkills = '/profile/getskills',
+  isProfileFilled = '/profile/isProfileFilled',
 
-  getVacancy = '/vacancy/getvacancy',
-  getUserVacancies = '/vacancy/getuservacancies',
+  getUserVacancy = '/vacancy/getUserVacancy',
+  getUserVacancies = '/vacancy/getUserVacancies',
   searchVacancies = '/vacancy/searchVacancies',
   getFilteredVacanciesByUserProfile = '/vacancy/getFilteredVacanciesByUserProfile',
   updateOrCreateVacancy = '/vacancy/updateorcreate',
@@ -64,8 +65,12 @@ export class BackendService {
     return this.http.post(URLS.updateSkillsProfileInfo, skills);
   }
 
+  isProfileFilled(): Observable<boolean> {
+    return this.http.get(URLS.isProfileFilled).pipe(map(response => response as boolean));
+  }
+
   getVacancy(id: string): Observable<VacancyDetail> {
-    return this.http.get(URLS.getVacancy, { params: { "id": id } }).pipe(map(response => response as VacancyDetail));
+    return this.http.get(URLS.getUserVacancy, { params: { "id": id } }).pipe(map(response => response as VacancyDetail));
   }
 
   getUserVacancies(): Observable<Vacancy[]> {

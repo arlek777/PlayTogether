@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,6 +32,14 @@ namespace PlayTogether.Web.Controllers
             var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
             var mainInfo = Mapper.Map<MainProfileModel>(user.Profile);
             return Ok(mainInfo);
+        }
+
+        [HttpGet]
+        [Route("[controller]/[action]")]
+        public async Task<IActionResult> IsProfileFilled()
+        {
+            var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
+            return Ok(!String.IsNullOrEmpty(user.Profile?.Name));
         }
 
         [HttpGet]

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlayTogether.BusinessLogic;
 using PlayTogether.Domain;
 using PlayTogether.Web.Infrastructure;
+using PlayTogether.Web.Models;
 using PlayTogether.Web.Models.Vacancy;
 
 namespace PlayTogether.Web.Controllers
@@ -67,7 +68,7 @@ namespace PlayTogether.Web.Controllers
 
         [HttpGet]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> GetVacancy(Guid id)
+        public async Task<IActionResult> GetUserVacancy(Guid id)
         {
             var vacancy = await _crudService.Find<Vacancy>(v => v.UserId == _webSession.UserId && v.Id == id);
             if (vacancy == null)
@@ -84,6 +85,12 @@ namespace PlayTogether.Web.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> UpdateOrCreate([FromBody] VacancyDetailModel model)
         {
+            var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
+            if (String.IsNullOrEmpty(user.Profile.Name))
+            {
+                return BadRequest(ValidationResultMessages.CantCreateVacancyProfileEmpty);
+            }
+
             var vacancy = await _crudService.Find<Vacancy>(v => v.UserId == _webSession.UserId && v.Id == model.Id);
             if (vacancy == null)
             {

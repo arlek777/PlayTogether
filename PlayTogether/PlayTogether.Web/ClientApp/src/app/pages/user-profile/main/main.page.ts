@@ -7,6 +7,7 @@ import { BackendService } from '../../../services/backend.service';
 import { RegExp } from '../../../constants';
 import { MainProfileInfo } from '../../../models/main-profile-info';
 import { AppState } from '../../../store';
+import { UserType } from '../../../models/user-type';
 
 @Component({
   templateUrl: './main.page.html',
@@ -18,26 +19,40 @@ export class MainPage implements OnInit {
   public phoneMask = RegExp.phoneMask;
   public ageSliderValue: number;
   public formSubmitted = false;
+  public userType: UserType;
 
   constructor(private readonly formBuilder: FormBuilder,
     private readonly toastr: ToastrService,
     private readonly backendService: BackendService,
     private readonly store: Store<AppState>) {
+
+    this.store.select(s => s.user.userType).subscribe((type) => this.userType = type);
   }
 
   ngOnInit() {
+    this.setMainPageValidator();
+
     this.backendService.getMainProfileInfo().subscribe(profile => {
       this.mainInfoModel = profile;
-      this.formControls.description.setValue(vacancy.description);
-      this.formControls.title.setValue(vacancy.title);
-      this.formControls.minExpirience.setValue(vacancy.vacancyFilter.minExpirience);
-      this.formControls.cities.setValue(vacancy.vacancyFilter.cities);
+      this.formControls.name.setValue(profile.name);
+      this.formControls.email.setValue(profile.contactEmail);
+      this.formControls.phone1.setValue(profile.phone1);
+      this.formControls.city.setValue(profile.city);
+      this.formControls.age.setValue(profile.age);
+      this.ageSliderValue = profile.experience;
     });
-    this.setMainPageValidator();
   }
 
   get formControls() {
     return this.mainPageForm.controls;
+  }
+
+  get isMusician() {
+    return this.userType === UserType.Musician;
+  }
+
+  get isGroup() {
+    return this.userType === UserType.Group;
   }
 
   public submit() {
@@ -84,12 +99,17 @@ export class MainPage implements OnInit {
         Validators.required,
       ]],
       age: ['', [
-        Validators.required,
         Validators.minLength(1),
         Validators.maxLength(2),
         Validators.min(0),
         Validators.max(95),
       ]]
     });
+
+    if (this.isGroup) {
+      this.mainPageForm.addControl('groupName', this.formBuilder.control('', [
+        Validators.required
+      ]));
+    }
   }
 }
