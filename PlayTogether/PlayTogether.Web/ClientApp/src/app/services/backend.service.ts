@@ -8,7 +8,7 @@ import { MasterValueTypes } from "../models/master-values-types";
 import { MasterValueItem } from "../models/master-value-item";
 import { ProfileSkills } from "../models/profile-skills";
 import { SelectUserType } from "../models/select-user-type";
-import { Vacancy, VacancyDetail } from "../models/vacancy";
+import { Vacancy, VacancyDetail, VacancyFilter } from "../models/vacancy";
 import { MainProfileInfo } from "../models/main-profile-info";
 
 enum URLS {
@@ -23,7 +23,7 @@ enum URLS {
 
   getVacancy = '/vacancy/getvacancy',
   getUserVacancies = '/vacancy/getuservacancies',
-  getFilteredVacancies = '/vacancy/getFilteredVacancies',
+  searchVacancies = '/vacancy/searchVacancies',
   getFilteredVacanciesByUserProfile = '/vacancy/getFilteredVacanciesByUserProfile',
   updateOrCreateVacancy = '/vacancy/updateorcreate',
   changeVacancyStatus = '/vacancy/changevacancystatus',
@@ -72,8 +72,8 @@ export class BackendService {
     return this.http.get(URLS.getUserVacancies).pipe(map(response => response as Vacancy[]));
   }
 
-  getFilteredVacancies(): Observable<Vacancy[]> {
-    return this.http.get(URLS.getFilteredVacancies).pipe(map(response => response as Vacancy[]));
+  searchVacancies(vacancyFilter: VacancyFilter): Observable<Vacancy[]> {
+    return this.http.post(URLS.searchVacancies, vacancyFilter).pipe(map(response => response as Vacancy[]));
   }
 
   getFilteredVacanciesByUserProfile(): Observable<Vacancy[]> {

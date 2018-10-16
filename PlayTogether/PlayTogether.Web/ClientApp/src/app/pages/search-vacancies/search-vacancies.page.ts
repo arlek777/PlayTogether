@@ -4,37 +4,37 @@ import { Store } from '@ngrx/store';
 import { Constants } from '../../constants';
 import { Router } from '@angular/router';
 import { AppState } from '../../store';
-import { Vacancy } from '../../models/vacancy';
+import { Vacancy, VacancyFilter } from '../../models/vacancy';
+import { MasterValueItem } from '../../models/master-value-item';
+import { MasterValueTypes } from '../../models/master-values-types';
 
 @Component({
   templateUrl: './search-vacancies.page.html',
 })
 export class SearchVacanciesPage {
   public vacancies: Vacancy[];
+  public vacancyFilter = new VacancyFilter();
+  public musicGenres: MasterValueItem[];
+  public musicianRoles: MasterValueItem[];
 
   constructor(
     private readonly backendService: BackendService,
-    private readonly store: Store<AppState>,
     private readonly router: Router) {
   }
 
   ngOnInit() {
-    this.backendService.getUserVacancies().subscribe((vacancies) => {
+    this.backendService.getMasterValues(MasterValueTypes.MusicGenres)
+      .subscribe((values) => this.musicGenres = values);
+
+    this.backendService.getMasterValues(MasterValueTypes.MusicianRoles)
+      .subscribe((values) => this.musicianRoles = values);
+
+    this.search();
+  }
+
+  search() {
+    this.backendService.searchVacancies(this.vacancyFilter).subscribe((vacancies) => {
       this.vacancies = vacancies;
     });
-  }
-
-  reopenVacancy(vacancy: Vacancy) {
-    this.backendService.changeVacancyStatus(vacancy.id).subscribe(() => {
-      vacancy.isClosed = false;
-    });
-  }
-
-  closeVacancy(vacancy: Vacancy) {
-    if (confirm("Вы уверены, что хотите закрыть вакансию?")) {
-      this.backendService.changeVacancyStatus(vacancy.id).subscribe(() => {
-        vacancy.isClosed = true;
-      });
-    }
   }
 }

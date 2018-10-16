@@ -7,24 +7,19 @@ using PlayTogether.Web.Models.Vacancy;
 
 namespace PlayTogether.Web.Infrastructure
 {
-    public class ConditionalFilter
+    public class VacancyConditionalFilter
     {
         private readonly Expression<Func<Vacancy, bool>> myFilter;
 
-        public ConditionalFilter()
-        {
-        }
-
-        public ConditionalFilter(Expression<Func<Vacancy, bool>> filter)
+        public VacancyConditionalFilter(Expression<Func<Vacancy, bool>> filter)
         {
             myFilter = filter;
         }
 
         public bool PassFilter(Vacancy vacancy) => myFilter.Compile()(vacancy);
 
-        public IEnumerable<ConditionalFilter> GetFilters(VacancyFilterModel model)
+        public static IEnumerable<VacancyConditionalFilter> GetFilters(VacancyFilterModel model)
         {
-            Expression<Func<Vacancy, bool>> baseFilter = v => !v.IsClosed && v.User.Type == model.UserType;
             Expression<Func<Vacancy, bool>> title = v => v.Title.Contains(model.VacancyTitle);
             Expression<Func<Vacancy, bool>> minRating = v => v.User.Profile.Rating >= model.MinRating;
             Expression<Func<Vacancy, bool>> minExp = v => v.User.Profile.Experience >= model.MinExpirience;
@@ -40,14 +35,13 @@ namespace PlayTogether.Web.Infrastructure
 
             var filters = new[]
             {
-                new ConditionalFilter(baseFilter),
-                model.ApplyTitle() ? new ConditionalFilter(title) : null,
-                model.ApplyMinRating() ? new ConditionalFilter(minRating): null,
-                model.ApplyMinExpirience() ? new ConditionalFilter(minExp): null,
-                model.ApplyCities() ? new ConditionalFilter(cities): null,
-                model.ApplyMusicGenres() ? new ConditionalFilter(musiceGenres): null,
-                model.ApplyMusicianRoles() ? new ConditionalFilter(musicianRoles): null,
-                model.ApplyWorkTypes() ? new ConditionalFilter(workTypes): null
+                model.ApplyTitle() ? new VacancyConditionalFilter(title) : null,
+                model.ApplyMinRating() ? new VacancyConditionalFilter(minRating): null,
+                model.ApplyMinExpirience() ? new VacancyConditionalFilter(minExp): null,
+                model.ApplyCities() ? new VacancyConditionalFilter(cities): null,
+                model.ApplyMusicGenres() ? new VacancyConditionalFilter(musiceGenres): null,
+                model.ApplyMusicianRoles() ? new VacancyConditionalFilter(musicianRoles): null,
+                model.ApplyWorkTypes() ? new VacancyConditionalFilter(workTypes): null
             };
 
             return filters.Where(f => f != null);

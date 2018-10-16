@@ -1,27 +1,107 @@
-<div class="form-group">
-  <a [routerLink]="['/vacancy']" class="btn btn-success">Создать вакансию</a>
+<div class="row">
+  <div class="col-md-10">
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="title">Название</label>
+        </div>
+        <div class="col-md-5">
+          <input type="text" class="form-control" name="title" [(ngModel)]="vacancyFilter.title" placeholder="Название" />
+        </div>
+      </div>
+    </div>
+
+    <!--<div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="title">Рейтинг не меньше</label>
+        </div>
+        <div class="col-md-5">
+          <input type="text" class="form-control" name="title" formControlName="title" placeholder="Название"/>
+          <control-validation [control]="formControls.userName"></control-validation>
+        </div>
+      </div>
+    </div>-->
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="minExpirience">Опыт не меньше</label>
+        </div>
+        <div class="col-md-5">
+          <input type="number" class="form-control" name="minExpirience"  [(ngModel)]="vacancyFilter.mixExpirience" placeholder="Опыт не меньше" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="cities">Города</label>
+        </div>
+        <div class="col-md-5">
+          <input type="text" class="form-control" name="cities" [(ngModel)]="vacancyFilter.cicites" placeholder="Города" />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="workTypes">Вид работы</label>
+        </div>
+        <div class="col-md-5">
+          // TODO multiple checkboxes
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="musicRoles">Музыкальные жанры</label>
+        </div>
+        <div class="col-md-5">
+          <ng-multiselect-dropdown [placeholder]="'Музыкальные жанры'"
+                                   [data]="musicGenres"
+                                   [(ngModel)]="vacancyFilter.musicGenres"
+                                   [settings]="dropdownSettings">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="musicGenres">Кого вы ищете</label>
+        </div>
+        <div class="col-md-5">
+          <ng-multiselect-dropdown [placeholder]="'Кого вы ищете'"
+                                   [data]="musicianRoles"
+                                   [(ngModel)]="vacancyFilter.musicianRoles"
+                                   [settings]="dropdownSettings">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="btn btn-success" (click)="search()">Искать</button>
+  </div>
 </div>
 
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th scope="col">#</th>
-    <th scope="col">Название</th>
-    <th scope="col">Статус</th>
-    <th scope="col"></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let vacancy of vacancies; let i=index">
-    <th scope="row">{{ i+1 }}</th>
-    <td><a [routerLink]="['/vacancy', vacancy.id]">{{ vacancy.title }}</a></td>
-    <td>{{ vacancy.isClosed ? 'Закрыта' : 'Открыта' }}</td>
-    <td>
-      <a *ngIf="vacancy.isClosed" href="javascript: " (click)="reopenVacancy(vacancy)">Открыть вакансию</a>
-      <a *ngIf="!vacancy.isClosed" href="javascript: " (click)="closeVacancy(vacancy)">Закрыть вакансию</a>
-    </td>
-  </tr>
-  </tbody>
-</table>
-
-
+<div class="row">
+  <div class="col-md-10">
+    <div class="row" *ngFor="let vacancy of vacancies">
+      <div class="col-md-12">
+        <a [routerLink]="['/vacancy', vacancy.id]">{{ vacancy.title }}</a>
+      </div>
+      <div class="col-md-12">{{ vacancy.description }}</div>
+      <div class="col-md-12">
+        <a [routerLink]="['/profile', vacancy.userCreatorId]">{{ vacancy.userCreatorName }}</a>
+        {{ vacancy.vacancyFilter.cities ? vacancy.vacancyFilter.cities[0] : '' }}
+      </div>
+    </div>
+  </div>
+</div>
