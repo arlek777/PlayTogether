@@ -11,6 +11,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ToastrModule } from 'ngx-toastr';
 import { MatSliderModule } from '@angular/material/slider';
 import { TextMaskModule } from 'angular2-text-mask';
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import * as hammer from 'hammerjs';
 
 // Components
@@ -66,6 +67,7 @@ import { appReducers, appEffects } from './store';
     BrowserAnimationsModule,
     MatSliderModule,
     TextMaskModule,
+    GooglePlaceModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-center'
     }),

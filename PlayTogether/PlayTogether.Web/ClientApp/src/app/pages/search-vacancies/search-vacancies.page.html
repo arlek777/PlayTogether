@@ -35,7 +35,7 @@
     <div class="form-group">
       <div class="row">
         <label for="cities">Город</label>
-        <input type="text" class="form-control" name="cities" [(ngModel)]="vacancyFilter.cicites" placeholder="Город"/>
+        <input ngx-google-places-autocomplete name="cities" [options]='googlePlacesOptions' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)" />
       </div>
     </div>
 

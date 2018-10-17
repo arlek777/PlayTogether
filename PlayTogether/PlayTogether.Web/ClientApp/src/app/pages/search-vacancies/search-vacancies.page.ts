@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { BackendService } from '../../services/backend.service';
 import { Store } from '@ngrx/store';
 import { Constants } from '../../constants';
@@ -7,6 +7,7 @@ import { AppState } from '../../store';
 import { Vacancy, VacancyFilter } from '../../models/vacancy';
 import { MasterValueItem } from '../../models/master-value-item';
 import { MasterValueTypes } from '../../models/master-values-types';
+import { GooglePlaceDirective } from 'ngx-google-places-autocomplete';
 
 @Component({
   templateUrl: './search-vacancies.page.html',
@@ -32,9 +33,16 @@ export class SearchVacanciesPage {
     this.search();
   }
 
+  @ViewChild("placesRef") placesRef: GooglePlaceDirective;
+
   search() {
     this.backendService.searchVacancies(this.vacancyFilter).subscribe((vacancies) => {
       this.vacancies = vacancies;
     });
   }
+
+  public googlePlacesOptions = {
+    types: [],
+    componentRestrictions: { country: 'UA' }
+  };
 }
