@@ -1,8 +1,13 @@
-<div class="form-group">
+<div *ngIf="canCreateVacancy" class="form-group">
   <a [routerLink]="['/vacancy']" class="btn btn-success">Создать вакансию</a>
 </div>
 
-<table class="table table-striped">
+<div *ngIf="!canCreateVacancy" class="form-group">
+  <p>Для того, что бы начать создавать вакансии, заполните пожалуйста ваш профиль.</p>
+  <a [routerLink]="['/my/profile']" class="btn btn-success">Заполнить профиль</a>
+</div>
+
+<table class="table table-striped" [ngClass]="{ 'fade': !canCreateVacancy }">
   <thead>
   <tr>
     <th scope="col">#</th>

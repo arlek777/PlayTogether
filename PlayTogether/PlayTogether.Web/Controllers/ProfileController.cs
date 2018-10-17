@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,6 +36,14 @@ namespace PlayTogether.Web.Controllers
 
         [HttpGet]
         [Route("[controller]/[action]")]
+        public async Task<IActionResult> IsProfileFilled()
+        {
+            var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
+            return Ok(!String.IsNullOrEmpty(user.Profile?.Name));
+        }
+
+        [HttpGet]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> GetSkills()
         {
             var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
@@ -48,7 +57,7 @@ namespace PlayTogether.Web.Controllers
 
         [HttpPost]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> UpdateMainProfile(MainProfileModel model)
+        public async Task<IActionResult> UpdateMainInfo([FromBody] MainProfileModel model)
         {
             await _crudService.Update<MainProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
@@ -67,7 +76,7 @@ namespace PlayTogether.Web.Controllers
                     var vacancy = to.User.Vacancies.FirstOrDefault();
                     vacancy.Title = from.VacancyFilterTitle;
                     vacancy.Description = from.Description;
-                    vacancy.IsClosed = !from.IsVacancyOpen;
+                    vacancy.IsClosed = false;//!from.IsVacancyOpen;
                     vacancy.VacancyFilter.JsonCities = from.City.ToJson();
                 }
             });

@@ -11,6 +11,7 @@ import { Vacancy } from '../../models/vacancy';
 })
 export class ManageVacanciesPage {
   public vacancies: Vacancy[];
+  public canCreateVacancy = false;
 
   constructor(
     private readonly backendService: BackendService,
@@ -19,6 +20,10 @@ export class ManageVacanciesPage {
   }
 
   ngOnInit() {
+    this.backendService.isProfileFilled().subscribe(result => {
+      this.canCreateVacancy = result;
+    });
+
     this.backendService.getUserVacancies().subscribe((vacancies) => {
       this.vacancies = vacancies;
     });

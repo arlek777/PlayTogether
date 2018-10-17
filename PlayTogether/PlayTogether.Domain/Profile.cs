@@ -7,7 +7,10 @@ namespace PlayTogether.Domain
     {
         [ForeignKey("User")]
         public Guid Id { get; set; }
+
+        public bool IsActivated { get; set; }
         public string Name { get; set; }
+        public string GroupName { get; set; }
         public string ContactEmail { get; set; }
         public string Phone1 { get; set; }
         public string Phone2 { get; set; }

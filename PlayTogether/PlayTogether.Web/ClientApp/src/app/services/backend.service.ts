@@ -8,7 +8,7 @@ import { MasterValueTypes } from "../models/master-values-types";
 import { MasterValueItem } from "../models/master-value-item";
 import { ProfileSkills } from "../models/profile-skills";
 import { SelectUserType } from "../models/select-user-type";
-import { Vacancy, VacancyDetail } from "../models/vacancy";
+import { Vacancy, VacancyDetail, VacancyFilter } from "../models/vacancy";
 import { MainProfileInfo } from "../models/main-profile-info";
 
 enum URLS {
@@ -20,10 +20,11 @@ enum URLS {
   updateSkillsProfileInfo = '/profile/updateskills',
   getMainProfileInfo = '/profile/getmaininfo',
   getProfileSkills = '/profile/getskills',
+  isProfileFilled = '/profile/isProfileFilled',
 
-  getVacancy = '/vacancy/getvacancy',
-  getUserVacancies = '/vacancy/getuservacancies',
-  getFilteredVacancies = '/vacancy/getFilteredVacancies',
+  getUserVacancy = '/vacancy/getUserVacancy',
+  getUserVacancies = '/vacancy/getUserVacancies',
+  searchVacancies = '/vacancy/searchVacancies',
   getFilteredVacanciesByUserProfile = '/vacancy/getFilteredVacanciesByUserProfile',
   updateOrCreateVacancy = '/vacancy/updateorcreate',
   changeVacancyStatus = '/vacancy/changevacancystatus',
@@ -64,16 +65,20 @@ export class BackendService {
     return this.http.post(URLS.updateSkillsProfileInfo, skills);
   }
 
+  isProfileFilled(): Observable<boolean> {
+    return this.http.get(URLS.isProfileFilled).pipe(map(response => response as boolean));
+  }
+
   getVacancy(id: string): Observable<VacancyDetail> {
-    return this.http.get(URLS.getVacancy, { params: { "id": id } }).pipe(map(response => response as VacancyDetail));
+    return this.http.get(URLS.getUserVacancy, { params: { "id": id } }).pipe(map(response => response as VacancyDetail));
   }
 
   getUserVacancies(): Observable<Vacancy[]> {
     return this.http.get(URLS.getUserVacancies).pipe(map(response => response as Vacancy[]));
   }
 
-  getFilteredVacancies(): Observable<Vacancy[]> {
-    return this.http.get(URLS.getFilteredVacancies).pipe(map(response => response as Vacancy[]));
+  searchVacancies(vacancyFilter: VacancyFilter): Observable<Vacancy[]> {
+    return this.http.post(URLS.searchVacancies, vacancyFilter).pipe(map(response => response as Vacancy[]));
   }
 
   getFilteredVacanciesByUserProfile(): Observable<Vacancy[]> {

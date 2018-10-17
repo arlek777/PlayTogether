@@ -4,49 +4,64 @@
     <div style="width:100px; height:100px; background-color: lightgray;"></div>
     <button class="btn btn-outline-success">Загрузить фото</button>
   </div>
-  <form [formGroup]="mainPageForm" (submit)="submit()">
+  <form [formGroup]="mainPageForm" [ngClass]="{ 'form-submitted': formSubmitted }" (submit)="submit()">
     <div class="form-group">
       <div class="row">
         <div class="col-md-2">
-          <label for="name">Имя</label>
+          <label for="name">Ваше Имя</label>
         </div>
         <div class="col-md-5">
-          <input type="text" id="name" class="form-control mx-sm-3" placeholder="Имя" formControlName="name" />
+          <input type="text" id="name" class="form-control" placeholder="Имя" formControlName="name" />
           <control-validation [control]="formControls.name"></control-validation>
         </div>
       </div>
     </div>
+
+    <div *ngIf="isGroup" class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label for="name">Название Группы</label>
+        </div>
+        <div class="col-md-5">
+          <input type="text" id="groupName" class="form-control" placeholder="Название Группы" formControlName="groupName" />
+          <control-validation [control]="formControls.groupName"></control-validation>
+        </div>
+      </div>
+    </div>
+
     <div class="form-group">
       <div class="row">
         <div class="col-md-2">
           <label for="email">Email</label>
         </div>
         <div class="col-md-5">
-          <input type="email" id="email" class="form-control mx-sm-3" placeholder="Email" formControlName="email" />
+          <input type="email" id="email" class="form-control" placeholder="Email" formControlName="email" />
           <control-validation [control]="formControls.email"></control-validation>
         </div>
       </div>
     </div>
+
     <div class="form-group">
       <div class="row">
         <div class="col-md-2">
           <label for="phone1">Телефон 1</label>
         </div>
         <div class="col-md-5">
-          <input type="tel" id="phone1" class="form-control mx-sm-3" placeholder="Телефон 1"
+          <input type="tel" id="phone1" class="form-control" placeholder="Телефон 1"
                  formControlName="phone1"
                  [textMask]="{mask: phoneMask}" />
           <control-validation [control]="formControls.phone1"></control-validation>
         </div>
       </div>
     </div>
+
     <div class="form-group">
       <div class="row">
         <div class="col-md-2">
           <label for="phone2">Телефон 2</label>
         </div>
         <div class="col-md-5">
-          <input type="text" id="phone2" class="form-control mx-sm-3"
+          <input type="text" id="phone2" class="form-control"
                  placeholder="Телефон 2"
                  [(ngModel)]="mainInfoModel.phone2"
                  [ngModelOptions]="{standalone: true}"
@@ -54,63 +69,71 @@
         </div>
       </div>
     </div>
+
     <div class="form-group">
       <div class="row">
         <div class="col-md-2">
           <label for="city">Город</label>
         </div>
         <div class="col-md-5">
-          <input type="text" id="city" class="form-control mx-sm-3" placeholder="Город" formControlName="city" />
+          <input type="text" id="city" class="form-control" placeholder="Город" formControlName="city" />
           <control-validation [control]="formControls.city"></control-validation>
         </div>
       </div>
     </div>
+
     <div class="form-group">
       <div class="row">
         <div class="col-md-2">
           <label for="address">Адрес</label>
         </div>
         <div class="col-md-5">
-          <input type="text" id="address" class="form-control mx-sm-3"
+          <input type="text" id="address" class="form-control"
                  placeholder="Адрес"
                  [(ngModel)]="mainInfoModel.address"
                  [ngModelOptions]="{standalone: true}" />
         </div>
       </div>
     </div>
-    <div class="form-group">
+
+    <div *ngIf="isMusician" class="form-group">
       <div class="row">
         <div class="col-md-2">
           <label for="age">Возраст</label>
         </div>
         <div class="col-md-5">
-          <input type="number" id="age" class="form-control mx-sm-3" formControlName="age" />
+          <input type="number" id="age" class="form-control" formControlName="age" />
           <control-validation [control]="formControls.age"></control-validation>
         </div>
       </div>
     </div>
-    <div class="form-group">
+
+    <div *ngIf="isMusician" class="form-group">
       <div class="row">
         <div class="col-md-2">
           <label for="experience">Опыт игры</label>
         </div>
         <div class="col-md-5">
-          <mat-slider id="experience" [displayWith]="getExperienceSliderValue" thumbLabel tickInterval="1" min="0" max="50"></mat-slider>
+          <mat-slider id="experience" [displayWith]="getExperienceSliderValue" thumbLabel tickInterval="1" min="0" max="10"></mat-slider>
         </div>
       </div>
     </div>
+
     <div class="form-group">
       <div class="row">
         <div class="col-md-2">
-          <label for="description">Описание</label>
+          <label for="description">{{ isMusician ? 'Опишите себя' : 'Опишите группу' }}</label>
         </div>
         <div class="col-md-5">
           <textarea id="description" class="form-control" rows="4"
                     [(ngModel)]="mainInfoModel.description"
                     [ngModelOptions]="{standalone: true}"></textarea>
+          <label class="small" *ngIf="isMusician">Опишите чем вы занимаетесь, какие ожидания от работы и т.д.</label>
+          <label class="small" *ngIf="isGroup">Опишите чем вы занимаетесь, сколько у вас человек в группе и т.д.</label>
         </div>
       </div>
     </div>
+
     <button class="btn btn-success" [disabled]="mainPageForm.invalid && mainPageForm.touched" type="submit">Сохранить</button>
   </form>
 </div>
