@@ -38,8 +38,13 @@ export class MainPage implements OnInit {
       this.formControls.email.setValue(profile.contactEmail);
       this.formControls.phone1.setValue(profile.phone1);
       this.formControls.city.setValue(profile.city);
-      this.formControls.age.setValue(profile.age);
       this.ageSliderValue = profile.experience;
+
+      if (this.isGroup) {
+        this.formControls.groupName.setValue(profile.groupName);
+      } else if (this.isMusician) {
+        this.formControls.age.setValue(profile.age);
+      }
     });
   }
 
@@ -64,9 +69,14 @@ export class MainPage implements OnInit {
     this.mainInfoModel.contactEmail = this.formControls.email.value;
     this.mainInfoModel.phone1 = this.formControls.phone1.value;
     this.mainInfoModel.city = this.formControls.city.value;
-    this.mainInfoModel.age = this.formControls.age.value;
     this.mainInfoModel.experience = this.ageSliderValue || 0;
     this.mainInfoModel.photoBase64 = 'test';
+
+    if (this.isGroup) {
+      this.mainInfoModel.groupName = this.formControls.groupName.value;
+    } else if (this.isMusician) {
+      this.mainInfoModel.age = this.formControls.age.value;
+    }
 
     console.log(this.mainInfoModel);
 
@@ -97,18 +107,19 @@ export class MainPage implements OnInit {
       ]],
       city: ['', [
         Validators.required,
-      ]],
-      age: ['', [
-        Validators.minLength(1),
-        Validators.maxLength(2),
-        Validators.min(0),
-        Validators.max(95),
       ]]
     });
 
     if (this.isGroup) {
       this.mainPageForm.addControl('groupName', this.formBuilder.control('', [
         Validators.required
+      ]));
+    } else if (this.isMusician) {
+      this.mainPageForm.addControl('age', this.formBuilder.control('', [
+        Validators.minLength(1),
+        Validators.maxLength(2),
+        Validators.min(0),
+        Validators.max(95),
       ]));
     }
   }

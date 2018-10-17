@@ -27,7 +27,24 @@ namespace PlayTogether.Web.Controllers
 
         [HttpGet]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> GetMainInfo()
+        public async Task<IActionResult> GetPublicProfile(Guid? id = null)
+        {
+            Profile profile;
+            if (id.HasValue)
+            {
+                profile = await _crudService.Find<Profile>(u => u.Id == id);
+            }
+            else
+            {
+                var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
+                profile = user.Profile;
+            }
+            return Ok(Mapper.Map<PublicProfileModel>(profile));
+        }
+
+        [HttpGet]
+        [Route("[controller]/[action]")]
+        public async Task<IActionResult> GetUserProfileMainInfo()
         {
             var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
             var mainInfo = Mapper.Map<MainProfileModel>(user.Profile);
@@ -36,7 +53,7 @@ namespace PlayTogether.Web.Controllers
 
         [HttpGet]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> IsProfileFilled()
+        public async Task<IActionResult> IsUserProfileFilled()
         {
             var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
             return Ok(!String.IsNullOrEmpty(user.Profile?.Name));
@@ -44,7 +61,7 @@ namespace PlayTogether.Web.Controllers
 
         [HttpGet]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> GetSkills()
+        public async Task<IActionResult> GetUserSkills()
         {
             var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
             var skills = new SkillsProfileModel()
@@ -61,7 +78,9 @@ namespace PlayTogether.Web.Controllers
         {
             await _crudService.Update<MainProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
+                to.IsActivated = from.IsActivated;
                 to.Name = from.Name;
+                to.GroupName = from.GroupName;
                 to.City = from.City;
                 to.Age = from.Age;
                 to.Experience = from.Experience;
@@ -74,7 +93,7 @@ namespace PlayTogether.Web.Controllers
                 if(to.User.Type == UserType.Musician)
                 {
                     var vacancy = to.User.Vacancies.FirstOrDefault();
-                    vacancy.Title = from.VacancyFilterTitle;
+                    vacancy.Title = from.Name;
                     vacancy.Description = from.Description;
                     vacancy.IsClosed = false;//!from.IsVacancyOpen;
                     vacancy.VacancyFilter.JsonCities = from.City.ToJson();

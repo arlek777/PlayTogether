@@ -20,7 +20,7 @@ export class ManageVacanciesPage {
   }
 
   ngOnInit() {
-    this.backendService.isProfileFilled().subscribe(result => {
+    this.backendService.isUserProfileFilled().subscribe(result => {
       this.canCreateVacancy = result;
     });
 

@@ -80,6 +80,20 @@ namespace PlayTogether.Web.Controllers
             return Ok(detail);
         }
 
+        [HttpGet]
+        [Route("[controller]/[action]")]
+        public async Task<IActionResult> GetVacancy(Guid id)
+        {
+            var vacancy = await _crudService.Find<Vacancy>(v => v.Id == id);
+            if (vacancy == null)
+            {
+                return NotFound();
+            }
+
+            var detail = Mapper.Map<VacancyDetailModel>(vacancy);
+            return Ok(detail);
+        }
+
         [Authorize(Roles = "Group")]
         [HttpPost]
         [Route("[controller]/[action]")]

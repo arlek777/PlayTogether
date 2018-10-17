@@ -10,6 +10,7 @@ import { ProfileSkills } from "../models/profile-skills";
 import { SelectUserType } from "../models/select-user-type";
 import { Vacancy, VacancyDetail, VacancyFilter } from "../models/vacancy";
 import { MainProfileInfo } from "../models/main-profile-info";
+import { PublicProfile } from "../models/public-profile";
 
 enum URLS {
   login = '/auth/login',
@@ -18,11 +19,13 @@ enum URLS {
 
   updateMainProfileInfo = '/profile/updatemaininfo',
   updateSkillsProfileInfo = '/profile/updateskills',
-  getMainProfileInfo = '/profile/getmaininfo',
-  getProfileSkills = '/profile/getskills',
-  isProfileFilled = '/profile/isProfileFilled',
+  getMainProfileInfo = '/profile/getUserProfileMainInfo',
+  getProfileSkills = '/profile/getuserskills',
+  getPublicProfile = '/profile/getPublicProfile',
+  isUserProfileFilled = '/profile/isUserProfileFilled',
 
   getUserVacancy = '/vacancy/getUserVacancy',
+  getVacancy = '/vacancy/getVacancy',
   getUserVacancies = '/vacancy/getUserVacancies',
   searchVacancies = '/vacancy/searchVacancies',
   getFilteredVacanciesByUserProfile = '/vacancy/getFilteredVacanciesByUserProfile',
@@ -49,6 +52,15 @@ export class BackendService {
     return this.http.post(URLS.selectUserType, model).pipe(map(response => response as LoginResponse));
   }
 
+  getPublicProfile(id: string = null) {
+    if (id) {
+      return this.http.get(URLS.getPublicProfile, { params: { "id": id } })
+        .pipe(map(response => response as PublicProfile));
+    } else {
+      return this.http.get(URLS.getPublicProfile).pipe(map(response => response as PublicProfile));
+    }
+  }
+
   getMainProfileInfo() {
     return this.http.get(URLS.getMainProfileInfo).pipe(map(response => response as MainProfileInfo));
   }
@@ -65,12 +77,16 @@ export class BackendService {
     return this.http.post(URLS.updateSkillsProfileInfo, skills);
   }
 
-  isProfileFilled(): Observable<boolean> {
-    return this.http.get(URLS.isProfileFilled).pipe(map(response => response as boolean));
+  isUserProfileFilled(): Observable<boolean> {
+    return this.http.get(URLS.isUserProfileFilled).pipe(map(response => response as boolean));
+  }
+
+  getUserVacancy(id: string): Observable<VacancyDetail> {
+    return this.http.get(URLS.getUserVacancy, { params: { "id": id } }).pipe(map(response => response as VacancyDetail));
   }
 
   getVacancy(id: string): Observable<VacancyDetail> {
-    return this.http.get(URLS.getUserVacancy, { params: { "id": id } }).pipe(map(response => response as VacancyDetail));
+    return this.http.get(URLS.getVacancy, { params: { "id": id } }).pipe(map(response => response as VacancyDetail));
   }
 
   getUserVacancies(): Observable<Vacancy[]> {

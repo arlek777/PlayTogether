@@ -16,6 +16,14 @@ namespace PlayTogether.Web.Infrastructure
                     .ForMember(m => m.JsonWorkTypes,
                         opt => opt.MapFrom(src => src.WorkTypes.ToJson()));
 
+                c.CreateMap<Domain.Profile, PublicProfileModel>()
+                    .ForMember(m => m.WorkTypes,
+                        opt => opt.MapFrom(src => src.JsonWorkTypes.FromJson<ICollection<WorkType>>()))
+                    .ForMember(m => m.MusicGenres,
+                        opt => opt.MapFrom(src => src.JsonMusicGenres.FromJson<ICollection<MusicGenre>>()))
+                    .ForMember(m => m.MusicianRoles,
+                        opt => opt.MapFrom(src => src.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>()));
+
                 c.CreateMap<Domain.Profile, MainProfileModel>()
                     .ForMember(m => m.WorkTypes,
                         opt => opt.MapFrom(src => src.JsonWorkTypes.FromJson<ICollection<WorkType>>()));

@@ -91,6 +91,7 @@ import { appReducers, appEffects } from './store';
       //{ path: 'search-vacancies', component: SearchVacanciesPage, canActivate: [AuthGuard] },
       { path: 'vacancy', component: VacancyPage, canActivate: [AuthGuard] },
       { path: 'vacancy/:id', component: VacancyPage, canActivate: [AuthGuard] },
+      { path: 'profile', component: ProfilePage, canActivate: [AuthGuard] },
       { path: 'profile/:id', component: ProfilePage, canActivate: [AuthGuard] },
     ])
   ],

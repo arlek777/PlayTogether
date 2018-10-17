@@ -7,7 +7,7 @@
   <a [routerLink]="['/my/profile']" class="btn btn-success">Заполнить профиль</a>
 </div>
 
-<table class="table table-striped" [ngClass]="{ 'fade': !canCreateVacancy }">
+<table class="table table-striped" *ngIf="canCreateVacancy">
   <thead>
   <tr>
     <th scope="col">#</th>

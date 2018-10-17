@@ -1,6 +1,9 @@
+import { MasterValueItem } from "./master-value-item";
+
 export class MainProfileInfo {
   isActivated: boolean;
   name: string;
+  groupName: string;
   contactEmail: string;
   phone1: string;
   phone2: string;
@@ -10,4 +13,5 @@ export class MainProfileInfo {
   experience: number;
   description: string;
   photoBase64: string;
+  workTypes: MasterValueItem[];
 }
