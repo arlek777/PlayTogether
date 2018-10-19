@@ -37,14 +37,14 @@
   <div class="col-md-12">Опыт: {{ profile.experience }}</div>
 </div>
 
-<div class="row" *ngIf="profile.musicGenres.length">
-  <div class="col-md-12">Жанры: {{ profile.musicGenres.join(",") }}</div>
+<div class="row" *ngIf="profile.musicGenres">
+  <div class="col-md-12">Жанры: {{ profile.musicGenres }}</div>
 </div>
 
-<div class="row" *ngIf="profile.musicianRoles.length && isMusician">
-  <div class="col-md-12">Виды деятельности: {{ profile.musicianRoles.join(",") }}</div>
+<div class="row" *ngIf="profile.musicianRoles && isMusician">
+  <div class="col-md-12">Виды деятельности: {{ profile.musicianRoles }}</div>
 </div>
 
-<div class="row" *ngIf="profile.workTypes.length && isMusician">
-  <div class="col-md-12">Виды работы: {{ profile.workTypes.join(",") }}</div>
+<div class="row" *ngIf="profile.workTypes && isMusician">
+  <div class="col-md-12">Виды работы: {{ profile.workTypes }}</div>
 </div>

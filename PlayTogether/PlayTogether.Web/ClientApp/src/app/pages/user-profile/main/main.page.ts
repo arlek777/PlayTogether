@@ -17,7 +17,6 @@ export class MainPage implements OnInit {
   public mainInfoModel = new MainProfileInfo();
   public mainPageForm: FormGroup;
   public phoneMask = RegExp.phoneMask;
-  public ageSliderValue: number;
   public formSubmitted = false;
   public userType: UserType;
 
@@ -38,11 +37,11 @@ export class MainPage implements OnInit {
       this.formControls.email.setValue(profile.contactEmail);
       this.formControls.phone1.setValue(profile.phone1);
       this.formControls.city.setValue(profile.city);
-      this.ageSliderValue = profile.experience;
 
       if (this.isGroup) {
         this.formControls.groupName.setValue(profile.groupName);
       } else if (this.isMusician) {
+        this.formControls.experience.setValue(profile.experience);
         this.formControls.age.setValue(profile.age);
       }
     });
@@ -69,12 +68,12 @@ export class MainPage implements OnInit {
     this.mainInfoModel.contactEmail = this.formControls.email.value;
     this.mainInfoModel.phone1 = this.formControls.phone1.value;
     this.mainInfoModel.city = this.formControls.city.value;
-    this.mainInfoModel.experience = this.ageSliderValue || 0;
     this.mainInfoModel.photoBase64 = 'test';
 
     if (this.isGroup) {
       this.mainInfoModel.groupName = this.formControls.groupName.value;
     } else if (this.isMusician) {
+      this.mainInfoModel.experience = this.formControls.experience.value;
       this.mainInfoModel.age = this.formControls.age.value;
     }
 
@@ -85,11 +84,6 @@ export class MainPage implements OnInit {
         this.formSubmitted = false;
         this.toastr.success("Ваш профиль сохранен.")
       });
-  }
-
-  public getExperienceSliderValue(value: number | null) {
-    this.ageSliderValue = value;
-    return this.ageSliderValue;
   }
 
   private setMainPageValidator() {
@@ -116,8 +110,13 @@ export class MainPage implements OnInit {
       ]));
     } else if (this.isMusician) {
       this.mainPageForm.addControl('age', this.formBuilder.control('', [
-        Validators.minLength(1),
+        Validators.required,
         Validators.maxLength(2),
+        Validators.min(10),
+        Validators.max(95),
+      ]));
+
+      this.mainPageForm.addControl('experience', this.formBuilder.control('', [
         Validators.min(0),
         Validators.max(95),
       ]));

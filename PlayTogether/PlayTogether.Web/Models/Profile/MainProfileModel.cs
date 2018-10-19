@@ -15,9 +15,6 @@ namespace PlayTogether.Web.Models.Profile
         [MaxLength(256)]
         public string GroupName { get; set; }
 
-        [MaxLength(256)]
-        public string VacancyFilterTitle { get; set; }
-
         [Required]
         [MaxLength(256)]
         public string ContactEmail { get; set; }
@@ -29,13 +26,15 @@ namespace PlayTogether.Web.Models.Profile
 
         [Required]
         [MaxLength(256)]
-        public string City { get; set; } 
+        public string City { get; set; }  // todo it's not implemented yet
         public string Address { get; set; }
         public string Description { get; set; }
+
+        [Required]
         public int Age { get; set; }
         public double Experience { get; set; }
-        public string PhotoBase64 { get; set; }
+        public string PhotoBase64 { get; set; } // todo it's not implemented yet
 
-        public ICollection<WorkType> WorkTypes { get; set; }
+        public ICollection<WorkType> WorkTypes { get; set; } // todo it's not implemented yet
     }
 }

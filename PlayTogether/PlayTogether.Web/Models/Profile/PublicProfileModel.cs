@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using PlayTogether.Domain;
 
 namespace PlayTogether.Web.Models.Profile
 {
@@ -19,8 +17,8 @@ namespace PlayTogether.Web.Models.Profile
         public double Experience { get; set; }
         public string PhotoBase64 { get; set; }
 
-        public List<MusicGenre> MusicGenres { get; set; }
-        public List<MusicianRole> MusicianRoles { get; set; }
-        public List<WorkType> WorkTypes { get; set; }
+        public string MusicGenres { get; set; }
+        public string MusicianRoles { get; set; }
+        public string WorkTypes { get; set; }
     }
 }

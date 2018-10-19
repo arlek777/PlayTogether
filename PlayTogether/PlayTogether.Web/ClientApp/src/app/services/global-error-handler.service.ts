@@ -11,7 +11,13 @@ export class GlobalErrorHandler implements ErrorHandler {
     console.log(error);
     this.ngZone.run(() => {
       if (this.toastrService) {
-        this.toastrService.error("Произошла ошибка.");
+        if (error && error.error) {
+          this.toastrService.error(error.error);
+        } else if (error && error.message) {
+          this.toastrService.error(error.message);
+        } else {
+          this.toastrService.error("Произошла ошибка.");
+        }
       }
     });
   }

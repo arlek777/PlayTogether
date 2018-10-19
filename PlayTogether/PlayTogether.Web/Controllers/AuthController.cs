@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlayTogether.BusinessLogic;
 using PlayTogether.Domain;
 using PlayTogether.Web.Infrastructure;
+using PlayTogether.Web.Infrastructure.Models;
 using PlayTogether.Web.Models;
 
 namespace PlayTogether.Web.Controllers

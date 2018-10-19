@@ -1,11 +1,41 @@
 <div>
-  <div><a [routerLink]="['/profile']">Смотреть публичный профиль</a></div>
-  <div>
-    <!--<uploader-file></uploader-file>-->
-    <div style="width: 100px; height: 100px; background-color: lightgray;"></div>
-    <button class="btn btn-outline-success">Загрузить фото</button>
-  </div>
   <form [formGroup]="mainPageForm" [ngClass]="{ 'form-submitted': formSubmitted }" (submit)="submit()">
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-3">
+          <a [routerLink]="['/profile']">Смотреть публичный профиль</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-12">
+          <div>
+            <!--<uploader-file></uploader-file>-->
+            <div style="width: 100px; height: 100px; background-color: lightgray;"></div>
+            <button class="btn btn-outline-success">Загрузить фото</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isMusician" class="form-group">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-2">
+            <label *ngIf="!mainInfoModel.isActivated" for="isActivated">Включить профиль</label>
+            <label *ngIf="mainInfoModel.isActivated" for="isActivated">Выключить профиль</label>
+          </div>
+          <div class="col-md-5">
+            <input type="checkbox" id="isActivated"
+                   [(ngModel)]="mainInfoModel.isActivated"
+                   [ngModelOptions]="{standalone: true}"/>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="form-group">
       <div class="row">
         <div class="col-md-2">
@@ -112,10 +142,11 @@
     <div *ngIf="isMusician" class="form-group">
       <div class="row">
         <div class="col-md-2">
-          <label for="experience">Опыт игры</label>
+          <label for="experience">Опыт (в годах)</label>
         </div>
         <div class="col-md-5">
-          <mat-slider id="experience" [displayWith]="getExperienceSliderValue" thumbLabel tickInterval="1" min="0" max="10"></mat-slider>
+          <input type="number" id="experience" class="form-control" formControlName="experience"/>
+          <control-validation [control]="formControls.experience"></control-validation>
         </div>
       </div>
     </div>
@@ -126,7 +157,7 @@
           <label for="description">{{ isMusician ? 'Опишите себя' : 'Опишите группу' }}</label>
         </div>
         <div class="col-md-5">
-          <textarea id="description" class="form-control" rows="4"
+          <textarea id="description" class="form-control" rows="5"
                     [(ngModel)]="mainInfoModel.description"
                     [ngModelOptions]="{standalone: true}"></textarea>
           <label class="small" *ngIf="isMusician">Опишите чем вы занимаетесь, какие ожидания от работы и т.д.</label>
@@ -135,6 +166,8 @@
       </div>
     </div>
 
-    <button class="btn btn-success" type="submit">Сохранить</button>
+    <div class="form-group">
+      <button class="btn btn-success" type="submit">Сохранить</button>
+    </div>
   </form>
 </div>

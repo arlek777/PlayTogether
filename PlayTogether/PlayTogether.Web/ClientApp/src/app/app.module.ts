@@ -9,9 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ToastrModule } from 'ngx-toastr';
-import { MatSliderModule } from '@angular/material/slider';
 import { TextMaskModule } from 'angular2-text-mask';
-import * as hammer from 'hammerjs';
 
 // Components
 import { AppComponent } from './components/app/app.component';
@@ -64,7 +62,6 @@ import { appReducers, appEffects } from './store';
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot(appEffects),
     BrowserAnimationsModule,
-    MatSliderModule,
     TextMaskModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-center'

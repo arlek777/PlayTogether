@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using PlayTogether.Web.Infrastructure;
+using PlayTogether.Web.Infrastructure.ActionFilter;
+using PlayTogether.Web.Infrastructure.Extensions;
+using PlayTogether.Web.Infrastructure.Models;
 using PlayTogether.Web.Models;
 
 namespace PlayTogether.Web

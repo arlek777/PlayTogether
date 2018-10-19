@@ -1,7 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace PlayTogether.Web.Infrastructure
+namespace PlayTogether.Web.Infrastructure.Extensions
 {
     public static class ModelStateDictionaryExtensions
     {
