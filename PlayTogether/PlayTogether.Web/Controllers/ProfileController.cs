@@ -96,7 +96,7 @@ namespace PlayTogether.Web.Controllers
                     vacancy.Title = from.Name;
                     vacancy.Description = from.Description;
                     vacancy.IsClosed = !from.IsActivated;
-                    vacancy.VacancyFilter.JsonCities = from.City.ToJson();
+                    vacancy.VacancyFilter.JsonCities = new [] { from.City }.ToJson();
                 }
             });
 

@@ -51,7 +51,7 @@ namespace PlayTogether.Web.Controllers
             var vacancies = await _crudService.Where<Vacancy>(v => !v.IsClosed && v.User.Type == model.UserType);
             var foundVacancies = vacancies.ToList().Where(v => filters.All(f => f.PassFilter(v))).ToList();
 
-            return Ok(Mapper.Map<ICollection<VacancyModel>>(foundVacancies));
+            return Ok(Mapper.Map<List<VacancyModel>>(foundVacancies));
         }
 
         [HttpGet]

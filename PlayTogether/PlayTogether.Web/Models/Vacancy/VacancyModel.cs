@@ -7,6 +7,9 @@ namespace PlayTogether.Web.Models.Vacancy
     {
         [Required]
         public Guid Id { get; set; }
+
+        public Guid UserId { get; set; }
+
         [Required]
         [MaxLength(256)]
         public string Title { get; set; }

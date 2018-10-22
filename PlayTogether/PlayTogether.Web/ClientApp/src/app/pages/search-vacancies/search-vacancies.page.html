@@ -82,9 +82,8 @@
   <div class="col-md-9 content pl-5">
     <div class="row" *ngFor="let vacancy of vacancies">
       <div class="col-md-12">
-        <h5><a [routerLink]="['/vacancy', vacancy.id]">{{ vacancy.title }}</a></h5>
+        <h5><a [routerLink]="['/profile', vacancy.userId]">{{ vacancy.title }}</a></h5>
       </div>
-      <div class="col-md-12">{{ vacancy.description }}</div>
       <div class="col-md-12">
         <div class="small">
           <a [routerLink]="['/profile', vacancy.userCreatorId]">{{ vacancy.userCreatorName }}</a>

@@ -7,6 +7,7 @@ import { AppState } from '../../store';
 import { Vacancy, VacancyFilter } from '../../models/vacancy';
 import { MasterValueItem } from '../../models/master-value-item';
 import { MasterValueTypes } from '../../models/master-values-types';
+import { UserType } from '../../models/user-type';
 
 @Component({
   templateUrl: './search-vacancies.page.html',
@@ -16,10 +17,14 @@ export class SearchVacanciesPage {
   public vacancyFilter = new VacancyFilter();
   public musicGenres: MasterValueItem[];
   public musicianRoles: MasterValueItem[];
+  public userType: UserType;
 
   constructor(
     private readonly backendService: BackendService,
+    private readonly store: Store<AppState>,
     private readonly router: Router) {
+
+    this.store.select(s => s.user.userType).subscribe((type) => this.userType = type);
   }
 
   ngOnInit() {

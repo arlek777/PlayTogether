@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using PlayTogether.Domain;
 using PlayTogether.Web.Models.Profile;
@@ -19,11 +20,14 @@ namespace PlayTogether.Web.Infrastructure
 
                 c.CreateMap<Domain.Profile, PublicProfileModel>()
                     .ForMember(m => m.WorkTypes,
-                        opt => opt.MapFrom(src => String.Join(",", src.JsonWorkTypes.FromJson<ICollection<WorkType>>())))
+                        opt => opt.MapFrom(src => String.Join(",",
+                            src.JsonWorkTypes.FromJson<ICollection<WorkType>>().Select(wt => wt.Title))))
                     .ForMember(m => m.MusicGenres,
-                        opt => opt.MapFrom(src => String.Join(",", src.JsonMusicGenres.FromJson<ICollection<MusicGenre>>())))
+                        opt => opt.MapFrom(src => String.Join(",",
+                            src.JsonMusicGenres.FromJson<ICollection<MusicGenre>>().Select(wt => wt.Title))))
                     .ForMember(m => m.MusicianRoles,
-                        opt => opt.MapFrom(src => String.Join(",", src.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>())));
+                        opt => opt.MapFrom(src => String.Join(",",
+                            src.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>().Select(wt => wt.Title))));
 
                 c.CreateMap<Domain.Profile, MainProfileModel>()
                     .ForMember(m => m.WorkTypes,
@@ -32,16 +36,15 @@ namespace PlayTogether.Web.Infrastructure
                 c.CreateMap<Vacancy, VacancyModel>().ReverseMap();
 
                 c.CreateMap<Vacancy, PublicVacancyModel>()
-
                     .ForMember(m => m.WorkTypes,
                         opt => opt.MapFrom(src => String.Join(",",
-                            src.VacancyFilter.JsonWorkTypes.FromJson<ICollection<WorkType>>())))
+                            src.VacancyFilter.JsonWorkTypes.FromJson<ICollection<WorkType>>().Select(wt => wt.Title))))
                     .ForMember(m => m.MusicGenres,
                         opt => opt.MapFrom(src => String.Join(",",
-                            src.VacancyFilter.JsonMusicGenres.FromJson<ICollection<MusicGenre>>())))
+                            src.VacancyFilter.JsonMusicGenres.FromJson<ICollection<MusicGenre>>().Select(wt => wt.Title))))
                     .ForMember(m => m.MusicianRoles,
                         opt => opt.MapFrom(src => String.Join(",",
-                            src.VacancyFilter.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>())))
+                            src.VacancyFilter.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>().Select(wt => wt.Title))))
                     .ForMember(m => m.Cities,
                         opt => opt.MapFrom(src => String.Join(",",
                             src.VacancyFilter.JsonCities.FromJson<ICollection<string>>())));
@@ -54,7 +57,7 @@ namespace PlayTogether.Web.Infrastructure
                     .ForMember(m => m.MusicianRoles,
                         opt => opt.MapFrom(src => src.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>()))
                     .ForMember(m => m.Cities,
-                        opt => opt.MapFrom(src => src.JsonCities.FromJson<ICollection<MusicianRole>>()))
+                        opt => opt.MapFrom(src => src.JsonCities.FromJson<ICollection<string>>()))
                     .ForMember(m => m.UserType,
                         opt => opt.MapFrom(src => src.Vacancy.User.Type));
 

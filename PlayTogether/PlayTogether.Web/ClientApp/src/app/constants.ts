@@ -10,8 +10,8 @@ export class ValidationMessages {
       pattern: 'Неверный формат поля',
       minlength: `Минимальная длина ${validatorValue.requiredLength}`,
       maxlength: `Максимальная длина ${validatorValue.requiredLength}`,
-      min: `Минимальная значение ${validatorValue.min}`,
-      max: `Максимальная значение ${validatorValue.max}`,
+      min: `Минимальное значение ${validatorValue.min}`,
+      max: `Максимальное значение ${validatorValue.max}`,
       email: 'Неверный формат email адреса',
       phone: 'Неверный формат телефонного номера',
     };
