@@ -6,11 +6,11 @@ import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { MasterValueTypes } from "../models/master-values-types";
 import { MasterValueItem } from "../models/master-value-item";
-import { ProfileSkills } from "../models/profile-skills";
 import { SelectUserType } from "../models/select-user-type";
 import { Vacancy, VacancyDetail, VacancyFilter } from "../models/vacancy";
 import { MainProfileInfo } from "../models/main-profile-info";
 import { PublicProfile } from "../models/public-profile";
+import { ContactInfo } from "../models/contact-profile-info";
 
 enum URLS {
   login = '/auth/login',
@@ -18,9 +18,9 @@ enum URLS {
   selectUserType = '/auth/selectusertype',
 
   updateMainProfileInfo = '/profile/updatemaininfo',
-  updateSkillsProfileInfo = '/profile/updateskills',
+  updateContactProfileInfo = '/profile/updateContactInfo',
   getMainProfileInfo = '/profile/getUserProfileMainInfo',
-  getProfileSkills = '/profile/getuserskills',
+  getContactProfileInfo = '/profile/getUserProfileContactInfo',
   getPublicProfile = '/profile/getPublicProfile',
   isUserProfileFilled = '/profile/isUserProfileFilled',
 
@@ -69,12 +69,12 @@ export class BackendService {
     return this.http.post(URLS.updateMainProfileInfo, model);
   }
 
-  getProfileSkills(): Observable<ProfileSkills> {
-    return this.http.get(URLS.getProfileSkills).pipe(map(response => response as ProfileSkills));
+  getContactProfileInfo(): Observable<ContactInfo> {
+    return this.http.get(URLS.getContactProfileInfo).pipe(map(response => response as ContactInfo));
   }
 
-  updateProfileSkills(skills: ProfileSkills): Observable<any> {
-    return this.http.post(URLS.updateSkillsProfileInfo, skills);
+  updateProfileSkills(model: ContactInfo): Observable<any> {
+    return this.http.post(URLS.updateContactProfileInfo, model);
   }
 
   isUserProfileFilled(): Observable<boolean> {

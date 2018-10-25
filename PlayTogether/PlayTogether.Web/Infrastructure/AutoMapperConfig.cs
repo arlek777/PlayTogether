@@ -16,7 +16,11 @@ namespace PlayTogether.Web.Infrastructure
             {
                 c.CreateMap<MainProfileModel, Domain.Profile>()
                     .ForMember(m => m.JsonWorkTypes,
-                        opt => opt.MapFrom(src => src.WorkTypes.ToJson()));
+                        opt => opt.MapFrom(src => src.WorkTypes.ToJson()))
+                    .ForMember(m => m.JsonMusicGenres,
+                        opt => opt.MapFrom(src => src.MusicGenres.ToJson()))
+                    .ForMember(m => m.JsonMusicianRoles,
+                        opt => opt.MapFrom(src => src.MusicianRoles.ToJson()));
 
                 c.CreateMap<Domain.Profile, PublicProfileModel>()
                     .ForMember(m => m.WorkTypes,
@@ -31,9 +35,14 @@ namespace PlayTogether.Web.Infrastructure
 
                 c.CreateMap<Domain.Profile, MainProfileModel>()
                     .ForMember(m => m.WorkTypes,
-                        opt => opt.MapFrom(src => src.JsonWorkTypes.FromJson<ICollection<WorkType>>()));
+                        opt => opt.MapFrom(src => src.JsonWorkTypes.FromJson<ICollection<WorkType>>()))
+                    .ForMember(m => m.MusicGenres,
+                        opt => opt.MapFrom(src => src.JsonMusicGenres.FromJson<ICollection<MusicGenre>>()))
+                    .ForMember(m => m.MusicianRoles,
+                        opt => opt.MapFrom(src => src.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>()));
 
                 c.CreateMap<Vacancy, VacancyModel>().ReverseMap();
+                c.CreateMap<Domain.Profile, ContactProfileModel>().ReverseMap();
 
                 c.CreateMap<Vacancy, PublicVacancyModel>()
                     .ForMember(m => m.WorkTypes,

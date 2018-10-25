@@ -22,7 +22,7 @@ import { LoginPage } from './pages/login/login.page';
 import { SelectUserTypePage } from './pages/select-user-type/select-user-type.page';
 import { UserProfilePage } from './pages/user-profile/user-profile.page';
 import { MainPage } from './pages//user-profile/main/main.page';
-import { SkillsPage } from './pages//user-profile/skills/skills.page';
+import { ContactPage } from './pages//user-profile/contact/contact.page';
 import { ManageVacanciesPage } from './pages/manage-vacancies/manage-vacancies.page';
 import { ManageVacancyPage } from './pages/manage-vacancy/manage-vacancy.page';
 import { SearchVacanciesPage } from './pages/search-vacancies/search-vacancies.page';
@@ -50,7 +50,7 @@ import { appReducers, appEffects } from './store';
     SelectUserTypePage,
     UserProfilePage,
     MainPage,
-    SkillsPage,
+    ContactPage,
     ManageVacanciesPage,
     ManageVacancyPage,
     ProfilePage,
@@ -76,7 +76,7 @@ import { appReducers, appEffects } from './store';
         path: 'my/profile', component: UserProfilePage, canActivate: [AuthGuard],
         children: [
           { path: 'main', component: MainPage },
-          { path: 'skills', component: SkillsPage },
+          { path: 'contact', component: ContactPage },
           { path: "**", redirectTo: 'main' }
         ]
       },

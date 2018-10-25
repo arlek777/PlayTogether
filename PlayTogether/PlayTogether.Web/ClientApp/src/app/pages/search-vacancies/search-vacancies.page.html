@@ -79,13 +79,13 @@
     </div>
   </div>
 
-  <div class="col-md-9 content pl-5" *ngIf="vacancies.length === 0">
+  <div class="col-md-9 content pl-5" *ngIf="vacancies && vacancies.length === 0">
     <div class="row">
       <h3>По вашему запросу данных не было найдено. <br/>Попробуйте изменить запрос на поиск.</h3>
     </div>
   </div>
 
-  <div *ngIf="vacancies.length > 0" class="col-md-9 content pl-5">
+  <div *ngIf="vacancies && vacancies.length > 0" class="col-md-9 content pl-5">
     <div class="row" *ngFor="let vacancy of vacancies">
       <div class="col-md-12">
         <h5><a [routerLink]="['/profile', vacancy.userId]">{{ vacancy.title }}</a></h5>

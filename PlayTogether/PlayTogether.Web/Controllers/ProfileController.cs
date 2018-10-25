@@ -61,15 +61,11 @@ namespace PlayTogether.Web.Controllers
 
         [HttpGet]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> GetUserSkills()
+        public async Task<IActionResult> GetUserProfileContactInfo()
         {
             var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
-            var skills = new SkillsProfileModel()
-            {
-                MusicGenres = user.Profile.JsonMusicGenres.FromJson<ICollection<MusicGenre>>(),
-                MusicianRoles = user.Profile.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>()
-            };
-            return Ok(skills);
+            var contactInfo = Mapper.Map<ContactProfileModel>(user.Profile);
+            return Ok(contactInfo);
         }
 
         [HttpPost]
@@ -81,22 +77,22 @@ namespace PlayTogether.Web.Controllers
                 to.IsActivated = from.IsActivated;
                 to.Name = from.Name;
                 to.GroupName = from.GroupName;
-                to.City = from.City;
                 to.Age = from.Age;
                 to.Experience = from.Experience;
                 to.Description = from.Description;
-                to.ContactEmail = from.ContactEmail;
-                to.Phone1 = from.Phone1;
-                to.Phone2 = from.Phone2;
                 to.PhotoBase64 = from.PhotoBase64;
                 to.JsonWorkTypes = from.WorkTypes.ToJson();
-                if(to.User.Type == UserType.Musician)
+                to.JsonMusicianRoles = from.MusicianRoles.ToJson();
+                to.JsonMusicGenres = from.MusicGenres.ToJson();
+
+                if (to.User.Type == UserType.Musician)
                 {
                     var vacancy = to.User.Vacancies.FirstOrDefault();
                     vacancy.Title = from.Name;
                     vacancy.Description = from.Description;
                     vacancy.IsClosed = !from.IsActivated;
-                    vacancy.VacancyFilter.JsonCities = new [] { from.City }.ToJson();
+                    vacancy.VacancyFilter.JsonMusicianRoles = from.MusicianRoles.ToJson();
+                    vacancy.VacancyFilter.JsonMusicGenres = from.MusicGenres.ToJson();
                 }
             });
 
@@ -105,18 +101,18 @@ namespace PlayTogether.Web.Controllers
 
         [HttpPost]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> UpdateSkills([FromBody] SkillsProfileModel model)
+        public async Task<IActionResult> UpdateContactInfo([FromBody] ContactProfileModel model)
         {
-            await _crudService.Update<SkillsProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
+            await _crudService.Update<ContactProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
-                to.JsonMusicianRoles = from.MusicianRoles.ToJson();
-                to.JsonMusicGenres = from.MusicGenres.ToJson();
-
+                to.City = from.City;
+                to.ContactEmail = from.ContactEmail;
+                to.Phone1 = from.Phone1;
+                to.Phone2 = from.Phone2;
                 if (to.User.Type == UserType.Musician)
                 {
                     var vacancy = to.User.Vacancies.FirstOrDefault();
-                    vacancy.VacancyFilter.JsonMusicianRoles = from.MusicianRoles.ToJson();
-                    vacancy.VacancyFilter.JsonMusicGenres = from.MusicGenres.ToJson();
+                    vacancy.VacancyFilter.JsonCities = new[] { from.City }.ToJson();
                 }
             });
 
