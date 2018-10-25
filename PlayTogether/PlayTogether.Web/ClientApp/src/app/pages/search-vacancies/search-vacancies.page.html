@@ -9,7 +9,7 @@
     <div class="form-group">
       <div class="row">
         <label for="title">По названию</label>
-        <input type="text" class="form-control" name="title" [(ngModel)]="vacancyFilter.title" placeholder="По названию"/>
+        <input type="text" class="form-control" name="title" [(ngModel)]="vacancyFilter.vacancyTitle" placeholder="По названию"/>
       </div>
     </div>
 
@@ -28,7 +28,7 @@
     <div class="form-group">
       <div class="row">
         <label for="minExpirience">Опыт от</label>
-        <input type="number" class="form-control" name="minExpirience" [(ngModel)]="vacancyFilter.mixExpirience" placeholder="Опыт от"/>
+        <input type="number" class="form-control" name="minExpirience" [(ngModel)]="vacancyFilter.minExpirience" placeholder="Опыт от"/>
       </div>
     </div>
 
@@ -79,7 +79,13 @@
     </div>
   </div>
 
-  <div class="col-md-9 content pl-5">
+  <div class="col-md-9 content pl-5" *ngIf="vacancies.length === 0">
+    <div class="row">
+      <h3>По вашему запросу данных не было найдено. <br/>Попробуйте изменить запрос на поиск.</h3>
+    </div>
+  </div>
+
+  <div *ngIf="vacancies.length > 0" class="col-md-9 content pl-5">
     <div class="row" *ngFor="let vacancy of vacancies">
       <div class="col-md-12">
         <h5><a [routerLink]="['/profile', vacancy.userId]">{{ vacancy.title }}</a></h5>

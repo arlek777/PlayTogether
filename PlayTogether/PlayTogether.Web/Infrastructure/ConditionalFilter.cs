@@ -20,7 +20,7 @@ namespace PlayTogether.Web.Infrastructure
 
         public static IEnumerable<VacancyConditionalFilter> GetFilters(VacancyFilterModel model)
         {
-            Expression<Func<Vacancy, bool>> title = v => v.Title.Contains(model.VacancyTitle);
+            Expression<Func<Vacancy, bool>> title = v => v.Title.ToLower().Contains(model.VacancyTitle.ToLower());
             Expression<Func<Vacancy, bool>> minRating = v => v.User.Profile.Rating >= model.MinRating;
             Expression<Func<Vacancy, bool>> minExp = v => v.User.Profile.Experience >= model.MinExpirience;
             Expression<Func<Vacancy, bool>> cities = v => model.Cities.Contains(v.User.Profile.City);

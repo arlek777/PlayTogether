@@ -19,6 +19,7 @@ export class VacancyDetail extends Vacancy {
 
 export class VacancyFilter {
   id: string;
+  vacancyTitle: string;
   minRating: number;
   minExpirience: number;
   cities: string[];

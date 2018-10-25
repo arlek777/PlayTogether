@@ -13,7 +13,7 @@ namespace PlayTogether.Domain
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        public Guid VacancyFilterId { get; set; }
+        public Guid VacancyFilterId { get; set; } // todo remove it in future it's useless
         public Guid UserId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
