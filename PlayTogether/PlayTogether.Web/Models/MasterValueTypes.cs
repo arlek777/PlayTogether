@@ -5,6 +5,7 @@ namespace PlayTogether.Web.Models
         MusicGenres = 0,
         MusicianRoles,
         WorkTypes,
-        Cities
+        Cities,
+        ContactTypes
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using PlayTogether.Domain;
+using PlayTogether.Domain.MasterValues;
+using PlayTogether.Web.Infrastructure.Extensions;
 using PlayTogether.Web.Models.Vacancy;
 
 namespace PlayTogether.Web.Infrastructure

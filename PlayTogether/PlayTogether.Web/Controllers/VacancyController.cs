@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using PlayTogether.BusinessLogic;
 using PlayTogether.Domain;
 using PlayTogether.Web.Infrastructure;
+using PlayTogether.Web.Infrastructure.Extensions;
 using PlayTogether.Web.Infrastructure.Models;
-using PlayTogether.Web.Models;
 using PlayTogether.Web.Models.Vacancy;
 
 namespace PlayTogether.Web.Controllers
@@ -56,7 +56,7 @@ namespace PlayTogether.Web.Controllers
 
         [HttpGet]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> GetVacanciesByUserProfile()
+        public async Task<IActionResult> SearchVacanciesByUserProfile()
         {
             var userProfile = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
             var filterModel = Mapper.Map<VacancyFilterModel>(userProfile.Vacancies.FirstOrDefault());

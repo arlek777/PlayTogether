@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
 using PlayTogether.Domain;
+using PlayTogether.Domain.MasterValues;
 
 namespace PlayTogether.DataAccess
 {
@@ -18,6 +19,18 @@ namespace PlayTogether.DataAccess
                 new WorkType() {Title = "Сессионно"}
             };
             context.WorkTypes.AddRange(workTypes);
+            context.SaveChanges();
+
+            var contactTypes = new List<ContactType>()
+            {
+                new ContactType() {Title = "Skype"},
+                new ContactType() {Title = "По телефону"},
+                new ContactType() {Title = "Фейсбук"},
+                new ContactType() {Title = "Email"},
+                new ContactType() {Title = "Viber"},
+                new ContactType() {Title = "Telegram"}
+            };
+            context.ContactTypes.AddRange(contactTypes);
             context.SaveChanges();
 
             var workCategories = new List<MusicianRole>()

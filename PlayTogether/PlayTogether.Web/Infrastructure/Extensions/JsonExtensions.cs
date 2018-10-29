@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Script.Serialization;
 
-namespace PlayTogether.Web.Infrastructure
+namespace PlayTogether.Web.Infrastructure.Extensions
 {
-    public static class JsonHelper
+    public static class JsonExtensions
     {
         public static string ToJson(this object obj)
         {
@@ -19,6 +20,11 @@ namespace PlayTogether.Web.Infrastructure
         public static T FromJson<T>(this string str)
         {
             return new JavaScriptSerializer().Deserialize<T>(str);
+        }
+
+        public static ICollection<T> FromJsonList<T>(this string str)
+        {
+            return new JavaScriptSerializer().Deserialize<ICollection<T>>(str);
         }
     }
 }

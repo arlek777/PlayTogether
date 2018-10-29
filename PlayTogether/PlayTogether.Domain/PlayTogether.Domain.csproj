@@ -45,17 +45,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseSkills.cs" />
-    <Compile Include="City.cs" />
+    <Compile Include="ContactRequest.cs" />
+    <Compile Include="ContactRequestStatus.cs" />
+    <Compile Include="MasterValues\City.cs" />
+    <Compile Include="MasterValues\ContactType.cs" />
+    <Compile Include="MasterValues\MasterValue.cs" />
     <Compile Include="Profile.cs" />
     <Compile Include="ISimpleEntity.cs" />
+    <Compile Include="UserType.cs" />
     <Compile Include="VacancyFilter.cs" />
-    <Compile Include="VacancyResponse.cs" />
-    <Compile Include="MusicianRole.cs" />
-    <Compile Include="MusicGenre.cs" />
+    <Compile Include="MasterValues\MusicianRole.cs" />
+    <Compile Include="MasterValues\MusicGenre.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Vacancy.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="WorkType.cs" />
+    <Compile Include="MasterValues\WorkType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

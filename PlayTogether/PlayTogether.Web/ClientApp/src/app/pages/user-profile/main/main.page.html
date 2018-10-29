@@ -98,7 +98,7 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <div *ngIf="isMusician" class="form-group">
       <div class="row">
         <div class="col-md-2">
           <label for="musicRoles">Роли *</label>
@@ -114,7 +114,7 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <div *ngIf="isMusician" class="form-group">
       <div class="row">
         <div class="col-md-2">
           <label>Виды работ *</label>

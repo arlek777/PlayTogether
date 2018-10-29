@@ -1,8 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using PlayTogether.Domain;
+using PlayTogether.Domain.MasterValues;
+using PlayTogether.Web.Infrastructure.Extensions;
 using PlayTogether.Web.Models.Profile;
 using PlayTogether.Web.Models.Vacancy;
 
@@ -10,10 +11,17 @@ namespace PlayTogether.Web.Infrastructure
 {
     public static class AutoMapperConfig
     {
+        private static string FromJsonToCommaStr(string json)
+        {
+            return String.Join(",", json.FromJsonList<MasterValue>().Select(wt => wt.Title));
+        }
+
         public static void Configure()
         {
             Mapper.Initialize(c =>
             {
+                // Profile
+
                 c.CreateMap<MainProfileModel, Domain.Profile>()
                     .ForMember(m => m.JsonWorkTypes,
                         opt => opt.MapFrom(src => src.WorkTypes.ToJson()))
@@ -22,51 +30,53 @@ namespace PlayTogether.Web.Infrastructure
                     .ForMember(m => m.JsonMusicianRoles,
                         opt => opt.MapFrom(src => src.MusicianRoles.ToJson()));
 
-                c.CreateMap<Domain.Profile, PublicProfileModel>()
-                    .ForMember(m => m.WorkTypes,
-                        opt => opt.MapFrom(src => String.Join(",",
-                            src.JsonWorkTypes.FromJson<ICollection<WorkType>>().Select(wt => wt.Title))))
-                    .ForMember(m => m.MusicGenres,
-                        opt => opt.MapFrom(src => String.Join(",",
-                            src.JsonMusicGenres.FromJson<ICollection<MusicGenre>>().Select(wt => wt.Title))))
-                    .ForMember(m => m.MusicianRoles,
-                        opt => opt.MapFrom(src => String.Join(",",
-                            src.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>().Select(wt => wt.Title))));
-
                 c.CreateMap<Domain.Profile, MainProfileModel>()
                     .ForMember(m => m.WorkTypes,
-                        opt => opt.MapFrom(src => src.JsonWorkTypes.FromJson<ICollection<WorkType>>()))
+                        opt => opt.MapFrom(src => src.JsonWorkTypes.FromJsonList<WorkType>()))
                     .ForMember(m => m.MusicGenres,
-                        opt => opt.MapFrom(src => src.JsonMusicGenres.FromJson<ICollection<MusicGenre>>()))
+                        opt => opt.MapFrom(src => src.JsonMusicGenres.FromJsonList<MusicGenre>()))
                     .ForMember(m => m.MusicianRoles,
-                        opt => opt.MapFrom(src => src.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>()));
+                        opt => opt.MapFrom(src => src.JsonMusicianRoles.FromJsonList<MusicianRole>()));
+
+                c.CreateMap<Domain.Profile, PublicProfileModel>()
+                    .ForMember(m => m.WorkTypes,
+                        opt => opt.MapFrom(src => FromJsonToCommaStr(src.JsonWorkTypes)))
+                    .ForMember(m => m.MusicGenres,
+                        opt => opt.MapFrom(src => FromJsonToCommaStr(src.JsonMusicGenres)))
+                    .ForMember(m => m.MusicianRoles,
+                        opt => opt.MapFrom(src => FromJsonToCommaStr(src.JsonMusicianRoles)));
+
+                c.CreateMap<Domain.Profile, ContactProfileModel>()
+                    .ForMember(m => m.ContactTypes,
+                        opt => opt.MapFrom(src => src.JsonContactTypes.FromJsonList<ContactType>()));
+
+                c.CreateMap<ContactProfileModel, Domain.Profile>()
+                    .ForMember(m => m.JsonContactTypes,
+                        opt => opt.MapFrom(src => src.ContactTypes.ToJson()));
+
+                // Vacancy
 
                 c.CreateMap<Vacancy, VacancyModel>().ReverseMap();
-                c.CreateMap<Domain.Profile, ContactProfileModel>().ReverseMap();
 
                 c.CreateMap<Vacancy, PublicVacancyModel>()
                     .ForMember(m => m.WorkTypes,
-                        opt => opt.MapFrom(src => String.Join(",",
-                            src.VacancyFilter.JsonWorkTypes.FromJson<ICollection<WorkType>>().Select(wt => wt.Title))))
+                        opt => opt.MapFrom(src => FromJsonToCommaStr(src.VacancyFilter.JsonWorkTypes)))
                     .ForMember(m => m.MusicGenres,
-                        opt => opt.MapFrom(src => String.Join(",",
-                            src.VacancyFilter.JsonMusicGenres.FromJson<ICollection<MusicGenre>>().Select(wt => wt.Title))))
+                        opt => opt.MapFrom(src => FromJsonToCommaStr(src.VacancyFilter.JsonMusicGenres)))
                     .ForMember(m => m.MusicianRoles,
-                        opt => opt.MapFrom(src => String.Join(",",
-                            src.VacancyFilter.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>().Select(wt => wt.Title))))
+                        opt => opt.MapFrom(src => FromJsonToCommaStr(src.VacancyFilter.JsonMusicianRoles)))
                     .ForMember(m => m.Cities,
-                        opt => opt.MapFrom(src => String.Join(",",
-                            src.VacancyFilter.JsonCities.FromJson<ICollection<City>>().Select(wt => wt.Title))));
+                        opt => opt.MapFrom(src => FromJsonToCommaStr(src.VacancyFilter.JsonCities)));
 
                 c.CreateMap<VacancyFilter, VacancyFilterModel>()
                     .ForMember(m => m.WorkTypes,
-                        opt => opt.MapFrom(src => src.JsonWorkTypes.FromJson<ICollection<WorkType>>()))
+                        opt => opt.MapFrom(src => src.JsonWorkTypes.FromJsonList<WorkType>()))
                     .ForMember(m => m.MusicGenres,
-                        opt => opt.MapFrom(src => src.JsonMusicGenres.FromJson<ICollection<MusicGenre>>()))
+                        opt => opt.MapFrom(src => src.JsonMusicGenres.FromJsonList<MusicGenre>()))
                     .ForMember(m => m.MusicianRoles,
-                        opt => opt.MapFrom(src => src.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>()))
+                        opt => opt.MapFrom(src => src.JsonMusicianRoles.FromJsonList<MusicianRole>()))
                     .ForMember(m => m.Cities,
-                        opt => opt.MapFrom(src => src.JsonCities.FromJson<ICollection<City>>()))
+                        opt => opt.MapFrom(src => src.JsonCities.FromJsonList<City>()))
                     .ForMember(m => m.UserType,
                         opt => opt.MapFrom(src => src.Vacancy.User.Type));
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using PlayTogether.Domain;
+using PlayTogether.Domain.MasterValues;
 
 namespace PlayTogether.Web.Models.Profile
 {

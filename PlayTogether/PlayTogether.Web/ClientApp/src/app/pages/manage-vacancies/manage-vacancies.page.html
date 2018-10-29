@@ -1,5 +1,5 @@
 <div *ngIf="canCreateVacancy" class="form-group">
-  <a [routerLink]="['/vacancy']" class="btn btn-success">Создать вакансию</a>
+  <a [routerLink]="['/my/vacancy']" class="btn btn-success">Создать вакансию</a>
 </div>
 
 <div *ngIf="!canCreateVacancy" class="form-group">
@@ -19,7 +19,7 @@
   <tbody>
   <tr *ngFor="let vacancy of vacancies; let i=index">
     <th scope="row">{{ i+1 }}</th>
-    <td><a [routerLink]="['/vacancy', vacancy.id]">{{ vacancy.title }}</a></td>
+    <td><a [routerLink]="['/my/vacancy', vacancy.id]">{{ vacancy.title }}</a></td>
     <td>{{ vacancy.isClosed ? 'Закрыта' : 'Открыта' }}</td>
     <td>
       <a *ngIf="vacancy.isClosed" href="javascript: " (click)="reopenVacancy(vacancy)">Открыть вакансию</a>

@@ -48,9 +48,25 @@
       <div class="col-md-5">
         <ng-multiselect-dropdown [placeholder]="'Город'"
                                  [data]="cities"
-                                 [(ngModel)]="contactInfoModel.city"
+                                 [(ngModel)]="selectedCity"
                                  [ngModelOptions]="{standalone: true}"
-                                 [settings]="dropdownSettings">
+                                 [settings]="cityDropdownSettings">
+        </ng-multiselect-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-2">
+        <label>Предпочтительные способы связи</label>
+      </div>
+      <div class="col-md-5">
+        <ng-multiselect-dropdown [placeholder]="'Связяться со мной'"
+                                 [data]="contactTypes"
+                                 [(ngModel)]="contactInfoModel.contactTypes"
+                                 [ngModelOptions]="{standalone: true}"
+                                 [settings]="contactTypesDropdownSettings">
         </ng-multiselect-dropdown>
       </div>
     </div>

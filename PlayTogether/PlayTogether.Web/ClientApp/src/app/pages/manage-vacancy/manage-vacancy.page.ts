@@ -14,23 +14,14 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ManageVacancyPage {
   public vacancyFormGroup: FormGroup;
-  public vacancyFilterModel: VacancyFilter;
+  public vacancyFilterModel: VacancyFilter = new VacancyFilter();
   public musicGenres: MasterValueItem[];
   public musicianRoles: MasterValueItem[];
   public workTypes: MasterValueItem[];
   public cities: MasterValueItem[];
   public formSubmitted = false;
 
-  public dropdownSettings: IDropdownSettings = {
-    enableCheckAll: false,
-    singleSelection: false,
-    idField: 'id',
-    textField: 'title',
-    itemsShowLimit: 10,
-    allowSearchFilter: true,
-    closeDropDownOnSelection: true,
-    noDataAvailablePlaceholderText: 'Загрузка..'
-  };
+  public dropdownSettings = Constants.getAutocompleteSettings();
 
   constructor(
     private readonly backendService: BackendService,
@@ -90,7 +81,7 @@ export class ManageVacancyPage {
         this.vacancyFilterModel.id = vacancy.id;
         this.toastr.success("Вакансия успешно сохранена.");
         this.formSubmitted = false;
-        this.router.navigate(['/vacancy', this.vacancyFilterModel.id]);
+        this.router.navigate(['/my/vacancy', this.vacancyFilterModel.id]);
       });
   }
 }

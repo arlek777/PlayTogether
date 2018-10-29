@@ -6,7 +6,7 @@ import { AppState } from '../../../store';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserType } from '../../../models/user-type';
-import { RegExp } from '../../../constants';
+import { RegExp, Constants } from '../../../constants';
 import { IDropdownSettings } from 'ng-multiselect-dropdown/multiselect.model';
 import { MasterValueTypes } from '../../../models/master-values-types';
 import { MasterValueItem } from '../../../models/master-value-item';
@@ -21,17 +21,20 @@ export class ContactPage {
   public form: FormGroup;
   public phoneMask = RegExp.phoneMask;
   public cities: MasterValueItem[];
+  public contactTypes: MasterValueItem[];
+  public selectedCity: string[];
 
-  public dropdownSettings: IDropdownSettings = {
+  public cityDropdownSettings: IDropdownSettings = {
     enableCheckAll: false,
     singleSelection: true,
-    idField: 'id',
+    idField: 'title',
     textField: 'title',
     itemsShowLimit: 10,
     allowSearchFilter: true,
     closeDropDownOnSelection: true,
     noDataAvailablePlaceholderText: 'Загрузка..'
   };
+  public contactTypesDropdownSettings: IDropdownSettings = Constants.getAutocompleteSettings();
 
   constructor(private readonly backendService: BackendService,
     private readonly formBuilder: FormBuilder,
@@ -46,13 +49,18 @@ export class ContactPage {
 
     this.backendService.getMasterValues(MasterValueTypes.Cities)
       .subscribe((values) => this.cities = values);
+    this.backendService.getMasterValues(MasterValueTypes.ContactTypes)
+      .subscribe((values) => this.contactTypes = values);
 
     this.backendService.getContactProfileInfo()
       .subscribe((value) => {
         this.contactInfoModel = value;
+        this.selectedCity = [this.contactInfoModel.city];
 
         this.formControls.email.setValue(value.contactEmail);
         this.formControls.phone1.setValue(value.phone1);
+        this.formControls.url1.setValue(value.url1);
+        this.formControls.url2.setValue(value.url2);
       });
   }
 
@@ -62,10 +70,13 @@ export class ContactPage {
 
   public submit() {
     this.formSubmitted = true;
-    if (this.form.invalid || !this.contactInfoModel.city) return;
+    if (this.form.invalid || !this.selectedCity || !this.selectedCity.length) return;
 
     this.contactInfoModel.contactEmail = this.formControls.email.value;
     this.contactInfoModel.phone1 = this.formControls.phone1.value;
+    this.contactInfoModel.url1 = this.formControls.url1.value;
+    this.contactInfoModel.url2 = this.formControls.url2.value;
+    this.contactInfoModel.city = this.selectedCity[0];
 
     this.backendService.updateProfileSkills(this.contactInfoModel)
       .subscribe(() => this.toastr.success("Ваш профиль сохранен."));
@@ -87,13 +98,13 @@ export class ContactPage {
       url1: [
         '', [
           Validators.maxLength(256),
-          Validators.pattern(RegExp.urlMask)
+          //Validators.pattern(RegExp.urlMask)
         ]
       ],
       url2: [
         '', [
           Validators.maxLength(256),
-          Validators.pattern(RegExp.urlMask)
+          //Validators.pattern(RegExp.urlMask)
         ]
       ]});
   }

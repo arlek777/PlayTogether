@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlayTogether.BusinessLogic;
 using PlayTogether.Domain;
 using PlayTogether.Web.Infrastructure;
+using PlayTogether.Web.Infrastructure.Extensions;
 using PlayTogether.Web.Models.Profile;
 using Profile = PlayTogether.Domain.Profile;
 
@@ -109,6 +110,10 @@ namespace PlayTogether.Web.Controllers
                 to.ContactEmail = from.ContactEmail;
                 to.Phone1 = from.Phone1;
                 to.Phone2 = from.Phone2;
+                to.Address = from.Address;
+                to.Url1 = from.Url1;
+                to.Url2 = from.Url2;
+                to.JsonContactTypes = from.ContactTypes.ToJson();
                 if (to.User.Type == UserType.Musician)
                 {
                     var vacancy = to.User.Vacancies.FirstOrDefault();

@@ -1,10 +1,16 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using PlayTogether.Domain.MasterValues;
 
 namespace PlayTogether.Domain
 {
     public class Profile: BaseSkills, ISimpleEntity
     {
+        public Profile()
+        {
+            JsonContactTypes = "";
+        }
+
         [ForeignKey("User")]
         public Guid Id { get; set; }
 
@@ -24,6 +30,7 @@ namespace PlayTogether.Domain
         public bool NotifyByEmail { get; set; }
         public string Url1 { get; set; }
         public string Url2 { get; set; }
+        public string JsonContactTypes { get; set; }
 
         public virtual User User { get; set; }
     }

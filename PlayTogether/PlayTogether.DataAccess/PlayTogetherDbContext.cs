@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using PlayTogether.Domain;
+using PlayTogether.Domain.MasterValues;
 
 namespace PlayTogether.DataAccess
 {
@@ -27,9 +28,10 @@ namespace PlayTogether.DataAccess
         public DbSet<MusicGenre> MusicGenres { get; set; }
         public DbSet<MusicianRole> WorkCategories { get; set; }
         public DbSet<Vacancy> Vacancies { get; set; }
-        public DbSet<VacancyResponse> VacancyResponses { get; set; }
+        public DbSet<ContactRequest> ContactRequests { get; set; }
         public DbSet<VacancyFilter> VacancyFilters { get; set; }
         public DbSet<WorkType> WorkTypes { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<ContactType> ContactTypes { get; set; }
     }
 }

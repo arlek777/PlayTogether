@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using PlayTogether.Domain.MasterValues;
 
 namespace PlayTogether.Web.Models.Profile
 {
@@ -27,5 +29,7 @@ namespace PlayTogether.Web.Models.Profile
 
         [MaxLength(256)]
         public string Address { get; set; }
+
+        public List<ContactType> ContactTypes { get; set; }
     }
 }

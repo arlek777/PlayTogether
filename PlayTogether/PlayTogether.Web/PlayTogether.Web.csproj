@@ -32,17 +32,21 @@
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Compile Remove="ClientApp\e2e\**" />
+    <Compile Remove="ClientApp\src\app\utils\**" />
     <Compile Remove="ClientApp\src\environments\**" />
     <Content Remove="$(SpaRoot)**" />
     <Content Remove="ClientApp\e2e\**" />
+    <Content Remove="ClientApp\src\app\utils\**" />
     <Content Remove="ClientApp\src\environments\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Remove="ClientApp\e2e\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\utils\**" />
     <EmbeddedResource Remove="ClientApp\src\environments\**" />
     <None Remove="ClientApp\e2e\**" />
+    <None Remove="ClientApp\src\app\utils\**" />
     <None Remove="ClientApp\src\environments\**" />
   </ItemGroup>
 
@@ -78,7 +82,6 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\dist\" />
-    <Folder Include="ClientApp\src\app\utils\" />
     <Folder Include="ClientApp\src\app\services\" />
     <Folder Include="ClientApp\src\assets\" />
   </ItemGroup>

@@ -8,4 +8,5 @@ export class ContactInfo {
   url2: string;
   city: string;
   address: string;
+  contactTypes: MasterValueItem[];
 }

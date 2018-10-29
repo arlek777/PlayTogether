@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { BackendService } from '../../services/backend.service';
 import { Store } from '@ngrx/store';
-import { Constants } from '../../constants';
-import { UserActionTypes, Login, UpdateUserType } from '../../store/user/actions';
+import { UpdateUserType } from '../../store/user/actions';
 import { Router } from '@angular/router';
-import { LoginModel } from '../../models/login';
 import { AppState } from '../../store';
 import { UserType } from '../../models/user-type';
 import { SelectUserType } from '../../models/select-user-type';

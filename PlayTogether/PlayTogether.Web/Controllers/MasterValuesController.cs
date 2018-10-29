@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PlayTogether.BusinessLogic;
 using PlayTogether.Domain;
+using PlayTogether.Domain.MasterValues;
 using PlayTogether.Web.Models;
 
 namespace PlayTogether.Web.Controllers
@@ -18,6 +19,7 @@ namespace PlayTogether.Web.Controllers
             _crudService = crudService;
         }
 
+        [ResponseCache(Duration = 4200)]
         [Route("[controller]/[action]")]
         public async Task<IActionResult> Get(MasterValueTypes type)
         {
@@ -38,6 +40,10 @@ namespace PlayTogether.Web.Controllers
                 case MasterValueTypes.Cities:
                     var cities = await _crudService.GetAll<City>();
                     return Ok(cities.ToList());
+
+                case MasterValueTypes.ContactTypes:
+                    var types = await _crudService.GetAll<ContactType>();
+                    return Ok(types.ToList());
             }
 
             return NotFound();

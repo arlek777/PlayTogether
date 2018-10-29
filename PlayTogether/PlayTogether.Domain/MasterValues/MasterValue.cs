@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PlayTogether.Domain
+namespace PlayTogether.Domain.MasterValues
 {
-    public class MusicGenre: ISimpleEntity
+    public abstract class MasterValue: ISimpleEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }

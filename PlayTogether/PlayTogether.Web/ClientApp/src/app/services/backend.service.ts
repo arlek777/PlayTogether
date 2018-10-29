@@ -11,6 +11,7 @@ import { Vacancy, VacancyDetail, VacancyFilter } from "../models/vacancy";
 import { MainProfileInfo } from "../models/main-profile-info";
 import { PublicProfile } from "../models/public-profile";
 import { ContactInfo } from "../models/contact-profile-info";
+import { ContactRequest } from "../models/contact-request";
 
 enum URLS {
   login = '/auth/login',
@@ -28,9 +29,14 @@ enum URLS {
   getVacancy = '/vacancy/getVacancy',
   getUserVacancies = '/vacancy/getUserVacancies',
   searchVacancies = '/vacancy/searchVacancies',
-  getFilteredVacanciesByUserProfile = '/vacancy/getFilteredVacanciesByUserProfile',
+  searchFilteredVacanciesByUserProfile = '/vacancy/searchFilteredVacanciesByUserProfile',
   updateOrCreateVacancy = '/vacancy/updateorcreate',
   changeVacancyStatus = '/vacancy/changevacancystatus',
+
+  getUserContactRequests = '/contactRequest/getUserContactRequests',
+  isContactRequestSent = '/contactRequest/isContactRequestSent',
+  sendContactRequest = '/contactRequest/sendRequest',
+  manageContactRequest = '/contactRequest/manageRequest',
 
   getMasterValues = '/mastervalues/get'
 };
@@ -97,12 +103,28 @@ export class BackendService {
     return this.http.post(URLS.searchVacancies, vacancyFilter).pipe(map(response => response as Vacancy[]));
   }
 
-  getFilteredVacanciesByUserProfile(): Observable<Vacancy[]> {
-    return this.http.get(URLS.getFilteredVacanciesByUserProfile).pipe(map(response => response as Vacancy[]));
+  searchFilteredVacanciesByUserProfile(): Observable<Vacancy[]> {
+    return this.http.get(URLS.searchFilteredVacanciesByUserProfile).pipe(map(response => response as Vacancy[]));
   }
 
   updateOrCreateVacancy(vacancy: VacancyDetail): Observable<any> {
     return this.http.post(URLS.updateOrCreateVacancy, vacancy).pipe(map(response => response as VacancyDetail));
+  }
+
+  getUserContactRequests(): Observable<any> {
+    return this.http.get(URLS.getUserContactRequests).pipe(map(response => response as ContactRequest));
+  }
+
+  isContactRequestSent(toUserId: string): Observable<boolean> {
+    return this.http.get(URLS.isContactRequestSent, { params: { "toUserId": toUserId } }).pipe(map(response => response as boolean));
+  }
+
+  sendContactRequest(request: ContactRequest): Observable<any> {
+    return this.http.post(URLS.sendContactRequest, request).pipe(map(response => response as any));
+  }
+
+  manageContactRequest(request: ContactRequest): Observable<any> {
+    return this.http.post(URLS.manageContactRequest, request).pipe(map(response => response as any));
   }
 
   changeVacancyStatus(id: string): Observable<boolean> {

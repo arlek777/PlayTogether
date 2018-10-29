@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PlayTogether.Domain;
+using PlayTogether.Domain.MasterValues;
 
 namespace PlayTogether.Web.Models.Vacancy
 {

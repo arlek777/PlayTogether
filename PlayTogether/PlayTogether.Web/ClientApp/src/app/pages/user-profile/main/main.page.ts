@@ -9,7 +9,7 @@ import { AppState } from '../../../store';
 import { UserType } from '../../../models/user-type';
 import { MasterValueItem } from '../../../models/master-value-item';
 import { MasterValueTypes } from '../../../models/master-values-types';
-import { IDropdownSettings } from 'ng-multiselect-dropdown/multiselect.model';
+import { Constants } from '../../../constants';
 
 @Component({
   templateUrl: './main.page.html',
@@ -24,16 +24,7 @@ export class MainPage implements OnInit {
   public musicianRoles: MasterValueItem[];
   public workTypes: MasterValueItem[];
 
-  public dropdownSettings: IDropdownSettings = {
-    enableCheckAll: false,
-    singleSelection: false,
-    idField: 'id',
-    textField: 'title',
-    itemsShowLimit: 10,
-    allowSearchFilter: true,
-    closeDropDownOnSelection: true,
-    noDataAvailablePlaceholderText: 'Загрузка..'
-  };
+  public dropdownSettings = Constants.getAutocompleteSettings();
 
   constructor(private readonly formBuilder: FormBuilder,
     private readonly toastr: ToastrService,
