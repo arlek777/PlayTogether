@@ -6,7 +6,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MasterValueItem } from '../../models/master-value-item';
 import { IDropdownSettings } from 'ng-multiselect-dropdown/multiselect.model';
 import { MasterValueTypes } from '../../models/master-values-types';
-import { VacancyDetail } from '../../models/vacancy';
+import { VacancyDetail, VacancyFilter } from '../../models/vacancy';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -14,10 +14,11 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ManageVacancyPage {
   public vacancyFormGroup: FormGroup;
-  public selectedMusicRoles: MasterValueItem[];
-  public selectedMusicGenres: MasterValueItem[];
+  public vacancyFilterModel: VacancyFilter;
   public musicGenres: MasterValueItem[];
   public musicianRoles: MasterValueItem[];
+  public workTypes: MasterValueItem[];
+  public cities: MasterValueItem[];
   public formSubmitted = false;
 
   public dropdownSettings: IDropdownSettings = {
@@ -27,10 +28,9 @@ export class ManageVacancyPage {
     textField: 'title',
     itemsShowLimit: 10,
     allowSearchFilter: true,
-    closeDropDownOnSelection: true
+    closeDropDownOnSelection: true,
+    noDataAvailablePlaceholderText: 'Загрузка..'
   };
-
-  private vacancyId: string;
 
   constructor(
     private readonly backendService: BackendService,
@@ -50,23 +50,22 @@ export class ManageVacancyPage {
 
     this.backendService.getMasterValues(MasterValueTypes.MusicGenres)
       .subscribe((values) => this.musicGenres = values);
-
     this.backendService.getMasterValues(MasterValueTypes.MusicianRoles)
       .subscribe((values) => this.musicianRoles = values);
-
-    // TODO add work types
+    this.backendService.getMasterValues(MasterValueTypes.WorkTypes)
+      .subscribe((values) => this.workTypes = values);
+    this.backendService.getMasterValues(MasterValueTypes.Cities)
+      .subscribe((values) => this.cities = values);
 
     this.route.params.subscribe((params) => {
       if (params["id"]) {
         this.backendService.getVacancy(params["id"])
           .subscribe((vacancy: VacancyDetail) => {
-            this.vacancyId = vacancy.id;
+            this.vacancyFilterModel = vacancy.vacancyFilter;
             this.formControls.description.setValue(vacancy.description);
             this.formControls.title.setValue(vacancy.title);
             this.formControls.minExpirience.setValue(vacancy.vacancyFilter.minExpirience);
             this.formControls.cities.setValue(vacancy.vacancyFilter.cities);
-            this.selectedMusicGenres = vacancy.vacancyFilter.musicGenres;
-            this.selectedMusicRoles = vacancy.vacancyFilter.musicianRoles;
           });
       }
     });
@@ -81,21 +80,17 @@ export class ManageVacancyPage {
     if (this.vacancyFormGroup.invalid) return;
 
     const vacancy = new VacancyDetail();
-    vacancy.id = this.vacancyId;
     vacancy.title = this.formControls.title.value;
     vacancy.description = this.formControls.description.value;
-    vacancy.vacancyFilter.cities = [];
+    vacancy.vacancyFilter = this.vacancyFilterModel;
     vacancy.vacancyFilter.minExpirience = this.formControls.minExpirience.value;
-    vacancy.vacancyFilter.musicGenres = this.selectedMusicGenres;
-    //vacancy.vacancyFilter.workTypeIds = this.formControls.title.value;
-    vacancy.vacancyFilter.musicianRoles = this.selectedMusicRoles;
 
     this.backendService.updateOrCreateVacancy(vacancy)
       .subscribe((vacancy) => {
-        this.vacancyId = vacancy.id;
+        this.vacancyFilterModel.id = vacancy.id;
         this.toastr.success("Вакансия успешно сохранена.");
         this.formSubmitted = false;
-        this.router.navigate(['/vacancy', this.vacancyId]);
+        this.router.navigate(['/vacancy', this.vacancyFilterModel.id]);
       });
   }
 }

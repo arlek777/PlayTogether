@@ -2,6 +2,7 @@
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web.Script.Serialization;
 using PlayTogether.Domain;
 
@@ -42,6 +43,16 @@ namespace PlayTogether.DataAccess
                 });
             
             context.MusicGenres.AddRange(genres);
+            context.SaveChanges();
+
+            var citiesFile = File.ReadAllText("cities.txt", Encoding.UTF8);
+            var cities = citiesFile.Split('\n')
+                .Select(x => new City()
+                {
+                    Title = x
+                });
+
+            context.Cities.AddRange(cities);
             context.SaveChanges();
 
             base.Seed(context);

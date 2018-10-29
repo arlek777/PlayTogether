@@ -53,8 +53,12 @@
         <label for="cities">Города</label>
       </div>
       <div class="col-md-5">
-        <input type="text" class="form-control" name="cities" formControlName="cities" placeholder="Города" />
-        <control-validation [control]="formControls.cities"></control-validation>
+        <ng-multiselect-dropdown [placeholder]="'Города'"
+                                 [data]="cities"
+                                 [(ngModel)]="vacancyFilterModel.cities"
+                                 [ngModelOptions]="{standalone: true}"
+                                 [settings]="dropdownSettings">
+        </ng-multiselect-dropdown>
       </div>
     </div>
   </div>
@@ -62,45 +66,50 @@
   <div class="form-group">
     <div class="row">
       <div class="col-md-2">
-        <label for="workTypes">Вид работы</label>
+        <label for="workTypes">Виды работ</label>
       </div>
       <div class="col-md-5">
-        // TODO multiple checkboxes
+        <ng-multiselect-dropdown [placeholder]="'Виды работ'"
+                                 [data]="workTypes"
+                                 [(ngModel)]="vacancyFilterModel.workTypes"
+                                 [ngModelOptions]="{standalone: true}"
+                                 [settings]="dropdownSettings">
+        </ng-multiselect-dropdown>
       </div>
     </div>
   </div>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="musicRoles">Музыкальные жанры</label>
+      </div>
+      <div class="col-md-5">
+        <ng-multiselect-dropdown [placeholder]="'Музыкальные жанры'"
+                                 [data]="musicGenres"
+                                 [(ngModel)]="vacancyFilterModel.musicGenres"
+                                 [ngModelOptions]="{standalone: true}"
+                                 [settings]="dropdownSettings">
+        </ng-multiselect-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="musicGenres">Кого вы ищете</label>
+      </div>
+      <div class="col-md-5">
+        <ng-multiselect-dropdown [placeholder]="'Кого вы ищете'"
+                                 [data]="musicianRoles"
+                                 [(ngModel)]="vacancyFilterModel.musicianRoles"
+                                 [ngModelOptions]="{standalone: true}"
+                                 [settings]="dropdownSettings">
+        </ng-multiselect-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-success" (click)="submit()">Сохранить</button>
 </form>
-
-<div class="form-group">
-  <div class="row">
-    <div class="col-md-2">
-      <label for="musicRoles">Музыкальные жанры</label>
-    </div>
-    <div class="col-md-5">
-      <ng-multiselect-dropdown [placeholder]="'Музыкальные жанры'"
-                               [data]="musicGenres"
-                               [(ngModel)]="selectedMusicGenres"
-                               [settings]="dropdownSettings">
-      </ng-multiselect-dropdown>
-    </div>
-  </div>
-</div>
-
-<div class="form-group">
-  <div class="row">
-    <div class="col-md-2">
-      <label for="musicGenres">Кого вы ищете</label>
-    </div>
-    <div class="col-md-5">
-      <ng-multiselect-dropdown [placeholder]="'Кого вы ищете'"
-                               [data]="musicianRoles"
-                               [(ngModel)]="selectedMusicRoles"
-                               [settings]="dropdownSettings">
-      </ng-multiselect-dropdown>
-    </div>
-  </div>
-</div>
-
-<button type="submit" class="btn btn-success" (click)="submit()" [disabled]="vacancyFormGroup.touched && vacancyFormGroup.invalid">Сохранить</button>
-
-

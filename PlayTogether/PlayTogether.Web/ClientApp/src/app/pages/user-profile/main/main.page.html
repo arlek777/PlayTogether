@@ -9,15 +9,15 @@
     </div>
 
     <!--<div class="form-group">
-      <div class="row">
-        <div class="col-md-12">
-          <div>
-            <div style="width: 100px; height: 100px; background-color: lightgray;"></div>
-            <button class="btn btn-outline-success">Загрузить фото</button>
-          </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div>
+          <div style="width: 100px; height: 100px; background-color: lightgray;"></div>
+          <button class="btn btn-outline-success">Загрузить фото</button>
         </div>
       </div>
-    </div>-->
+    </div>
+  </div>-->
 
     <div *ngIf="isMusician" class="form-group">
       <div class="form-group">
@@ -28,7 +28,7 @@
           <div class="col-md-4">
             <input type="checkbox" id="isActivated"
                    [(ngModel)]="mainInfoModel.isActivated"
-                   [ngModelOptions]="{standalone: true}"/>
+                   [ngModelOptions]="{standalone: true}" />
           </div>
         </div>
       </div>
@@ -37,10 +37,10 @@
     <div class="form-group">
       <div class="row">
         <div class="col-md-2">
-          <label for="name">Ваше Имя</label>
+          <label for="name">Ваше Имя *</label>
         </div>
         <div class="col-md-5">
-          <input type="text" id="name" class="form-control" placeholder="Имя" formControlName="name"/>
+          <input type="text" id="name" class="form-control" placeholder="Имя" formControlName="name" />
           <control-validation [control]="formControls.name"></control-validation>
         </div>
       </div>
@@ -49,10 +49,10 @@
     <div *ngIf="isGroup" class="form-group">
       <div class="row">
         <div class="col-md-2">
-          <label for="name">Название Группы</label>
+          <label for="name">Название Группы *</label>
         </div>
         <div class="col-md-5">
-          <input type="text" id="groupName" class="form-control" placeholder="Название Группы" formControlName="groupName"/>
+          <input type="text" id="groupName" class="form-control" placeholder="Название Группы" formControlName="groupName" />
           <control-validation [control]="formControls.groupName"></control-validation>
         </div>
       </div>
@@ -64,7 +64,7 @@
           <label for="age">Возраст</label>
         </div>
         <div class="col-md-5">
-          <input type="number" id="age" class="form-control" formControlName="age"/>
+          <input type="number" id="age" class="form-control" formControlName="age" />
           <control-validation [control]="formControls.age"></control-validation>
         </div>
       </div>
@@ -76,7 +76,7 @@
           <label for="experience">Опыт (в годах)</label>
         </div>
         <div class="col-md-5">
-          <input type="number" id="experience" class="form-control" formControlName="experience"/>
+          <input type="number" id="experience" class="form-control" formControlName="experience" />
           <control-validation [control]="formControls.experience"></control-validation>
         </div>
       </div>
@@ -85,7 +85,7 @@
     <div class="form-group">
       <div class="row">
         <div class="col-md-2">
-          <label for="musicGenres">Музыкальные жанры</label>
+          <label for="musicGenres">Музыкальные жанры*</label>
         </div>
         <div class="col-md-5">
           <ng-multiselect-dropdown [placeholder]="'Музыкальные жанры'"
@@ -101,12 +101,28 @@
     <div class="form-group">
       <div class="row">
         <div class="col-md-2">
-          <label for="musicRoles">Роли</label>
+          <label for="musicRoles">Роли *</label>
         </div>
         <div class="col-md-5">
           <ng-multiselect-dropdown [placeholder]="'Роли'"
                                    [data]="musicianRoles"
                                    [(ngModel)]="mainInfoModel.musicianRoles"
+                                   [ngModelOptions]="{standalone: true}"
+                                   [settings]="dropdownSettings">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
+          <label>Виды работ *</label>
+        </div>
+        <div class="col-md-5">
+          <ng-multiselect-dropdown [placeholder]="'Виды работ'"
+                                   [data]="workTypes"
+                                   [(ngModel)]="mainInfoModel.workTypes"
                                    [ngModelOptions]="{standalone: true}"
                                    [settings]="dropdownSettings">
           </ng-multiselect-dropdown>

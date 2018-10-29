@@ -23,7 +23,6 @@ namespace PlayTogether.Web.Infrastructure
             Expression<Func<Vacancy, bool>> title = v => v.Title.ToLower().Contains(model.VacancyTitle.ToLower());
             Expression<Func<Vacancy, bool>> minRating = v => v.User.Profile.Rating >= model.MinRating;
             Expression<Func<Vacancy, bool>> minExp = v => v.User.Profile.Experience >= model.MinExpirience;
-            Expression<Func<Vacancy, bool>> cities = v => model.Cities.Contains(v.User.Profile.City);
             Expression<Func<Vacancy, bool>> musiceGenres = v =>
                 v.VacancyFilter.JsonMusicGenres.FromJson<ICollection<MusicGenre>>()
                     .Any(m => model.MusicGenres.Any(m2 => m.Id == m2.Id));
@@ -31,6 +30,8 @@ namespace PlayTogether.Web.Infrastructure
                 .Any(m => model.MusicianRoles.Any(m2 => m.Id == m2.Id));
             Expression<Func<Vacancy, bool>> workTypes = v => v.VacancyFilter.JsonWorkTypes.FromJson<ICollection<WorkType>>()
                 .Any(m => model.WorkTypes.Any(m2 => m.Id == m2.Id));
+            Expression<Func<Vacancy, bool>> cities = v => v.VacancyFilter.JsonCities.FromJson<ICollection<City>>()
+                .Any(m => model.Cities.Any(m2 => m.Id == m2.Id));
 
 
             var filters = new[]

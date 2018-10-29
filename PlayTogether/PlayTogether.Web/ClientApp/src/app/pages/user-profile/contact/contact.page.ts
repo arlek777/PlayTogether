@@ -7,6 +7,9 @@ import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserType } from '../../../models/user-type';
 import { RegExp } from '../../../constants';
+import { IDropdownSettings } from 'ng-multiselect-dropdown/multiselect.model';
+import { MasterValueTypes } from '../../../models/master-values-types';
+import { MasterValueItem } from '../../../models/master-value-item';
 
 @Component({
   templateUrl: './contact.page.html',
@@ -17,6 +20,18 @@ export class ContactPage {
   public userType: UserType;
   public form: FormGroup;
   public phoneMask = RegExp.phoneMask;
+  public cities: MasterValueItem[];
+
+  public dropdownSettings: IDropdownSettings = {
+    enableCheckAll: false,
+    singleSelection: true,
+    idField: 'id',
+    textField: 'title',
+    itemsShowLimit: 10,
+    allowSearchFilter: true,
+    closeDropDownOnSelection: true,
+    noDataAvailablePlaceholderText: 'Загрузка..'
+  };
 
   constructor(private readonly backendService: BackendService,
     private readonly formBuilder: FormBuilder,
@@ -29,13 +44,15 @@ export class ContactPage {
   ngOnInit() {
     this.setPageValidator();
 
+    this.backendService.getMasterValues(MasterValueTypes.Cities)
+      .subscribe((values) => this.cities = values);
+
     this.backendService.getContactProfileInfo()
       .subscribe((value) => {
         this.contactInfoModel = value;
 
         this.formControls.email.setValue(value.contactEmail);
         this.formControls.phone1.setValue(value.phone1);
-        this.formControls.city.setValue(value.city);
       });
   }
 
@@ -45,11 +62,10 @@ export class ContactPage {
 
   public submit() {
     this.formSubmitted = true;
-    if (this.form.invalid) return;
+    if (this.form.invalid || !this.contactInfoModel.city) return;
 
     this.contactInfoModel.contactEmail = this.formControls.email.value;
     this.contactInfoModel.phone1 = this.formControls.phone1.value;
-    this.contactInfoModel.city = this.formControls.city.value;
 
     this.backendService.updateProfileSkills(this.contactInfoModel)
       .subscribe(() => this.toastr.success("Ваш профиль сохранен."));
@@ -60,7 +76,7 @@ export class ContactPage {
       email: [
         '', [
           Validators.required,
-          Validators.pattern(RegExp.emailPattern)
+          Validators.email
         ]
       ],
       phone1: [
@@ -68,11 +84,17 @@ export class ContactPage {
           Validators.required
         ]
       ],
-      city: [
+      url1: [
         '', [
-          Validators.required
+          Validators.maxLength(256),
+          Validators.pattern(RegExp.urlMask)
         ]
-      ]
-    });
+      ],
+      url2: [
+        '', [
+          Validators.maxLength(256),
+          Validators.pattern(RegExp.urlMask)
+        ]
+      ]});
   }
 }

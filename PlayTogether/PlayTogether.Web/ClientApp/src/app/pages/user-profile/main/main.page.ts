@@ -22,6 +22,7 @@ export class MainPage implements OnInit {
   public userType: UserType;
   public musicGenres: MasterValueItem[];
   public musicianRoles: MasterValueItem[];
+  public workTypes: MasterValueItem[];
 
   public dropdownSettings: IDropdownSettings = {
     enableCheckAll: false,
@@ -30,7 +31,8 @@ export class MainPage implements OnInit {
     textField: 'title',
     itemsShowLimit: 10,
     allowSearchFilter: true,
-    closeDropDownOnSelection: true
+    closeDropDownOnSelection: true,
+    noDataAvailablePlaceholderText: 'Загрузка..'
   };
 
   constructor(private readonly formBuilder: FormBuilder,
@@ -46,9 +48,10 @@ export class MainPage implements OnInit {
 
     this.backendService.getMasterValues(MasterValueTypes.MusicGenres)
       .subscribe((values) => this.musicGenres = values);
-
     this.backendService.getMasterValues(MasterValueTypes.MusicianRoles)
       .subscribe((values) => this.musicianRoles = values);
+    this.backendService.getMasterValues(MasterValueTypes.WorkTypes)
+      .subscribe((values) => this.workTypes = values);
 
     this.backendService.getMainProfileInfo().subscribe(profile => {
       this.mainInfoModel = profile;
@@ -110,9 +113,8 @@ export class MainPage implements OnInit {
       ]));
     } else if (this.isMusician) {
       this.mainPageForm.addControl('age', this.formBuilder.control('', [
-        Validators.required,
         Validators.maxLength(2),
-        Validators.min(10),
+        Validators.min(0),
         Validators.max(95)
       ]));
 

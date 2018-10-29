@@ -24,13 +24,11 @@ namespace PlayTogether.Web.Models.Profile
         [MaxLength(1)]
         public string PhotoBase64 { get; set; } // todo it's not implemented yet
 
-        [MaxLength(10)]
-        public ICollection<WorkType> WorkTypes { get; set; } // todo it's not implemented yet
+        // TODO add validation for them
+        public List<WorkType> WorkTypes { get; set; }
 
-        [MaxLength(10)]
-        public ICollection<MusicGenre> MusicGenres { get; set; }
+        public List<MusicGenre> MusicGenres { get; set; }
 
-        [MaxLength(10)]
-        public ICollection<MusicianRole> MusicianRoles { get; set; }
+        public List<MusicianRole> MusicianRoles { get; set; }
     }
 }

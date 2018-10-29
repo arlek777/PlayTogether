@@ -56,7 +56,7 @@ namespace PlayTogether.Web.Infrastructure
                             src.VacancyFilter.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>().Select(wt => wt.Title))))
                     .ForMember(m => m.Cities,
                         opt => opt.MapFrom(src => String.Join(",",
-                            src.VacancyFilter.JsonCities.FromJson<ICollection<string>>())));
+                            src.VacancyFilter.JsonCities.FromJson<ICollection<City>>().Select(wt => wt.Title))));
 
                 c.CreateMap<VacancyFilter, VacancyFilterModel>()
                     .ForMember(m => m.WorkTypes,
@@ -66,7 +66,7 @@ namespace PlayTogether.Web.Infrastructure
                     .ForMember(m => m.MusicianRoles,
                         opt => opt.MapFrom(src => src.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>()))
                     .ForMember(m => m.Cities,
-                        opt => opt.MapFrom(src => src.JsonCities.FromJson<ICollection<string>>()))
+                        opt => opt.MapFrom(src => src.JsonCities.FromJson<ICollection<City>>()))
                     .ForMember(m => m.UserType,
                         opt => opt.MapFrom(src => src.Vacancy.User.Type));
 

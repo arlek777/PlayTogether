@@ -22,6 +22,8 @@ namespace PlayTogether.Domain
         public string PhotoBase64 { get; set; }
         public double Rating { get; set; }
         public bool NotifyByEmail { get; set; }
+        public string Url1 { get; set; }
+        public string Url2 { get; set; }
 
         public virtual User User { get; set; }
     }

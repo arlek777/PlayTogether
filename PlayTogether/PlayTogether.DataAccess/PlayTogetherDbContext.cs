@@ -30,5 +30,6 @@ namespace PlayTogether.DataAccess
         public DbSet<VacancyResponse> VacancyResponses { get; set; }
         public DbSet<VacancyFilter> VacancyFilters { get; set; }
         public DbSet<WorkType> WorkTypes { get; set; }
+        public DbSet<City> Cities { get; set; }
     }
 }

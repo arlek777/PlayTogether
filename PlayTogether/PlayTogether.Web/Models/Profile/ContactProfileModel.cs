@@ -17,7 +17,13 @@ namespace PlayTogether.Web.Models.Profile
 
         [Required]
         [MaxLength(256)]
-        public string City { get; set; }  // todo it's not implemented yet
+        public string City { get; set; }
+
+        [MaxLength(256)]
+        public string Url1 { get; set; }
+
+        [MaxLength(256)]
+        public string Url2 { get; set; }
 
         [MaxLength(256)]
         public string Address { get; set; }
