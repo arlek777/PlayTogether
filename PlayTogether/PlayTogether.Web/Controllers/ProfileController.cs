@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -30,17 +29,40 @@ namespace PlayTogether.Web.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> GetPublicProfile(Guid? id = null)
         {
+            PublicProfileModel model;
             Profile profile;
             if (id.HasValue)
             {
                 profile = await _crudService.Find<Profile>(u => u.Id == id);
+                model = Mapper.Map<PublicProfileModel>(profile);
+
+                var contactRequest =
+                    await _crudService.Find<ContactRequest>(v => v.UserId == _webSession.UserId && v.ToUserId == id);
+                if (contactRequest == null || contactRequest.Status != ContactRequestStatus.Approved)
+                {
+                    model.Address = "";
+                    model.City = "";
+                    model.Url2 = "";
+                    model.Url1 = "";
+                    model.Phone1 = "";
+                    model.Phone2 = "";
+                    model.ContactEmail = "";
+                    model.ContactTypes = "";
+                    model.IsContactsAvailable = false;
+                }
+                else
+                {
+                    model.IsContactsAvailable = true;
+                }
             }
             else
             {
                 var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
                 profile = user.Profile;
+                model = Mapper.Map<PublicProfileModel>(profile);
             }
-            return Ok(Mapper.Map<PublicProfileModel>(profile));
+
+            return Ok(model);
         }
 
         [HttpGet]

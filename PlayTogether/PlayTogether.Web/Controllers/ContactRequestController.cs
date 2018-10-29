@@ -40,6 +40,15 @@ namespace PlayTogether.Web.Controllers
             return Ok(contact != null);
         }
 
+        [HttpGet]
+        [Route("[controller]/[action]")]
+        public async Task<IActionResult> IsContactRequestApproved(Guid toUserId)
+        {
+            var contact =
+                await _crudService.Find<ContactRequest>(v => v.UserId == _webSession.UserId && v.ToUserId == toUserId);
+            return Ok(contact != null && contact.Status == ContactRequestStatus.Approved);
+        }
+
         [HttpPost]
         [Route("[controller]/[action]")]
         public async Task<IActionResult> SendRequest(SendContactRequestModel model)
