@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlayTogether.BusinessLogic;
 using PlayTogether.Domain;
 using PlayTogether.Web.Infrastructure;
+using PlayTogether.Web.Infrastructure.Models;
 using PlayTogether.Web.Models;
 using PlayTogether.Web.Models.Vacancy;
 
@@ -50,7 +51,7 @@ namespace PlayTogether.Web.Controllers
             var vacancies = await _crudService.Where<Vacancy>(v => !v.IsClosed && v.User.Type == model.UserType);
             var foundVacancies = vacancies.ToList().Where(v => filters.All(f => f.PassFilter(v))).ToList();
 
-            return Ok(Mapper.Map<ICollection<VacancyModel>>(foundVacancies));
+            return Ok(Mapper.Map<List<VacancyModel>>(foundVacancies));
         }
 
         [HttpGet]
@@ -76,14 +77,28 @@ namespace PlayTogether.Web.Controllers
                 return NotFound();
             }
 
-            var detail = Mapper.Map<VacancyDetailModel>(vacancy);
+            var detail = Mapper.Map<VacancyModel>(vacancy);
+            return Ok(detail);
+        }
+
+        [HttpGet]
+        [Route("[controller]/[action]")]
+        public async Task<IActionResult> GetVacancy(Guid id)
+        {
+            var vacancy = await _crudService.Find<Vacancy>(v => v.Id == id);
+            if (vacancy == null)
+            {
+                return NotFound();
+            }
+
+            var detail = Mapper.Map<VacancyModel>(vacancy);
             return Ok(detail);
         }
 
         [Authorize(Roles = "Group")]
         [HttpPost]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> UpdateOrCreate([FromBody] VacancyDetailModel model)
+        public async Task<IActionResult> UpdateOrCreate([FromBody] VacancyModel model)
         {
             var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
             if (String.IsNullOrEmpty(user.Profile.Name))
@@ -102,7 +117,7 @@ namespace PlayTogether.Web.Controllers
             }
             else
             {
-                await _crudService.Update<VacancyDetailModel, Vacancy>(model.Id, model, (to, from) =>
+                await _crudService.Update<VacancyModel, Vacancy>(model.Id, model, (to, from) =>
                 {
                     to.Description = from.Description;
                     to.Title = from.Title;

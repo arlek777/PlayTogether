@@ -27,7 +27,24 @@ namespace PlayTogether.Web.Controllers
 
         [HttpGet]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> GetMainInfo()
+        public async Task<IActionResult> GetPublicProfile(Guid? id = null)
+        {
+            Profile profile;
+            if (id.HasValue)
+            {
+                profile = await _crudService.Find<Profile>(u => u.Id == id);
+            }
+            else
+            {
+                var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
+                profile = user.Profile;
+            }
+            return Ok(Mapper.Map<PublicProfileModel>(profile));
+        }
+
+        [HttpGet]
+        [Route("[controller]/[action]")]
+        public async Task<IActionResult> GetUserProfileMainInfo()
         {
             var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
             var mainInfo = Mapper.Map<MainProfileModel>(user.Profile);
@@ -36,7 +53,7 @@ namespace PlayTogether.Web.Controllers
 
         [HttpGet]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> IsProfileFilled()
+        public async Task<IActionResult> IsUserProfileFilled()
         {
             var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
             return Ok(!String.IsNullOrEmpty(user.Profile?.Name));
@@ -44,15 +61,11 @@ namespace PlayTogether.Web.Controllers
 
         [HttpGet]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> GetSkills()
+        public async Task<IActionResult> GetUserProfileContactInfo()
         {
             var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
-            var skills = new SkillsProfileModel()
-            {
-                MusicGenres = user.Profile.JsonMusicGenres.FromJson<ICollection<MusicGenre>>(),
-                MusicianRoles = user.Profile.JsonMusicianRoles.FromJson<ICollection<MusicianRole>>()
-            };
-            return Ok(skills);
+            var contactInfo = Mapper.Map<ContactProfileModel>(user.Profile);
+            return Ok(contactInfo);
         }
 
         [HttpPost]
@@ -61,23 +74,25 @@ namespace PlayTogether.Web.Controllers
         {
             await _crudService.Update<MainProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
+                to.IsActivated = from.IsActivated;
                 to.Name = from.Name;
-                to.City = from.City;
+                to.GroupName = from.GroupName;
                 to.Age = from.Age;
                 to.Experience = from.Experience;
                 to.Description = from.Description;
-                to.ContactEmail = from.ContactEmail;
-                to.Phone1 = from.Phone1;
-                to.Phone2 = from.Phone2;
                 to.PhotoBase64 = from.PhotoBase64;
                 to.JsonWorkTypes = from.WorkTypes.ToJson();
-                if(to.User.Type == UserType.Musician)
+                to.JsonMusicianRoles = from.MusicianRoles.ToJson();
+                to.JsonMusicGenres = from.MusicGenres.ToJson();
+
+                if (to.User.Type == UserType.Musician)
                 {
                     var vacancy = to.User.Vacancies.FirstOrDefault();
-                    vacancy.Title = from.VacancyFilterTitle;
+                    vacancy.Title = from.Name;
                     vacancy.Description = from.Description;
-                    vacancy.IsClosed = false;//!from.IsVacancyOpen;
-                    vacancy.VacancyFilter.JsonCities = from.City.ToJson();
+                    vacancy.IsClosed = !from.IsActivated;
+                    vacancy.VacancyFilter.JsonMusicianRoles = from.MusicianRoles.ToJson();
+                    vacancy.VacancyFilter.JsonMusicGenres = from.MusicGenres.ToJson();
                 }
             });
 
@@ -86,18 +101,18 @@ namespace PlayTogether.Web.Controllers
 
         [HttpPost]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> UpdateSkills([FromBody] SkillsProfileModel model)
+        public async Task<IActionResult> UpdateContactInfo([FromBody] ContactProfileModel model)
         {
-            await _crudService.Update<SkillsProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
+            await _crudService.Update<ContactProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
-                to.JsonMusicianRoles = from.MusicianRoles.ToJson();
-                to.JsonMusicGenres = from.MusicGenres.ToJson();
-
+                to.City = from.City;
+                to.ContactEmail = from.ContactEmail;
+                to.Phone1 = from.Phone1;
+                to.Phone2 = from.Phone2;
                 if (to.User.Type == UserType.Musician)
                 {
                     var vacancy = to.User.Vacancies.FirstOrDefault();
-                    vacancy.VacancyFilter.JsonMusicianRoles = from.MusicianRoles.ToJson();
-                    vacancy.VacancyFilter.JsonMusicGenres = from.MusicGenres.ToJson();
+                    vacancy.VacancyFilter.JsonCities = new[] { from.City }.ToJson();
                 }
             });
 

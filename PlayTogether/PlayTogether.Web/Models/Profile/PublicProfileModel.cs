@@ -1,14 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
+using System;
 
-namespace PlayTogether.Domain
+namespace PlayTogether.Web.Models.Profile
 {
-    public class Profile: BaseSkills, ISimpleEntity
+    public class PublicProfileModel
     {
-        [ForeignKey("User")]
         public Guid Id { get; set; }
-
-        public bool IsActivated { get; set; }
         public string Name { get; set; }
         public string GroupName { get; set; }
         public string ContactEmail { get; set; }
@@ -20,12 +16,9 @@ namespace PlayTogether.Domain
         public int Age { get; set; }
         public double Experience { get; set; }
         public string PhotoBase64 { get; set; }
-        public double Rating { get; set; }
-        public bool NotifyByEmail { get; set; }
-        public string Url1 { get; set; }
-        public string Url2 { get; set; }
 
-        public virtual User User { get; set; }
+        public string MusicGenres { get; set; }
+        public string MusicianRoles { get; set; }
+        public string WorkTypes { get; set; }
     }
-
 }

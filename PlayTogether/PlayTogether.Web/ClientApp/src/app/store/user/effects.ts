@@ -30,7 +30,11 @@ export class UserEffects {
           map(response => new LoginSuccess(response)),
           catchError((error) => {
             console.log(error);
-            this.toastr.error("Произошла ошибка.");
+            if (error.error) {
+              this.toastr.error(error.error);
+            } else {
+              this.toastr.error("Произошла ошибка.");
+            }
             return of(new LoginFailed());
           })
           )

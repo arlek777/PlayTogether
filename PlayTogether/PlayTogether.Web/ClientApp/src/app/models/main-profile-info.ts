@@ -1,13 +1,14 @@
+import { MasterValueItem } from "./master-value-item";
+
 export class MainProfileInfo {
   isActivated: boolean;
   name: string;
-  contactEmail: string;
-  phone1: string;
-  phone2: string;
-  city: string;
-  address: string;
+  groupName: string;
   age: any;
   experience: number;
   description: string;
   photoBase64: string;
+  workTypes: MasterValueItem[];
+  musicGenres: MasterValueItem[];
+  musicianRoles: MasterValueItem[];
 }

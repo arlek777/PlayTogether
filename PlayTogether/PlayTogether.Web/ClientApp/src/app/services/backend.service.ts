@@ -6,10 +6,11 @@ import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { MasterValueTypes } from "../models/master-values-types";
 import { MasterValueItem } from "../models/master-value-item";
-import { ProfileSkills } from "../models/profile-skills";
 import { SelectUserType } from "../models/select-user-type";
 import { Vacancy, VacancyDetail, VacancyFilter } from "../models/vacancy";
 import { MainProfileInfo } from "../models/main-profile-info";
+import { PublicProfile } from "../models/public-profile";
+import { ContactInfo } from "../models/contact-profile-info";
 
 enum URLS {
   login = '/auth/login',
@@ -17,12 +18,14 @@ enum URLS {
   selectUserType = '/auth/selectusertype',
 
   updateMainProfileInfo = '/profile/updatemaininfo',
-  updateSkillsProfileInfo = '/profile/updateskills',
-  getMainProfileInfo = '/profile/getmaininfo',
-  getProfileSkills = '/profile/getskills',
-  isProfileFilled = '/profile/isProfileFilled',
+  updateContactProfileInfo = '/profile/updateContactInfo',
+  getMainProfileInfo = '/profile/getUserProfileMainInfo',
+  getContactProfileInfo = '/profile/getUserProfileContactInfo',
+  getPublicProfile = '/profile/getPublicProfile',
+  isUserProfileFilled = '/profile/isUserProfileFilled',
 
   getUserVacancy = '/vacancy/getUserVacancy',
+  getVacancy = '/vacancy/getVacancy',
   getUserVacancies = '/vacancy/getUserVacancies',
   searchVacancies = '/vacancy/searchVacancies',
   getFilteredVacanciesByUserProfile = '/vacancy/getFilteredVacanciesByUserProfile',
@@ -49,6 +52,15 @@ export class BackendService {
     return this.http.post(URLS.selectUserType, model).pipe(map(response => response as LoginResponse));
   }
 
+  getPublicProfile(id: string = null) {
+    if (id) {
+      return this.http.get(URLS.getPublicProfile, { params: { "id": id } })
+        .pipe(map(response => response as PublicProfile));
+    } else {
+      return this.http.get(URLS.getPublicProfile).pipe(map(response => response as PublicProfile));
+    }
+  }
+
   getMainProfileInfo() {
     return this.http.get(URLS.getMainProfileInfo).pipe(map(response => response as MainProfileInfo));
   }
@@ -57,20 +69,24 @@ export class BackendService {
     return this.http.post(URLS.updateMainProfileInfo, model);
   }
 
-  getProfileSkills(): Observable<ProfileSkills> {
-    return this.http.get(URLS.getProfileSkills).pipe(map(response => response as ProfileSkills));
+  getContactProfileInfo(): Observable<ContactInfo> {
+    return this.http.get(URLS.getContactProfileInfo).pipe(map(response => response as ContactInfo));
   }
 
-  updateProfileSkills(skills: ProfileSkills): Observable<any> {
-    return this.http.post(URLS.updateSkillsProfileInfo, skills);
+  updateProfileSkills(model: ContactInfo): Observable<any> {
+    return this.http.post(URLS.updateContactProfileInfo, model);
   }
 
-  isProfileFilled(): Observable<boolean> {
-    return this.http.get(URLS.isProfileFilled).pipe(map(response => response as boolean));
+  isUserProfileFilled(): Observable<boolean> {
+    return this.http.get(URLS.isUserProfileFilled).pipe(map(response => response as boolean));
+  }
+
+  getUserVacancy(id: string): Observable<VacancyDetail> {
+    return this.http.get(URLS.getUserVacancy, { params: { "id": id } }).pipe(map(response => response as VacancyDetail));
   }
 
   getVacancy(id: string): Observable<VacancyDetail> {
-    return this.http.get(URLS.getUserVacancy, { params: { "id": id } }).pipe(map(response => response as VacancyDetail));
+    return this.http.get(URLS.getVacancy, { params: { "id": id } }).pipe(map(response => response as VacancyDetail));
   }
 
   getUserVacancies(): Observable<Vacancy[]> {

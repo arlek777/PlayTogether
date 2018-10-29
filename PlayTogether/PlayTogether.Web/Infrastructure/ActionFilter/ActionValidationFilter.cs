@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using PlayTogether.Web.Models;
 
-namespace PlayTogether.Web.Infrastructure
+namespace PlayTogether.Web.Infrastructure.ActionFilter
 {
     public class ActionValidationFilter: ActionFilterAttribute
     {

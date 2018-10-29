@@ -6,33 +6,29 @@ namespace PlayTogether.Web.Models.Profile
 {
     public class MainProfileModel
     {
-        public bool IsVacancyOpen { get; set; }
+        public bool IsActivated { get; set; }
 
         [Required]
         [MaxLength(256)]
         public string Name { get; set; }
 
         [MaxLength(256)]
-        public string VacancyFilterTitle { get; set; }
+        public string GroupName { get; set; }
 
-        [Required]
-        [MaxLength(256)]
-        public string ContactEmail { get; set; }
-
-        [Required]
-        [MaxLength(256)]
-        public string Phone1 { get; set; }
-        public string Phone2 { get; set; } 
-
-        [Required]
-        [MaxLength(256)]
-        public string City { get; set; } 
-        public string Address { get; set; }
+        [MaxLength(2048)]
         public string Description { get; set; }
+
         public int Age { get; set; }
         public double Experience { get; set; }
-        public string PhotoBase64 { get; set; }
 
-        public ICollection<WorkType> WorkTypes { get; set; }
+        [MaxLength(1)]
+        public string PhotoBase64 { get; set; } // todo it's not implemented yet
+
+        // TODO add validation for them
+        public List<WorkType> WorkTypes { get; set; }
+
+        public List<MusicGenre> MusicGenres { get; set; }
+
+        public List<MusicianRole> MusicianRoles { get; set; }
     }
 }

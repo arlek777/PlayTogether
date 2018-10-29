@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using PlayTogether.Domain;
 
@@ -14,7 +13,7 @@ namespace PlayTogether.Web.Models.Vacancy
         public double MinRating { get; set; }
         public double MinExpirience { get; set; }
 
-        public List<string> Cities { get; set; }
+        public List<City> Cities { get; set; }
         public List<MusicGenre> MusicGenres { get; set; }
         public List<MusicianRole> MusicianRoles { get; set; }
         public List<WorkType> WorkTypes { get; set; }

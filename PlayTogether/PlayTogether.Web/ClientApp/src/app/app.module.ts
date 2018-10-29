@@ -9,9 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ToastrModule } from 'ngx-toastr';
-import { MatSliderModule } from '@angular/material/slider';
 import { TextMaskModule } from 'angular2-text-mask';
-import * as hammer from 'hammerjs';
 
 // Components
 import { AppComponent } from './components/app/app.component';
@@ -24,7 +22,7 @@ import { LoginPage } from './pages/login/login.page';
 import { SelectUserTypePage } from './pages/select-user-type/select-user-type.page';
 import { UserProfilePage } from './pages/user-profile/user-profile.page';
 import { MainPage } from './pages//user-profile/main/main.page';
-import { SkillsPage } from './pages//user-profile/skills/skills.page';
+import { ContactPage } from './pages//user-profile/contact/contact.page';
 import { ManageVacanciesPage } from './pages/manage-vacancies/manage-vacancies.page';
 import { ManageVacancyPage } from './pages/manage-vacancy/manage-vacancy.page';
 import { SearchVacanciesPage } from './pages/search-vacancies/search-vacancies.page';
@@ -52,7 +50,7 @@ import { appReducers, appEffects } from './store';
     SelectUserTypePage,
     UserProfilePage,
     MainPage,
-    SkillsPage,
+    ContactPage,
     ManageVacanciesPage,
     ManageVacancyPage,
     ProfilePage,
@@ -64,7 +62,6 @@ import { appReducers, appEffects } from './store';
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot(appEffects),
     BrowserAnimationsModule,
-    MatSliderModule,
     TextMaskModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-center'
@@ -79,7 +76,7 @@ import { appReducers, appEffects } from './store';
         path: 'my/profile', component: UserProfilePage, canActivate: [AuthGuard],
         children: [
           { path: 'main', component: MainPage },
-          { path: 'skills', component: SkillsPage },
+          { path: 'contact', component: ContactPage },
           { path: "**", redirectTo: 'main' }
         ]
       },
@@ -91,6 +88,7 @@ import { appReducers, appEffects } from './store';
       //{ path: 'search-vacancies', component: SearchVacanciesPage, canActivate: [AuthGuard] },
       { path: 'vacancy', component: VacancyPage, canActivate: [AuthGuard] },
       { path: 'vacancy/:id', component: VacancyPage, canActivate: [AuthGuard] },
+      { path: 'profile', component: ProfilePage, canActivate: [AuthGuard] },
       { path: 'profile/:id', component: ProfilePage, canActivate: [AuthGuard] },
     ])
   ],

@@ -1,20 +1,55 @@
 <div class="row">
-  <div class="col-md">
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['main']">Профиль</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['skills']">Навыки</a>
-      </li>
-    </ul>
-
-    <div class="tab-content">
-      <div class="content">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
+  <div class="col-md-12">
+    <h3>{{ profile.name }}</h3>
+  </div>
+  <div *ngIf="isGroup" class="col-md-12">
+    <p>Администратор группы:  {{ profile.groupName }}</p>
   </div>
 </div>
 
+<hr/>
 
+<div>
+  <h3>Контакты</h3>
+  <div class="row">
+    <div class="col-md-12">Email: {{ profile.contactEmail }}</div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">Телефон: {{ profile.phone1 }}</div>
+  </div>
+
+  <div class="row" *ngIf="profile.phone2">
+    <div class="col-md-12">Телефон 2: {{ profile.phone2 }}</div>
+  </div>
+  <div class="row" *ngIf="profile.address">
+    <div class="col-md-12">Адрес: {{ profile.address }}</div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">Город: {{ profile.city }}</div>
+</div>
+
+<div class="row" *ngIf="isMusician">
+  <div class="col-md-12">Возраст: {{ profile.age }}</div>
+</div>
+
+<div class="row" *ngIf="isMusician">
+  <div class="col-md-12">Опыт игры (годы): {{ profile.experience }}</div>
+</div>
+
+<div class="row" *ngIf="profile.musicGenres">
+  <div class="col-md-12">Жанры: {{ profile.musicGenres }}</div>
+</div>
+
+<div class="row" *ngIf="profile.musicianRoles && isMusician">
+  <div class="col-md-12">Виды деятельности: {{ profile.musicianRoles }}</div>
+</div>
+
+<div class="row" *ngIf="profile.workTypes && isMusician">
+  <div class="col-md-12">Виды работы: {{ profile.workTypes }}</div>
+</div>
+
+<div class="row" *ngIf="profile.description">
+  <div class="col-md-12">Описание: {{ profile.description }}</div>
+</div>

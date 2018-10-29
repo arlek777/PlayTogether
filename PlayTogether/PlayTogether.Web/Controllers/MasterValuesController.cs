@@ -34,6 +34,10 @@ namespace PlayTogether.Web.Controllers
                 case MasterValueTypes.WorkTypes:
                     var workTypes = await _crudService.GetAll<WorkType>();
                     return Ok(workTypes.ToList());
+
+                case MasterValueTypes.Cities:
+                    var cities = await _crudService.GetAll<City>();
+                    return Ok(cities.ToList());
             }
 
             return NotFound();
