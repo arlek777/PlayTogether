@@ -8,6 +8,7 @@ namespace PlayTogether.Web.Models.Profile
         public string Name { get; set; }
         public string GroupName { get; set; }
         public bool IsContactsAvailable { get; set; }
+        public bool IsContactRequestSent { get; set; }
 
         // Contacts
         public string ContactEmail { get; set; }

@@ -59,6 +59,10 @@ namespace PlayTogether.Web.Infrastructure
                 c.CreateMap<Vacancy, VacancyModel>().ReverseMap();
 
                 c.CreateMap<Vacancy, PublicVacancyModel>()
+                    .ForMember(m => m.UserCreatorName,
+                        opt => opt.MapFrom(src => src.User.Profile.Name))
+                    .ForMember(m => m.UserCreatorId,
+                        opt => opt.MapFrom(src => src.UserId))
                     .ForMember(m => m.WorkTypes,
                         opt => opt.MapFrom(src => FromJsonToCommaStr(src.VacancyFilter.JsonWorkTypes)))
                     .ForMember(m => m.MusicGenres,

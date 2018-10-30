@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using PlayTogether.BusinessLogic;
 using PlayTogether.Domain;
 using PlayTogether.Web.Infrastructure;
+using PlayTogether.Web.Infrastructure.Models;
 using PlayTogether.Web.Models.ContactRequest;
 
 namespace PlayTogether.Web.Controllers
@@ -27,32 +28,39 @@ namespace PlayTogether.Web.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> GetUserContactRequests()
         {
-            var contacts = await _crudService.Where<ContactRequest>(v => v.ToUserId == _webSession.UserId);
-            return Ok(Mapper.Map<ICollection<ContactRequestModel>>(contacts));
+            var contactRequests = await _crudService.Where<ContactRequest>(v => v.ToUserId == _webSession.UserId);
+            return Ok(Mapper.Map<ICollection<ContactRequestModel>>(contactRequests));
         }
 
         [HttpGet]
         [Route("[controller]/[action]")]
         public async Task<IActionResult> IsContactRequestSent(Guid toUserId)
         {
-            var contact =
+            var contactRequest =
                 await _crudService.Find<ContactRequest>(v => v.UserId == _webSession.UserId && v.ToUserId == toUserId);
-            return Ok(contact != null);
+            return Ok(contactRequest != null);
         }
 
         [HttpGet]
         [Route("[controller]/[action]")]
         public async Task<IActionResult> IsContactRequestApproved(Guid toUserId)
         {
-            var contact =
+            var contactRequest =
                 await _crudService.Find<ContactRequest>(v => v.UserId == _webSession.UserId && v.ToUserId == toUserId);
-            return Ok(contact != null && contact.Status == ContactRequestStatus.Approved);
+            return Ok(contactRequest != null && contactRequest.Status == ContactRequestStatus.Approved);
         }
 
         [HttpPost]
         [Route("[controller]/[action]")]
         public async Task<IActionResult> SendRequest(SendContactRequestModel model)
         {
+            var contactRequest =
+               await _crudService.Find<ContactRequest>(v => v.UserId == _webSession.UserId && v.ToUserId == model.ToUserId);
+            if (contactRequest != null)
+            {
+                return BadRequest(ValidationResultMessages.InvalidModelState);
+            }
+
             await _crudService.Create<ContactRequest>(new ContactRequest()
             {
                 Status = ContactRequestStatus.Open,

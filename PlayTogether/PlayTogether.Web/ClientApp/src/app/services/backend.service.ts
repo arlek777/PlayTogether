@@ -12,6 +12,7 @@ import { MainProfileInfo } from "../models/main-profile-info";
 import { PublicProfile } from "../models/public-profile";
 import { ContactInfo } from "../models/contact-profile-info";
 import { ContactRequest } from "../models/contact-request";
+import { PublicVacancy } from "../models/public-vacancy";
 
 enum URLS {
   login = '/auth/login',
@@ -91,8 +92,8 @@ export class BackendService {
     return this.http.get(URLS.getUserVacancy, { params: { "id": id } }).pipe(map(response => response as VacancyDetail));
   }
 
-  getVacancy(id: string): Observable<VacancyDetail> {
-    return this.http.get(URLS.getVacancy, { params: { "id": id } }).pipe(map(response => response as VacancyDetail));
+  getVacancy(id: string): Observable<PublicVacancy> {
+    return this.http.get(URLS.getVacancy, { params: { "id": id } }).pipe(map(response => response as PublicVacancy));
   }
 
   getUserVacancies(): Observable<Vacancy[]> {

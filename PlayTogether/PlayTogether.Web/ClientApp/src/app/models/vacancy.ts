@@ -12,7 +12,6 @@ export class VacancyDetail extends Vacancy {
     this.vacancyFilter = new VacancyFilter();
   }
 
-  searchFilterId: string;
   description: string;
   vacancyFilter: VacancyFilter;
 }
@@ -22,7 +21,7 @@ export class VacancyFilter {
   vacancyTitle: string;
   minRating: number;
   minExpirience: number;
-  cities: string[];
+  cities: MasterValueItem[];
   musicGenres: MasterValueItem[];
   musicianRoles: MasterValueItem[];
   workTypes: MasterValueItem[];

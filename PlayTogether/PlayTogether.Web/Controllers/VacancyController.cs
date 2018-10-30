@@ -90,9 +90,14 @@ namespace PlayTogether.Web.Controllers
             {
                 return NotFound();
             }
+            var publicVacancy = Mapper.Map<PublicVacancyModel>(vacancy);
 
-            var detail = Mapper.Map<VacancyModel>(vacancy);
-            return Ok(detail);
+            var contactRequest =
+               await _crudService.Find<ContactRequest>(v => v.UserId == _webSession.UserId
+               && v.ToUserId == vacancy.UserId);
+            publicVacancy.IsContactRequestSent = contactRequest != null && contactRequest.Status == ContactRequestStatus.Approved;
+
+            return Ok(publicVacancy);
         }
 
         [Authorize(Roles = "Group")]

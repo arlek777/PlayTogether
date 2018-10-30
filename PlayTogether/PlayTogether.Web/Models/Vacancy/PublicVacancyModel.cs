@@ -10,9 +10,9 @@ namespace PlayTogether.Web.Models.Vacancy
         public string UserCreatorName { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public bool IsContactRequestSent { get; set; }
 
         public UserType UserType { get; set; }
-        public string VacancyTitle { get; set; }
         public double MinRating { get; set; }
         public double MinExpirience { get; set; }
 

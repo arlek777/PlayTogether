@@ -9,7 +9,7 @@
 
 <hr/>
 
-<div>
+<div *ngIf="profile.isContactsAvailable">
   <h3>Контакты</h3>
   <div class="row">
     <div class="col-md-12">Email: {{ profile.contactEmail }}</div>
@@ -17,15 +17,24 @@
   <div class="row">
     <div class="col-md-12">Телефон: {{ profile.phone1 }}</div>
   </div>
-
   <div class="row" *ngIf="profile.phone2">
     <div class="col-md-12">Телефон 2: {{ profile.phone2 }}</div>
+  </div>
+  <div class="row" *ngIf="profile.url1">
+    <div class="col-md-12">Соц. сеть, блог, Youtube канал: {{ profile.url1 }}</div>
+  </div>
+  <div class="row" *ngIf="profile.url2">
+    <div class="col-md-12">Соц. сеть, блог, Youtube канал: {{ profile.url2 }}</div>
   </div>
   <div class="row" *ngIf="profile.address">
     <div class="col-md-12">Адрес: {{ profile.address }}</div>
   </div>
+  <div class="row" *ngIf="profile.contactTypes">
+    <div class="col-md-12">Предпочтительные способы связи: {{ profile.contactTypes }}</div>
+  </div>
 </div>
 
+<h3>Профиль</h3>
 <div class="row">
   <div class="col-md-12">Город: {{ profile.city }}</div>
 </div>
@@ -35,7 +44,7 @@
 </div>
 
 <div class="row" *ngIf="isMusician">
-  <div class="col-md-12">Опыт игры (годы): {{ profile.experience }}</div>
+  <div class="col-md-12">Опыт игры: {{ profile.experience }}</div>
 </div>
 
 <div class="row" *ngIf="profile.musicGenres">
@@ -53,3 +62,5 @@
 <div class="row" *ngIf="profile.description">
   <div class="col-md-12">Описание: {{ profile.description }}</div>
 </div>
+
+<button *ngIf="isGroup && !profile.isContactRequestSent" (click)="sendContactRequest()" class="btn btn-success">Заинтересован</button>

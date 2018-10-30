@@ -41,7 +41,6 @@ namespace PlayTogether.Web.Controllers
                 if (contactRequest == null || contactRequest.Status != ContactRequestStatus.Approved)
                 {
                     model.Address = "";
-                    model.City = "";
                     model.Url2 = "";
                     model.Url1 = "";
                     model.Phone1 = "";
@@ -49,10 +48,12 @@ namespace PlayTogether.Web.Controllers
                     model.ContactEmail = "";
                     model.ContactTypes = "";
                     model.IsContactsAvailable = false;
+                    model.IsContactRequestSent = contactRequest != null;
                 }
                 else
                 {
                     model.IsContactsAvailable = true;
+                    model.IsContactRequestSent = true;
                 }
             }
             else

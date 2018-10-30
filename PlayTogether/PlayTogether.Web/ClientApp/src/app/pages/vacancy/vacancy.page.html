@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <h3>{{ vacancy.title }}</h3>
   </div>
-  <div>reference to creator</div>
+  <div><a [routerLink]="['/profile', vacancy.userCreatorId]">{{ vacancy.userCreatorName }}</a></div>
 </div>
 
 <hr />
@@ -12,37 +12,24 @@
 </div>
 
 <div class="row">
-  <div class="col-md-12">Телефон: {{ profile.phone1 }}</div>
+  <div class="col-md-12">Мин. опыт: {{ vacancy.minExperience }}</div>
 </div>
 
-<div class="row" *ngIf="profile.phone2">
-  <div class="col-md-12">Телефон 2: {{ profile.phone2 }}</div>
+<div class="row" *ngIf="vacancy.workTypes">
+  <div class="col-md-12">Города: {{ vacancy.cities }}</div>
 </div>
 
-<div class="row">
-  <div class="col-md-12">Город: {{ profile.city }}</div>
+<div class="row" *ngIf="vacancy.musicGenres">
+  <div class="col-md-12">Жанры: {{ vacancy.musicGenres }}</div>
 </div>
 
-<div class="row" *ngIf="profile.address">
-  <div class="col-md-12">Адрес: {{ profile.address }}</div>
+<div class="row" *ngIf="vacancy.musicianRoles">
+  <div class="col-md-12">Виды деятельности: {{ vacancy.musicianRoles }}</div>
 </div>
 
-<div class="row" *ngIf="isMusician">
-  <div class="col-md-12">Возраст: {{ profile.age }}</div>
+<div class="row" *ngIf="vacancy.workTypes">
+  <div class="col-md-12">Виды работы: {{ vacancy.workTypes }}</div>
 </div>
 
-<div class="row" *ngIf="isMusician">
-  <div class="col-md-12">Опыт: {{ profile.experience }}</div>
-</div>
-
-<div class="row" *ngIf="profile.musicGenres.length">
-  <div class="col-md-12">Жанры: {{ profile.musicGenres.join(",") }}</div>
-</div>
-
-<div class="row" *ngIf="profile.musicianRoles.length && isMusician">
-  <div class="col-md-12">Виды деятельности: {{ profile.musicianRoles.join(",") }}</div>
-</div>
-
-<div class="row" *ngIf="profile.workTypes.length && isMusician">
-  <div class="col-md-12">Виды работы: {{ profile.workTypes.join(",") }}</div>
-</div>
+<button *ngIf="!vacancy.isContactRequestSent" (click)="sendContactRequest()"
+        class="btn btn-success">Откликнуться</button>
