@@ -5,7 +5,7 @@ import { BackendService } from '../../services/backend.service';
 
 @Component({
   selector: 'new-contact-request-counter',
-  template: `<span class="badge badge-light">{{newContactRequestCount}}</span>`
+  template: `<span class="badge badge-secondary">{{newContactRequestCount}}</span>`
 })
 export class NewContactRequestCounterComponent {
   public newContactRequestCount = 0;
@@ -16,7 +16,7 @@ export class NewContactRequestCounterComponent {
 
   ngOnInit() {
     this._updateContactRequestCounter();
-    setInterval(this._updateContactRequestCounter, 60000); // update each 1 minute
+    setInterval(() => this._updateContactRequestCounter(), 60000); // update each 1 minute
   }
 
   private _updateContactRequestCounter() {

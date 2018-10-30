@@ -49,9 +49,14 @@ namespace PlayTogether.Web.Controllers
 
             var filters = VacancyConditionalFilter.GetFilters(model);
             var vacancies = await _crudService.Where<Vacancy>(v => !v.IsClosed && v.User.Type == model.UserType);
-            var foundVacancies = vacancies.ToList().Where(v => filters.All(f => f.PassFilter(v))).ToList();
 
-            return Ok(Mapper.Map<List<VacancyModel>>(foundVacancies));
+            if (filters.Any())
+            {
+                var foundVacancies = vacancies.ToList().Where(v => filters.All(f => f.PassFilter(v))).ToList();
+                return Ok(Mapper.Map<List<PublicVacancyModel>>(foundVacancies));
+            }
+
+            return Ok(Mapper.Map<List<PublicVacancyModel>>(vacancies.ToList()));
         }
 
         [HttpGet]
@@ -64,7 +69,7 @@ namespace PlayTogether.Web.Controllers
             var filters = VacancyConditionalFilter.GetFilters(filterModel);
             var vacancies = await _crudService.Where<Vacancy>(v => filters.All(f => f.PassFilter(v)));
 
-            return Ok(Mapper.Map<ICollection<VacancyModel>>(vacancies));
+            return Ok(Mapper.Map<List<PublicVacancyModel>>(vacancies));
         }
 
         [HttpGet]

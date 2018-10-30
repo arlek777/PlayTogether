@@ -22,12 +22,12 @@ export class ContactPage {
   public phoneMask = RegExp.phoneMask;
   public cities: MasterValueItem[];
   public contactTypes: MasterValueItem[];
-  public selectedCity: string[];
+  public selectedCity: MasterValueItem[];
 
   public cityDropdownSettings: IDropdownSettings = {
     enableCheckAll: false,
     singleSelection: true,
-    idField: 'title',
+    idField: 'id',
     textField: 'title',
     itemsShowLimit: 10,
     allowSearchFilter: true,

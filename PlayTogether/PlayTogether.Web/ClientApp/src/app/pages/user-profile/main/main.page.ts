@@ -23,6 +23,7 @@ export class MainPage implements OnInit {
   public musicGenres: MasterValueItem[];
   public musicianRoles: MasterValueItem[];
   public workTypes: MasterValueItem[];
+  public userName: string;
 
   public dropdownSettings = Constants.getAutocompleteSettings();
 
@@ -31,7 +32,10 @@ export class MainPage implements OnInit {
     private readonly backendService: BackendService,
     private readonly store: Store<AppState>) {
 
-    this.store.select(s => s.user.userType).subscribe((type) => this.userType = type);
+    this.store.select(s => s.user).subscribe((user) => {
+      this.userType = user.userType;
+      this.userName = user.userName;
+    });
   }
 
   ngOnInit() {

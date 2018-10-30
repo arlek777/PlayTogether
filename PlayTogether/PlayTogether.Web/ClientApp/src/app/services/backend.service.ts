@@ -101,12 +101,12 @@ export class BackendService {
     return this.http.get(URLS.getUserVacancies).pipe(map(response => response as Vacancy[]));
   }
 
-  searchVacancies(vacancyFilter: VacancyFilter): Observable<Vacancy[]> {
-    return this.http.post(URLS.searchVacancies, vacancyFilter).pipe(map(response => response as Vacancy[]));
+  searchVacancies(vacancyFilter: VacancyFilter): Observable<PublicVacancy[]> {
+    return this.http.post(URLS.searchVacancies, vacancyFilter).pipe(map(response => response as PublicVacancy[]));
   }
 
-  searchFilteredVacanciesByUserProfile(): Observable<Vacancy[]> {
-    return this.http.get(URLS.searchFilteredVacanciesByUserProfile).pipe(map(response => response as Vacancy[]));
+  searchFilteredVacanciesByUserProfile(): Observable<PublicVacancy[]> {
+    return this.http.get(URLS.searchFilteredVacanciesByUserProfile).pipe(map(response => response as PublicVacancy[]));
   }
 
   updateOrCreateVacancy(vacancy: VacancyDetail): Observable<any> {

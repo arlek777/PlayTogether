@@ -8,12 +8,13 @@ import { Vacancy, VacancyFilter } from '../../models/vacancy';
 import { MasterValueItem } from '../../models/master-value-item';
 import { MasterValueTypes } from '../../models/master-values-types';
 import { UserType } from '../../models/user-type';
+import { PublicVacancy } from '../../models/public-vacancy';
 
 @Component({
   templateUrl: './search-vacancies.page.html',
 })
 export class SearchVacanciesPage {
-  public vacancies: Vacancy[];
+  public vacancies: PublicVacancy[];
   public vacancyFilter = new VacancyFilter();
   public musicGenres: MasterValueItem[];
   public musicianRoles: MasterValueItem[];

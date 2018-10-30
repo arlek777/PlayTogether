@@ -37,7 +37,6 @@ namespace PlayTogether.Web.Controllers
                 {
                     UserName = model.UserName,
                     Type = UserType.Uknown,
-                    Profile = new Profile(),
                     PasswordHash = _passwordHasher.HashPassword(model.Password)
                 });
 

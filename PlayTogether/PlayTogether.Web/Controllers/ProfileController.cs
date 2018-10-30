@@ -80,7 +80,7 @@ namespace PlayTogether.Web.Controllers
         public async Task<IActionResult> IsUserProfileFilled()
         {
             var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
-            return Ok(!String.IsNullOrEmpty(user.Profile?.Name));
+            return Ok(user.Profile != null);
         }
 
         [HttpGet]
@@ -96,7 +96,15 @@ namespace PlayTogether.Web.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> UpdateMainInfo([FromBody] MainProfileModel model)
         {
-            await _crudService.Update<MainProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
+            await _crudService.Update<MainProfileModel, User>(_webSession.UserId, model, (to, from) =>
+            {
+                if(to.Profile == null)
+                {
+                    to.Profile = new Profile();
+                }
+            });
+
+                await _crudService.Update<MainProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
                 to.IsActivated = from.IsActivated;
                 to.Name = from.Name;
