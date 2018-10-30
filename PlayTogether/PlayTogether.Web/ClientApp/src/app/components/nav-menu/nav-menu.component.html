@@ -10,6 +10,10 @@
         <li class="nav-item" [routerLinkActive]='["active"]' [routerLinkActiveOptions]='{ exact: true }'>
           <a class="nav-link" [routerLink]='["/"]'>Поиск</a>
         </li>
+        <li class="nav-item" [routerLinkActive]='["active"]' *ngIf="user.isLoggedIn">
+          <a class="nav-link" [routerLink]='["my/contact-requests"]'>Мои предложения</a>
+          <new-contact-request-counter></new-contact-request-counter>
+        </li>
         <li class="nav-item" [routerLinkActive]='["active"]' *ngIf="isGroupUser">
           <a class="nav-link" [routerLink]='["my/vacancies"]'>Мои вакансии</a>
         </li>

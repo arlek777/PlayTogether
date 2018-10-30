@@ -4,6 +4,7 @@ using AutoMapper;
 using PlayTogether.Domain;
 using PlayTogether.Domain.MasterValues;
 using PlayTogether.Web.Infrastructure.Extensions;
+using PlayTogether.Web.Models.ContactRequest;
 using PlayTogether.Web.Models.Profile;
 using PlayTogether.Web.Models.Vacancy;
 
@@ -93,6 +94,10 @@ namespace PlayTogether.Web.Infrastructure
                         opt => opt.MapFrom(src => src.MusicianRoles.ToJson()))
                     .ForMember(m => m.JsonCities,
                         opt => opt.MapFrom(src => src.Cities.ToJson()));
+
+                c.CreateMap<ContactRequest, ContactRequestModel>()
+                    .ForMember(m => m.FromUserName,
+                        opt => opt.MapFrom(src => src.User.Profile.Name));
             });
         }
     }

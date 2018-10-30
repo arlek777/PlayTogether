@@ -50,7 +50,7 @@ export class ManageVacancyPage {
 
     this.route.params.subscribe((params) => {
       if (params["id"]) {
-        this.backendService.getVacancy(params["id"])
+        this.backendService.getUserVacancy(params["id"])
           .subscribe((vacancy: VacancyDetail) => {
             this.vacancyFilterModel = vacancy.vacancyFilter;
             this.formControls.description.setValue(vacancy.description);

@@ -35,6 +35,7 @@ enum URLS {
   changeVacancyStatus = '/vacancy/changevacancystatus',
 
   getUserContactRequests = '/contactRequest/getUserContactRequests',
+  getUserNewContactRequestCount = '/contactRequest/getUserNewContactRequestCount',
   isContactRequestSent = '/contactRequest/isContactRequestSent',
   sendContactRequest = '/contactRequest/sendRequest',
   manageContactRequest = '/contactRequest/manageRequest',
@@ -116,6 +117,10 @@ export class BackendService {
     return this.http.get(URLS.getUserContactRequests).pipe(map(response => response as ContactRequest));
   }
 
+  getUserNewContactRequestCount(): Observable<number> {
+    return this.http.get(URLS.getUserNewContactRequestCount).pipe(map(response => response as number));
+  }
+
   isContactRequestSent(toUserId: string): Observable<boolean> {
     return this.http.get(URLS.isContactRequestSent, { params: { "toUserId": toUserId } }).pipe(map(response => response as boolean));
   }
@@ -124,8 +129,9 @@ export class BackendService {
     return this.http.post(URLS.sendContactRequest, request).pipe(map(response => response as any));
   }
 
-  manageContactRequest(request: ContactRequest): Observable<any> {
-    return this.http.post(URLS.manageContactRequest, request).pipe(map(response => response as any));
+  manageContactRequest(id: string, isApproved: boolean): Observable<any> {
+    return this.http.post(URLS.manageContactRequest, { id: id, isApproved: isApproved })
+      .pipe(map(response => response as any));
   }
 
   changeVacancyStatus(id: string): Observable<boolean> {

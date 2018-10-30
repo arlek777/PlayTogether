@@ -1,0 +1,13 @@
+<div *ngFor="let request of contactRequests">
+  <div>
+    <a [routerLink]="['/profile', request.FromUserId]">{{ request.fromUserName }}</a>
+    , хочет начать общение с вами.
+  </div>
+  <div *ngIf="request.status === ContactRequestStatus.Open">
+    <button (click)="manageContactRequest(request.id, true)" class="btn btn-success">Принять</button>
+    <button (click)="manageContactRequest(request.id, false)" class="btn btn-danger">Отклонить</button>
+  </div>
+  <div *ngIf="request.status !== ContactRequestStatus.Open">
+    Запрос был {{ request.status === ContactRequestStatus.Approved ? 'принят' : 'отклонен' }}.
+  </div>
+</div>

@@ -34,6 +34,15 @@ namespace PlayTogether.Web.Controllers
 
         [HttpGet]
         [Route("[controller]/[action]")]
+        public async Task<IActionResult> GetUserNewContactRequestCount()
+        {
+            var contactRequests = await _crudService.Where<ContactRequest>(v => v.ToUserId == _webSession.UserId 
+                && v.Status == ContactRequestStatus.Open);
+            return Ok(contactRequests.Count);
+        }
+
+        [HttpGet]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> IsContactRequestSent(Guid toUserId)
         {
             var contactRequest =
@@ -52,10 +61,11 @@ namespace PlayTogether.Web.Controllers
 
         [HttpPost]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> SendRequest(SendContactRequestModel model)
+        public async Task<IActionResult> SendRequest([FromBody] SendContactRequestModel model)
         {
             var contactRequest =
-               await _crudService.Find<ContactRequest>(v => v.UserId == _webSession.UserId && v.ToUserId == model.ToUserId);
+               await _crudService.Find<ContactRequest>(v => v.UserId == _webSession.UserId 
+                && v.ToUserId == model.ToUserId);
             if (contactRequest != null)
             {
                 return BadRequest(ValidationResultMessages.InvalidModelState);
@@ -72,12 +82,15 @@ namespace PlayTogether.Web.Controllers
 
         [HttpPost]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> ManageRequest(ContactRequestModel model)
+        public async Task<IActionResult> ManageRequest([FromBody] ManageContactRequestModel model)
         {
             await _crudService.Update<ContactRequestModel, ContactRequest>(model.Id, new ContactRequestModel(),
                 (to, from) =>
                 {
-                    to.Status = model.IsApproved ? ContactRequestStatus.Approved : ContactRequestStatus.Rejected;
+                    if (to.UserId == _webSession.UserId && to.Status == ContactRequestStatus.Open)
+                    {
+                        to.Status = model.IsApproved ? ContactRequestStatus.Approved : ContactRequestStatus.Rejected;
+                    }
                 });
             return Ok();
         }
