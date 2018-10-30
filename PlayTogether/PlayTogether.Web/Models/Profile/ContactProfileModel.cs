@@ -18,8 +18,7 @@ namespace PlayTogether.Web.Models.Profile
         public string Phone2 { get; set; }
 
         [Required]
-        [MaxLength(256)]
-        public string City { get; set; }
+        public City City { get; set; }
 
         [MaxLength(256)]
         public string Url1 { get; set; }
@@ -30,6 +29,7 @@ namespace PlayTogether.Web.Models.Profile
         [MaxLength(256)]
         public string Address { get; set; }
 
-        public List<ContactType> ContactTypes { get; set; }
+        [MaxLength(25)]
+        public ContactType[] ContactTypes { get; set; }
     }
 }

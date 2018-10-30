@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using PlayTogether.Domain;
 using PlayTogether.Domain.MasterValues;
 
 namespace PlayTogether.Web.Models.Profile
@@ -25,11 +23,13 @@ namespace PlayTogether.Web.Models.Profile
         [MaxLength(1)]
         public string PhotoBase64 { get; set; } // todo it's not implemented yet
 
-        // TODO add validation for them
-        public List<WorkType> WorkTypes { get; set; }
+        [MaxLength(25)]
+        public WorkType[] WorkTypes { get; set; }
 
-        public List<MusicGenre> MusicGenres { get; set; }
+        [MaxLength(25)]
+        public MusicGenre[] MusicGenres { get; set; }
 
-        public List<MusicianRole> MusicianRoles { get; set; }
+        [MaxLength(25)]
+        public MusicianRole[] MusicianRoles { get; set; }
     }
 }

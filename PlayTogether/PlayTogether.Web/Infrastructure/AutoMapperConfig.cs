@@ -40,6 +40,8 @@ namespace PlayTogether.Web.Infrastructure
                         opt => opt.MapFrom(src => src.JsonMusicianRoles.FromJsonList<MusicianRole>()));
 
                 c.CreateMap<Domain.Profile, PublicProfileModel>()
+                    .ForMember(m => m.City,
+                        opt => opt.MapFrom(src => src.JsonCity.FromJson<City>().Title))
                     .ForMember(m => m.WorkTypes,
                         opt => opt.MapFrom(src => FromJsonToCommaStr(src.JsonWorkTypes)))
                     .ForMember(m => m.MusicGenres,
@@ -48,10 +50,14 @@ namespace PlayTogether.Web.Infrastructure
                         opt => opt.MapFrom(src => FromJsonToCommaStr(src.JsonMusicianRoles)));
 
                 c.CreateMap<Domain.Profile, ContactProfileModel>()
+                    .ForMember(m => m.City,
+                        opt => opt.MapFrom(src => src.JsonCity.FromJson<City>()))
                     .ForMember(m => m.ContactTypes,
                         opt => opt.MapFrom(src => src.JsonContactTypes.FromJsonList<ContactType>()));
 
                 c.CreateMap<ContactProfileModel, Domain.Profile>()
+                    .ForMember(m => m.JsonCity,
+                        opt => opt.MapFrom(src => src.City.ToJson()))
                     .ForMember(m => m.JsonContactTypes,
                         opt => opt.MapFrom(src => src.ContactTypes.ToJson()));
 

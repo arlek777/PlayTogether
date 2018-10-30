@@ -6,7 +6,7 @@ export class ContactInfo {
   phone2: string;
   url1: string;
   url2: string;
-  city: string;
+  city: MasterValueItem;
   address: string;
   contactTypes: MasterValueItem[];
 }

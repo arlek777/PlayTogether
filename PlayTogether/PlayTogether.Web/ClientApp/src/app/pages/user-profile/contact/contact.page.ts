@@ -53,14 +53,18 @@ export class ContactPage {
       .subscribe((values) => this.contactTypes = values);
 
     this.backendService.getContactProfileInfo()
-      .subscribe((value) => {
-        this.contactInfoModel = value;
+      .subscribe((profile) => {
+        if (profile === null) {
+          this.contactInfoModel = new ContactInfo();
+        } else {
+          this.contactInfoModel = profile;
+        }
         this.selectedCity = [this.contactInfoModel.city];
 
-        this.formControls.email.setValue(value.contactEmail);
-        this.formControls.phone1.setValue(value.phone1);
-        this.formControls.url1.setValue(value.url1);
-        this.formControls.url2.setValue(value.url2);
+        this.formControls.email.setValue(this.contactInfoModel.contactEmail);
+        this.formControls.phone1.setValue(this.contactInfoModel.phone1);
+        this.formControls.url1.setValue(this.contactInfoModel.url1);
+        this.formControls.url2.setValue(this.contactInfoModel.url2);
       });
   }
 
@@ -70,7 +74,7 @@ export class ContactPage {
 
   public submit() {
     this.formSubmitted = true;
-    if (this.form.invalid || !this.selectedCity || !this.selectedCity.length) return;
+    if (this.form.invalid) return;
 
     this.contactInfoModel.contactEmail = this.formControls.email.value;
     this.contactInfoModel.phone1 = this.formControls.phone1.value;
@@ -80,6 +84,10 @@ export class ContactPage {
 
     this.backendService.updateProfileSkills(this.contactInfoModel)
       .subscribe(() => this.toastr.success("Ваш профиль сохранен."));
+  }
+
+  public onCitySelect(city) {
+    this.formControls.city.setValue(city);
   }
 
   private setPageValidator() {
@@ -99,6 +107,11 @@ export class ContactPage {
         '', [
           Validators.maxLength(256),
           //Validators.pattern(RegExp.urlMask)
+        ]
+      ],
+      city: [
+        '', [
+          Validators.required
         ]
       ],
       url2: [

@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using PlayTogether.Domain;
 using PlayTogether.Domain.MasterValues;
@@ -14,10 +14,14 @@ namespace PlayTogether.Web.Models.Vacancy
         public double MinRating { get; set; }
         public double MinExpirience { get; set; }
 
-        public List<City> Cities { get; set; }
-        public List<MusicGenre> MusicGenres { get; set; }
-        public List<MusicianRole> MusicianRoles { get; set; }
-        public List<WorkType> WorkTypes { get; set; }
+        [MaxLength(25)]
+        public City[] Cities { get; set; }
+        [MaxLength(25)]
+        public MusicGenre[] MusicGenres { get; set; }
+        [MaxLength(25)]
+        public MusicianRole[] MusicianRoles { get; set; }
+        [MaxLength(25)]
+        public WorkType[] WorkTypes { get; set; }
 
         public bool ApplyTitle() => !String.IsNullOrEmpty(VacancyTitle);
         public bool ApplyMinRating() => MinRating != 0;

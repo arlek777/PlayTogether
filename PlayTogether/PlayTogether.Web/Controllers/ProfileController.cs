@@ -104,7 +104,7 @@ namespace PlayTogether.Web.Controllers
                 }
             });
 
-                await _crudService.Update<MainProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
+            await _crudService.Update<MainProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
                 to.IsActivated = from.IsActivated;
                 to.Name = from.Name;
@@ -135,9 +135,17 @@ namespace PlayTogether.Web.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> UpdateContactInfo([FromBody] ContactProfileModel model)
         {
+            await _crudService.Update<ContactProfileModel, User>(_webSession.UserId, model, (to, from) =>
+            {
+                if (to.Profile == null)
+                {
+                    to.Profile = new Profile();
+                }
+            });
+
             await _crudService.Update<ContactProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
-                to.City = from.City;
+                to.JsonCity = from.City.ToJson();
                 to.ContactEmail = from.ContactEmail;
                 to.Phone1 = from.Phone1;
                 to.Phone2 = from.Phone2;

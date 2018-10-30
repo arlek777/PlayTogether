@@ -8,8 +8,21 @@
   margin-bottom: 5px;
 }
 
+.error-msg {
+  display: none;
+}
+
 form.form-submitted.ng-invalid input.ng-invalid {
   border-left: 5px solid #a94442; /* red */
+}
+
+form.form-submitted.ng-invalid div.has-validation .multiselect-dropdown {
+  border-left: 5px solid #a94442; /* red */
+  border-radius: 7px;
+}
+
+form.form-submitted.ng-invalid .error-msg {
+  display: block;
 }
 
 form.ng-touched.ng-invalid input.ng-touched.ng-invalid {

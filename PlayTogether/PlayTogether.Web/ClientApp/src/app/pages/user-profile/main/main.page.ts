@@ -27,9 +27,12 @@ export class MainPage implements OnInit {
 
   public dropdownSettings = Constants.getAutocompleteSettings();
 
+  private _redirectToContactPage = false;
+
   constructor(private readonly formBuilder: FormBuilder,
     private readonly toastr: ToastrService,
     private readonly backendService: BackendService,
+    private readonly router: Router,
     private readonly store: Store<AppState>) {
 
     this.store.select(s => s.user).subscribe((user) => {
@@ -49,13 +52,18 @@ export class MainPage implements OnInit {
       .subscribe((values) => this.workTypes = values);
 
     this.backendService.getMainProfileInfo().subscribe(profile => {
-      this.mainInfoModel = profile;
-      this.formControls.name.setValue(profile.name);
+      if (profile === null) {
+        this.mainInfoModel = new MainProfileInfo();
+        this._redirectToContactPage = true;
+      } else {
+        this.mainInfoModel = profile;
+      }
+      this.formControls.name.setValue(this.mainInfoModel.name);
       if (this.isGroup) {
-        this.formControls.groupName.setValue(profile.groupName);
+        this.formControls.groupName.setValue(this.mainInfoModel.groupName);
       } else if (this.isMusician) {
-        this.formControls.experience.setValue(profile.experience);
-        this.formControls.age.setValue(profile.age);
+        this.formControls.experience.setValue(this.mainInfoModel.experience);
+        this.formControls.age.setValue(this.mainInfoModel.age);
       }
     });
   }
@@ -85,12 +93,11 @@ export class MainPage implements OnInit {
       this.mainInfoModel.age = this.formControls.age.value;
     }
 
-    console.log(this.mainInfoModel);
-
     this.backendService.updateMainProfileInfo(this.mainInfoModel)
       .subscribe(() => {
         this.formSubmitted = false;
         this.toastr.success("Ваш профиль сохранен.");
+        this.router.navigate(['/my/profile/contact']);
       });
   }
 

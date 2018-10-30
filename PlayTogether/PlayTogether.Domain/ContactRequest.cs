@@ -10,7 +10,7 @@ namespace PlayTogether.Domain
         public ContactRequestStatus Status { get; set; }
         public Guid UserId { get; set; }
         public Guid ToUserId { get; set; }
-
+        public DateTime Created { get; set; }
         public virtual User User { get; set; }
     }
 }

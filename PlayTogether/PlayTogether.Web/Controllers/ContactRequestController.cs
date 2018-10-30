@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +29,9 @@ namespace PlayTogether.Web.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> GetUserContactRequests()
         {
-            var contactRequests = await _crudService.Where<ContactRequest>(v => v.ToUserId == _webSession.UserId);
+            var contactRequests =
+                (await _crudService.Where<ContactRequest>(v => v.ToUserId == _webSession.UserId)).OrderBy(
+                    c => c.Created);
             return Ok(Mapper.Map<ICollection<ContactRequestModel>>(contactRequests));
         }
 
@@ -75,7 +78,8 @@ namespace PlayTogether.Web.Controllers
             {
                 Status = ContactRequestStatus.Open,
                 ToUserId = model.ToUserId,
-                UserId = _webSession.UserId
+                UserId = _webSession.UserId,
+                Created = DateTime.UtcNow
             });
             return Ok();
         }
