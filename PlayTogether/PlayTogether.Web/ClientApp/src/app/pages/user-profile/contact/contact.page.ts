@@ -62,6 +62,7 @@ export class ContactPage {
         this.selectedCity = [this.contactInfoModel.city];
 
         this.formControls.email.setValue(this.contactInfoModel.contactEmail);
+        this.formControls.city.setValue(this.contactInfoModel.city);
         this.formControls.phone1.setValue(this.contactInfoModel.phone1);
         this.formControls.url1.setValue(this.contactInfoModel.url1);
         this.formControls.url2.setValue(this.contactInfoModel.url2);
