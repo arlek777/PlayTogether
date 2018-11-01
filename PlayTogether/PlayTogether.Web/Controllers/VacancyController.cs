@@ -47,7 +47,7 @@ namespace PlayTogether.Web.Controllers
                 model.UserType = UserType.Group;
             }
 
-            var filters = VacancyConditionalFilter.GetFilters(model);
+            var filters = VacancyConditionalFilter.GetFilters(model).ToList();
             var vacancies = await _crudService.Where<Vacancy>(v => !v.IsClosed && v.User.Type == model.UserType);
 
             if (filters.Any())
@@ -63,13 +63,28 @@ namespace PlayTogether.Web.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> SearchVacanciesByUserProfile()
         {
+            UserType userType = UserType.Uknown;
+            if (_webSession.UserType == UserType.Group)
+            {
+                userType = UserType.Musician;
+            }
+            else if (_webSession.UserType == UserType.Musician)
+            {
+                userType = UserType.Group;
+            }
+
             var userProfile = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
-            var filterModel = Mapper.Map<VacancyFilterModel>(userProfile.Vacancies.FirstOrDefault());
+            var filterModel = Mapper.Map<VacancyFilterModel>(userProfile.Vacancies.FirstOrDefault()?.VacancyFilter);
 
-            var filters = VacancyConditionalFilter.GetFilters(filterModel);
-            var vacancies = await _crudService.Where<Vacancy>(v => filters.All(f => f.PassFilter(v)));
+            var filters = VacancyConditionalFilter.GetFilters(filterModel).ToList();
+            var vacancies = await _crudService.Where<Vacancy>(v => !v.IsClosed && v.User.Type == userType);
+            var foundVacancies = vacancies.ToList().Where(v => filters.All(f => f.PassFilter(v))).ToList();
 
-            return Ok(Mapper.Map<List<PublicVacancyModel>>(vacancies));
+            return Ok(new
+            {
+                vacancies = Mapper.Map<List<PublicVacancyModel>>(foundVacancies),
+                filter = filterModel
+            });
         }
 
         [HttpGet]

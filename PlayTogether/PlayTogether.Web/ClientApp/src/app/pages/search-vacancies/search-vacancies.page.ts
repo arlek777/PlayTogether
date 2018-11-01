@@ -22,6 +22,8 @@ export class SearchVacanciesPage {
   public cities: MasterValueItem[];
   public userType: UserType;
 
+  public dropdownSettings = Constants.getAutocompleteSettings();
+
   constructor(
     private readonly backendService: BackendService,
     private readonly store: Store<AppState>,
@@ -67,6 +69,13 @@ export class SearchVacanciesPage {
     }
     this.backendService.searchVacancies(this.vacancyFilterModel).subscribe((vacancies) => {
       this.vacancies = vacancies;
+    });
+  }
+
+  searchByProfile() {
+    this.backendService.searchFilteredVacanciesByUserProfile().subscribe((result: any) => {
+      this.vacancies = result.vacancies;
+      this.vacancyFilterModel = result.filter;
     });
   }
 }

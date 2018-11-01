@@ -30,7 +30,7 @@ enum URLS {
   getVacancy = '/vacancy/getVacancy',
   getUserVacancies = '/vacancy/getUserVacancies',
   searchVacancies = '/vacancy/searchVacancies',
-  searchFilteredVacanciesByUserProfile = '/vacancy/searchFilteredVacanciesByUserProfile',
+  searchFilteredVacanciesByUserProfile = '/vacancy/searchVacanciesByUserProfile',
   updateOrCreateVacancy = '/vacancy/updateorcreate',
   changeVacancyStatus = '/vacancy/changevacancystatus',
 

@@ -8,15 +8,21 @@
 
     <div class="form-group">
       <div class="row">
+        <a href="javascript: " (click)="searchByProfile()">Искать по моему профилю</a>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
         <label for="title">По названию</label>
-        <input type="text" class="form-control" name="title" [(ngModel)]="vacancyFilterModel.vacancyTitle" placeholder="По названию"/>
+        <input type="text" class="form-control" name="title" [(ngModel)]="vacancyFilterModel.vacancyTitle" placeholder="По названию" />
       </div>
     </div>
 
     <div class="form-group" *ngIf="isGroup">
       <div class="row">
-        <label for="minExpirience">Опыт от</label>
-        <input type="number" class="form-control" name="minExperience" [(ngModel)]="vacancyFilterModel.minExperience" placeholder="Опыт от"/>
+        <label for="minExperience">Опыт от</label>
+        <input type="number" class="form-control" name="minExperience" [(ngModel)]="vacancyFilterModel.minExperience" placeholder="Опыт от" />
       </div>
     </div>
 
@@ -36,11 +42,10 @@
     <div class="form-group">
       <div class="row">
         <div class="col-md-12 py-0 px-0">
-          <label for="musicianRoles">Виды работ</label>
+          <label for="workTypes">Виды работ</label>
           <ng-multiselect-dropdown [placeholder]="'Виды работ'"
                                    [data]="workTypes"
                                    [(ngModel)]="vacancyFilterModel.workTypes"
-                                   [ngModelOptions]="{standalone: true}"
                                    [settings]="dropdownSettings">
           </ng-multiselect-dropdown>
         </div>
@@ -50,7 +55,7 @@
     <div class="form-group">
       <div class="row">
         <div class="col-md-12 py-0 px-0">
-          <label for="musicRoles">Жанры</label>
+          <label for="musicGenres">Жанры</label>
           <ng-multiselect-dropdown [placeholder]="'Музыкальные жанры'"
                                    [data]="musicGenres"
                                    [(ngModel)]="vacancyFilterModel.musicGenres"
