@@ -36,7 +36,7 @@ export class ManageVacancyPage {
       title: ['', [Validators.required]],
       musicianRoles: ['', [Validators.required]],
       description: [''],
-      minExpirience: [0],
+      minExperience: [0],
       cities: ['']
     });
 
@@ -57,7 +57,7 @@ export class ManageVacancyPage {
             this.formControls.musicianRoles.setValue(vacancy.vacancyFilter.musicianRoles);
             this.formControls.description.setValue(vacancy.description);
             this.formControls.title.setValue(vacancy.title);
-            this.formControls.minExpirience.setValue(vacancy.vacancyFilter.minExpirience);
+            this.formControls.minExperience.setValue(vacancy.vacancyFilter.minExperience);
             this.formControls.cities.setValue(vacancy.vacancyFilter.cities);
           });
       }
@@ -84,14 +84,14 @@ export class ManageVacancyPage {
     vacancy.title = this.formControls.title.value;
     vacancy.description = this.formControls.description.value;
     vacancy.vacancyFilter = this.vacancyFilterModel;
-    vacancy.vacancyFilter.minExpirience = this.formControls.minExpirience.value;
+    vacancy.vacancyFilter.minExperience = this.formControls.minExperience.value;
 
     this.backendService.updateOrCreateVacancy(vacancy)
       .subscribe((vacancy) => {
         this.vacancyFilterModel.id = vacancy.id;
         this.toastr.success("Вакансия успешно сохранена.");
         this.formSubmitted = false;
-        this.router.navigate(['/my/vacancy', vacancy.id]);
+        this.router.navigate(['my/vacancies']);
       });
   }
 }

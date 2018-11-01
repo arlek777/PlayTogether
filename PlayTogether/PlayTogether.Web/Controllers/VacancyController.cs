@@ -133,7 +133,7 @@ namespace PlayTogether.Web.Controllers
                     to.Title = from.Title;
                     to.IsClosed = from.IsClosed;
 
-                    to.VacancyFilter.MinExpirience = from.VacancyFilter.MinExpirience;
+                    to.VacancyFilter.MinExperience = from.VacancyFilter.MinExperience;
                     to.VacancyFilter.MinRating = from.VacancyFilter.MinRating;
 
                     to.VacancyFilter.JsonMusicianRoles = from.VacancyFilter.MusicianRoles.ToJson();

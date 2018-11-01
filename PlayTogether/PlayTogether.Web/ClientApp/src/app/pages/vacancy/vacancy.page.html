@@ -2,44 +2,58 @@
   <div class="col-md-12">
     <h3>{{ vacancy.title }}</h3>
   </div>
-  <div><a [routerLink]="['/profile', vacancy.userCreatorId]">{{ vacancy.userCreatorName }}</a></div>
+  <div class="col-md-12">
+    <a [routerLink]="['/profile', vacancy.userCreatorId]">{{ vacancy.userCreatorName }}</a>
+  </div>
 </div>
 
 <hr />
 
 <div class="form-group">
-<div class="row">
-  <div class="col-md-2">Описание</div>
-  <div class="col-md-10">{{ vacancy.description }}</div>
-</div>
-</div>
-
-<div class="form-group">
   <div class="row">
-    <div class="col-md-2">Мин. опыт</div>
-    <div class="col-md-10">{{ vacancy.minExperience }}</div>
+    <div class="col-md-3">Описание вакансии</div>
+    <div class="col-md-9">{{ vacancy.description }}</div>
   </div>
 </div>
 
-<div class="row" *ngIf="vacancy.workTypes">
-  <div class="col-md-2">Города</div>
-  <div class="col-md-10">{{ vacancy.cities }}</div>
+<div class="form-group" *ngIf="vacancy.minExperience">
+  <div class="row">
+    <div class="col-md-3">Мин. опыт</div>
+    <div class="col-md-9">{{ vacancy.minExperience }}</div>
+  </div>
 </div>
 
-<div class="row" *ngIf="vacancy.musicGenres">
-  <div class="col-md-2">Жанры</div>
-  <div class="col-md-10">{{ vacancy.musicGenres }}</div>
+<div class="form-group">
+  <div class="row" *ngIf="vacancy.workTypes">
+    <div class="col-md-3">Города</div>
+    <div class="col-md-9">{{ vacancy.cities }}</div>
+  </div>
 </div>
 
-<div class="row" *ngIf="vacancy.musicianRoles">
-  <div class="col-md-2">Виды деятельности</div>
-  <div class="col-md-10">{{ vacancy.musicianRoles }}</div>
+<div class="form-group">
+  <div class="row" *ngIf="vacancy.musicGenres">
+    <div class="col-md-3">Жанры</div>
+    <div class="col-md-9">{{ vacancy.musicGenres }}</div>
+  </div>
 </div>
 
-<div class="row" *ngIf="vacancy.workTypes">
-  <div class="col-md-2">Виды работы</div>
-  <div class="col-md-10">{{ vacancy.workTypes }}</div>
+<div class="form-group">
+  <div class="row" *ngIf="vacancy.musicianRoles">
+    <div class="col-md-3">Виды деятельности</div>
+    <div class="col-md-9">{{ vacancy.musicianRoles }}</div>
+  </div>
 </div>
 
-<button *ngIf="!vacancy.isContactRequestSent" (click)="sendContactRequest()"
-        class="btn btn-success">Откликнуться</button>
+<div class="form-group">
+  <div class="row" *ngIf="vacancy.workTypes">
+    <div class="col-md-3">Виды работы</div>
+    <div class="col-md-9">{{ vacancy.workTypes }}</div>
+  </div>
+</div>
+
+<div class="form-group">
+  <button *ngIf="!vacancy.isContactRequestSent" (click)="sendContactRequest()"
+          class="btn btn-success">
+    Откликнуться
+  </button>
+</div>

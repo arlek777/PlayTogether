@@ -25,4 +25,5 @@ export class PublicProfile {
 
   isContactsAvailable: boolean;
   isContactRequestSent: boolean;
+  isSelfProfile: boolean;
 }

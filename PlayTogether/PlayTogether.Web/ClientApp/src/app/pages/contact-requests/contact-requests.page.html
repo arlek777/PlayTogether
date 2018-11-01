@@ -1,13 +1,34 @@
-<div *ngFor="let request of contactRequests">
-  <div>
-    <a [routerLink]="['/profile', request.FromUserId]">{{ request.fromUserName }}</a>
-    , хочет начать общение с вами.
+<div class="row">
+  <div class="col-md-12 py-2">
+    <h3>Предложения</h3>
   </div>
-  <div *ngIf="request.status === ContactRequestStatus.Open">
-    <button (click)="manageContactRequest(request.id, true)" class="btn btn-success">Принять</button>
-    <button (click)="manageContactRequest(request.id, false)" class="btn btn-danger">Отклонить</button>
-  </div>
-  <div *ngIf="request.status !== ContactRequestStatus.Open">
-    Запрос был {{ request.status === ContactRequestStatus.Approved ? 'принят' : 'отклонен' }}.
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let request of contactRequests">
+
+        <div class="form-group">
+          <a [routerLink]="['/profile', request.userId]">{{ request.fromUserName }}</a>
+          , хочет начать общение с вами.
+        </div>
+
+        <div *ngIf="request.status === ContactRequestStatus.Open">
+          <div class="row">
+            <div class="col-md-1">
+              <button (click)="manageContactRequest(request, true)" class="btn btn-success">Принять</button>
+            </div>
+            <div class="col-md-1">
+              <button (click)="manageContactRequest(request, false)" class="btn btn-default">Отклонить</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" *ngIf="request.status !== ContactRequestStatus.Open">
+          Запрос был {{ request.status === ContactRequestStatus.Approved ? 'принят' : 'отклонен' }}.
+        </div>
+      </li>
+    </ul>
   </div>
 </div>

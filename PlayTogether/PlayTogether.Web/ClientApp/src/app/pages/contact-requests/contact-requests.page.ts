@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { BackendService } from '../../services/backend.service';
-import { Constants } from '../../constants';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PublicVacancy } from '../../models/public-vacancy';
 import { ContactRequest, ContactRequestStatus } from '../../models/contact-request';
 import { ToastrService } from 'ngx-toastr';
 
@@ -25,9 +23,14 @@ export class ContactRequestsPage {
       .subscribe((requests) => this.contactRequests = requests);
   }
 
-  manageContactRequest(id, isApproved: boolean) {
-    this.backendService.manageContactRequest(id, isApproved).subscribe(() => {
-      this.toastr.success("Запрос успешно обновлен.");
+  manageContactRequest(contactRequest: ContactRequest, isApproved: boolean) {
+    this.backendService.manageContactRequest(contactRequest.id, isApproved).subscribe(() => {
+      this.toastr.success("Вы можете начать общение.");
+      contactRequest.status = isApproved ? ContactRequestStatus.Approved : ContactRequestStatus.Rejected;
+
+      if (isApproved) {
+        this.router.navigate(['/profile', contactRequest.userId]);
+      }
     });
   }
 }

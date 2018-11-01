@@ -8,7 +8,7 @@ export class PublicVacancy {
   musicianRoles: string;
   musicGenres: string;
   minRating: number;
-  minExpirience: number;
+  minExperience: number;
   description: string;
   isContactRequestSent: boolean;
 }

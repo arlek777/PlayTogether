@@ -14,7 +14,7 @@ namespace PlayTogether.Web.Models.Vacancy
 
         public UserType UserType { get; set; }
         public double MinRating { get; set; }
-        public double MinExpirience { get; set; }
+        public double MinExperience { get; set; }
 
         public string Cities { get; set; }
         public string MusicGenres { get; set; }

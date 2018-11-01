@@ -41,7 +41,10 @@ export class ProfilePage {
     const request = new ContactRequest();
     request.toUserId = this.profile.id;
     this.backendService.sendContactRequest(request)
-      .subscribe(() => this.toastr.success('Запрос отправлен'));
+      .subscribe(() => {
+        this.toastr.success('Запрос отправлен');
+        this.router.navigate(['/']);
+      });
   }
 
   get isMusician() {

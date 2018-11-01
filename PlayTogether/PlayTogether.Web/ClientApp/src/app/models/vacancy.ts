@@ -20,7 +20,7 @@ export class VacancyFilter {
   id: string;
   vacancyTitle: string;
   minRating: number;
-  minExpirience: number;
+  minExperience: number;
   cities: MasterValueItem[];
   musicGenres: MasterValueItem[];
   musicianRoles: MasterValueItem[];

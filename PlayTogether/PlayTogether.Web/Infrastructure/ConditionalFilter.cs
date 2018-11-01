@@ -24,7 +24,7 @@ namespace PlayTogether.Web.Infrastructure
         {
             Expression<Func<Vacancy, bool>> title = v => v.Title.ToLower().Contains(model.VacancyTitle.ToLower());
             Expression<Func<Vacancy, bool>> minRating = v => v.User.Profile.Rating >= model.MinRating;
-            Expression<Func<Vacancy, bool>> minExp = v => v.User.Profile.Experience >= model.MinExpirience;
+            Expression<Func<Vacancy, bool>> minExp = v => v.User.Profile.Experience >= model.MinExperience;
             Expression<Func<Vacancy, bool>> musicGenres = v =>
                 v.VacancyFilter.JsonMusicGenres.FromJson<ICollection<MusicGenre>>()
                     .Any(m => model.MusicGenres.Any(m2 => m.Id == m2.Id));
@@ -40,7 +40,7 @@ namespace PlayTogether.Web.Infrastructure
             {
                 model.ApplyTitle() ? new VacancyConditionalFilter(title) : null,
                 model.ApplyMinRating() ? new VacancyConditionalFilter(minRating): null,
-                model.ApplyMinExpirience() ? new VacancyConditionalFilter(minExp): null,
+                model.ApplyMinExperience() ? new VacancyConditionalFilter(minExp): null,
                 model.ApplyCities() ? new VacancyConditionalFilter(cities): null,
                 model.ApplyMusicGenres() ? new VacancyConditionalFilter(musicGenres): null,
                 model.ApplyMusicianRoles() ? new VacancyConditionalFilter(musicianRoles): null,

@@ -74,6 +74,11 @@ namespace PlayTogether.Web.Controllers
                 return BadRequest(ValidationResultMessages.InvalidModelState);
             }
 
+            if (model.ToUserId == _webSession.UserId)
+            {
+                return BadRequest(ValidationResultMessages.InvalidModelState);
+            }
+
             await _crudService.Create<ContactRequest>(new ContactRequest()
             {
                 Status = ContactRequestStatus.Open,
@@ -91,9 +96,14 @@ namespace PlayTogether.Web.Controllers
             await _crudService.Update<ContactRequestModel, ContactRequest>(model.Id, new ContactRequestModel(),
                 (to, from) =>
                 {
-                    if (to.UserId == _webSession.UserId && to.Status == ContactRequestStatus.Open)
+                    if (to.ToUserId == _webSession.UserId && to.Status == ContactRequestStatus.Open)
                     {
                         to.Status = model.IsApproved ? ContactRequestStatus.Approved : ContactRequestStatus.Rejected;
+                        var requestFromUser = to.User.ContactRequests.FirstOrDefault(c => c.UserId == _webSession.UserId);
+                        if (requestFromUser != null)
+                        {
+                            requestFromUser.Status = to.Status;
+                        }
                     }
                 });
             return Ok();

@@ -13,7 +13,7 @@ namespace PlayTogether.Domain
         [ForeignKey("Vacancy")]
         public Guid Id { get; set; }
         public double MinRating { get; set; }
-        public double MinExpirience { get; set; }
+        public double MinExperience { get; set; }
         public string JsonCities { get; set; }
         public virtual Vacancy Vacancy { get; set; }
     }

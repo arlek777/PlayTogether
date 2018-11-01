@@ -61,6 +61,9 @@ namespace PlayTogether.Web.Controllers
                 var user = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
                 profile = user.Profile;
                 model = Mapper.Map<PublicProfileModel>(profile);
+                model.IsContactsAvailable = true;
+                model.IsContactRequestSent = true;
+                model.IsSelfProfile = true;
             }
 
             return Ok(model);
@@ -106,25 +109,30 @@ namespace PlayTogether.Web.Controllers
 
             await _crudService.Update<MainProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
-                to.IsActivated = from.IsActivated;
+                
                 to.Name = from.Name;
-                to.GroupName = from.GroupName;
-                to.Age = from.Age;
-                to.Experience = from.Experience;
                 to.Description = from.Description;
                 to.PhotoBase64 = from.PhotoBase64;
-                to.JsonWorkTypes = from.WorkTypes.ToJson();
-                to.JsonMusicianRoles = from.MusicianRoles.ToJson();
                 to.JsonMusicGenres = from.MusicGenres.ToJson();
 
                 if (to.User.Type == UserType.Musician)
                 {
+                    to.Age = from.Age;
+                    to.Experience = from.Experience;
+                    to.JsonWorkTypes = from.WorkTypes.ToJson();
+                    to.JsonMusicianRoles = from.MusicianRoles.ToJson();
+                    to.IsActivated = from.IsActivated;
+
                     var vacancy = to.User.Vacancies.FirstOrDefault();
                     vacancy.Title = from.Name;
                     vacancy.Description = from.Description;
                     vacancy.IsClosed = !from.IsActivated;
                     vacancy.VacancyFilter.JsonMusicianRoles = from.MusicianRoles.ToJson();
                     vacancy.VacancyFilter.JsonMusicGenres = from.MusicGenres.ToJson();
+                }
+                else if (to.User.Type == UserType.Group)
+                {
+                    to.GroupName = from.GroupName;
                 }
             });
 

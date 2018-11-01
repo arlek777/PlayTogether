@@ -31,7 +31,7 @@ export class SearchVacanciesPage {
     this.vacancyFilterModel.musicGenres = [];
     this.vacancyFilterModel.workTypes = [];
     this.vacancyFilterModel.cities = [];
-    this.vacancyFilterModel.minExpirience = 0;
+    this.vacancyFilterModel.minExperience = 0;
     this.vacancyFilterModel.vacancyTitle = "";
 
     this.store.select(s => s.user.userType).subscribe((type) => this.userType = type);
@@ -59,8 +59,8 @@ export class SearchVacanciesPage {
   }
 
   search() {
-    if (!this.vacancyFilterModel.minExpirience) {
-      this.vacancyFilterModel.minExpirience = 0;
+    if (!this.vacancyFilterModel.minExperience) {
+      this.vacancyFilterModel.minExperience = 0;
     }
     if (!this.vacancyFilterModel.minRating) {
       this.vacancyFilterModel.minRating = 0;

@@ -12,7 +12,7 @@ namespace PlayTogether.Web.Models.Vacancy
         public UserType UserType { get; set; }
         public string VacancyTitle { get; set; }
         public double MinRating { get; set; }
-        public double MinExpirience { get; set; }
+        public double MinExperience { get; set; }
 
         [MaxLength(25)]
         public City[] Cities { get; set; }
@@ -25,7 +25,7 @@ namespace PlayTogether.Web.Models.Vacancy
 
         public bool ApplyTitle() => !String.IsNullOrEmpty(VacancyTitle);
         public bool ApplyMinRating() => MinRating != 0;
-        public bool ApplyMinExpirience() => MinExpirience != 0;
+        public bool ApplyMinExperience() => MinExperience != 0;
         public bool ApplyCities() => Cities != null && Cities.Any();
         public bool ApplyMusicGenres() => MusicGenres != null && MusicGenres.Any();
         public bool ApplyMusicianRoles() => MusicianRoles != null && MusicianRoles.Any();

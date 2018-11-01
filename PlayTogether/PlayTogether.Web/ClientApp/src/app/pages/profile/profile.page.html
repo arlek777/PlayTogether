@@ -2,105 +2,111 @@
   <div class="col-md-12">
     <h3>{{ profile.name }}</h3>
   </div>
-  <div *ngIf="isMusician" class="col-md-12">
-    <p>Администратор группы  {{ profile.groupName }}</p>
-  </div>
 </div>
 
 <hr />
 
+<div class="form-group" *ngIf="isMusician">
+  <div class="row">
+    <div class="col-md-3">Администратор группы</div>
+    <div class="col-md-9">{{ profile.groupName }}</div>
+  </div>
+</div>
+
 <div *ngIf="profile.isContactsAvailable">
-  <h3>Контакты</h3>
+  <h4>Контакты <span *ngIf="isMusician">группы</span></h4>
   <div class="form-group">
     <div class="row">
-      <div class="col-md-2">Email</div>
-      <div class="col-md-12">{{ profile.contactEmail }}</div>
+      <div class="col-md-3">Email</div>
+      <div class="col-md-9">{{ profile.contactEmail }}</div>
     </div>
   </div>
   <div class="form-group">
     <div class="row">
-      <div class="col-md-2">Телефон</div>
-      <div class="col-md-10">{{ profile.phone1 }}</div>
+      <div class="col-md-3">Телефон</div>
+      <div class="col-md-9">{{ profile.phone1 }}</div>
     </div>
   </div>
   <div class="form-group">
     <div class="row" *ngIf="profile.phone2">
-      <div class="col-md-2">Телефон 2</div>
-      <div class="col-md-10">{{ profile.phone2 }}</div>
+      <div class="col-md-3">Телефон 2</div>
+      <div class="col-md-9">{{ profile.phone2 }}</div>
     </div>
   </div>
   <div class="form-group">
     <div class="row" *ngIf="profile.url1">
-      <div class="col-md-2">Соц. сеть, блог, Youtube канал</div>
-      <div class="col-md-10">{{ profile.url1 }}</div>
+      <div class="col-md-3">Соц. сеть, блог, Youtube канал</div>
+      <div class="col-md-9">{{ profile.url1 }}</div>
     </div>
   </div>
   <div class="form-group">
     <div class="row" *ngIf="profile.url2">
-      <div class="col-md-2">Соц. сеть, блог, Youtube канал</div>
-      <div class="col-md-10">{{ profile.url2 }}</div>
+      <div class="col-md-3">Соц. сеть, блог, Youtube канал</div>
+      <div class="col-md-9">{{ profile.url2 }}</div>
     </div>
   </div>
   <div class="form-group">
     <div class="row" *ngIf="profile.address">
-      <div class="col-md-2">Адрес</div>
-      <div class="col-md-10">{{ profile.address }}</div>
+      <div class="col-md-3">Адрес</div>
+      <div class="col-md-9">{{ profile.address }}</div>
     </div>
   </div>
   <div class="form-group">
     <div class="row" *ngIf="profile.contactTypes">
-      <div class="col-md-2">Способы связи</div>
-      <div class="col-md-10">{{ profile.contactTypes }}</div>
+      <div class="col-md-3">Способы связи</div>
+      <div class="col-md-9">{{ profile.contactTypes }}</div>
     </div>
   </div>
 </div>
 
 <div class="form-group">
   <div class="row">
-    <div class="col-md-2">Город</div>
-    <div class="col-md-10">{{ profile.city }}</div>
+    <div class="col-md-3">Город</div>
+    <div class="col-md-9">{{ profile.city }}</div>
+  </div>
+</div>
+
+<h4>Профиль <span *ngIf="isMusician">группы</span></h4>
+
+<div class="form-group">
+  <div class="row" *ngIf="isGroup && profile.age">
+    <div class="col-md-3">Возраст</div>
+    <div class="col-md-9">{{ profile.age }}</div>
   </div>
 </div>
 
 <div class="form-group">
-  <div class="row" *ngIf="isGroup">
-    <div class="col-md-2">Возраст</div>
-    <div class="col-md-10">{{ profile.age }}</div>
-  </div>
-</div>
-
-<div class="form-group">
-  <div class="row" *ngIf="isGroup">
-    <div class="col-md-2">Опыт игры</div>
-    <div class="col-md-10">Опыт игры: {{ profile.experience }}</div>
+  <div class="row" *ngIf="isGroup && profile.experience">
+    <div class="col-md-3">Опыт игры</div>
+    <div class="col-md-9">{{ profile.experience }}</div>
   </div>
 </div>
 
 <div class="form-group">
   <div class="row" *ngIf="profile.musicGenres">
-    <div class="col-md-2">Жанры</div>
-    <div class="col-md-10">{{ profile.musicGenres }}</div>
+    <div class="col-md-3">Жанры</div>
+    <div class="col-md-9">{{ profile.musicGenres }}</div>
   </div>
 </div>
 
 <div class="form-group">
   <div class="row" *ngIf="profile.musicianRoles && isGroup">
-    <div class="col-md-2">Виды деятельности</div>
-    <div class="col-md-10">{{ profile.musicianRoles }}</div>
+    <div class="col-md-3">Виды деятельности</div>
+    <div class="col-md-9">{{ profile.musicianRoles }}</div>
   </div>
 </div>
 
 <div class="form-group">
   <div class="row" *ngIf="profile.workTypes && isGroup">
-    <div class="col-md-2">Виды работы</div>
-    <div class="col-md-10">{{ profile.workTypes }}</div>
+    <div class="col-md-3">Виды работы</div>
+    <div class="col-md-9">{{ profile.workTypes }}</div>
   </div>
 </div>
 
 <div class="form-group">
   <div class="row" *ngIf="profile.description">
-    <div class="col-md-2">Описание</div>
-    <div class="col-md-10">{{ profile.description }}</div>
+    <div class="col-md-3">Описание</div>
+    <div class="col-md-9">{{ profile.description }}</div>
   </div>
 </div>
 
