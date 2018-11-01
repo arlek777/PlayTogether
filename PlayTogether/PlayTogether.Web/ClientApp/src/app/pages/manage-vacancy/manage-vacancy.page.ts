@@ -34,6 +34,7 @@ export class ManageVacancyPage {
   ngOnInit() {
     this.vacancyFormGroup = this.formBuilder.group({
       title: ['', [Validators.required]],
+      musicianRoles: ['', [Validators.required]],
       description: [''],
       minExpirience: [0],
       cities: ['']
@@ -53,6 +54,7 @@ export class ManageVacancyPage {
         this.backendService.getUserVacancy(params["id"])
           .subscribe((vacancy: VacancyDetail) => {
             this.vacancyFilterModel = vacancy.vacancyFilter;
+            this.formControls.musicianRoles.setValue(vacancy.vacancyFilter.musicianRoles);
             this.formControls.description.setValue(vacancy.description);
             this.formControls.title.setValue(vacancy.title);
             this.formControls.minExpirience.setValue(vacancy.vacancyFilter.minExpirience);
@@ -64,6 +66,14 @@ export class ManageVacancyPage {
 
   public get formControls() {
     return this.vacancyFormGroup.controls;
+  }
+
+  onSelect(value) {
+    this.formControls.musicianRoles.setValue(value);
+  }
+
+  onDeSelect() {
+    this.formControls.musicianRoles.setValue(null);
   }
 
   public submit() {
@@ -81,7 +91,7 @@ export class ManageVacancyPage {
         this.vacancyFilterModel.id = vacancy.id;
         this.toastr.success("Вакансия успешно сохранена.");
         this.formSubmitted = false;
-        this.router.navigate(['/my/vacancy', this.vacancyFilterModel.id]);
+        this.router.navigate(['/my/vacancy', vacancy.id]);
       });
   }
 }

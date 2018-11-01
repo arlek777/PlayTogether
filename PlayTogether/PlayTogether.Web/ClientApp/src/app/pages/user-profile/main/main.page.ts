@@ -62,6 +62,7 @@ export class MainPage implements OnInit {
       if (this.isGroup) {
         this.formControls.groupName.setValue(this.mainInfoModel.groupName);
       } else if (this.isMusician) {
+        this.formControls.musicianRoles.setValue(this.mainInfoModel.musicianRoles);
         this.formControls.experience.setValue(this.mainInfoModel.experience);
         this.formControls.age.setValue(this.mainInfoModel.age);
       }
@@ -78,6 +79,14 @@ export class MainPage implements OnInit {
 
   get isGroup() {
     return this.userType === UserType.Group;
+  }
+
+  onSelect(value) {
+    this.formControls.musicianRoles.setValue(value);
+  }
+
+  onDeSelect() {
+    this.formControls.musicianRoles.setValue(null);
   }
 
   public submit() {
@@ -118,6 +127,10 @@ export class MainPage implements OnInit {
         Validators.maxLength(2),
         Validators.min(0),
         Validators.max(95)
+      ]));
+
+      this.mainPageForm.addControl('musicianRoles', this.formBuilder.control('', [
+        Validators.required
       ]));
 
       this.mainPageForm.addControl('experience', this.formBuilder.control('', [

@@ -91,6 +91,10 @@ export class ContactPage {
     this.formControls.city.setValue(city);
   }
 
+  public onDeSelectCity() {
+    this.formControls.city.setValue('');
+  }
+
   private setPageValidator() {
     this.form = this.formBuilder.group({
       email: [

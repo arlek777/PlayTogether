@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PlayTogether.Domain.MasterValues
 {
-    public abstract class MasterValue: ISimpleEntity
+    public class MasterValue: ISimpleEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }

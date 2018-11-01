@@ -100,7 +100,7 @@ namespace PlayTogether.Web.Controllers
             var contactRequest =
                await _crudService.Find<ContactRequest>(v => v.UserId == _webSession.UserId
                && v.ToUserId == vacancy.UserId);
-            publicVacancy.IsContactRequestSent = contactRequest != null && contactRequest.Status == ContactRequestStatus.Approved;
+            publicVacancy.IsContactRequestSent = contactRequest != null;
 
             return Ok(publicVacancy);
         }

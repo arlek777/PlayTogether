@@ -15,9 +15,11 @@ import { PublicVacancy } from '../../models/public-vacancy';
 })
 export class SearchVacanciesPage {
   public vacancies: PublicVacancy[];
-  public vacancyFilter = new VacancyFilter();
+  public vacancyFilterModel = new VacancyFilter();
   public musicGenres: MasterValueItem[];
   public musicianRoles: MasterValueItem[];
+  public workTypes: MasterValueItem[];
+  public cities: MasterValueItem[];
   public userType: UserType;
 
   constructor(
@@ -25,12 +27,12 @@ export class SearchVacanciesPage {
     private readonly store: Store<AppState>,
     private readonly router: Router) {
 
-    this.vacancyFilter.musicianRoles = [];
-    this.vacancyFilter.musicGenres = [];
-    this.vacancyFilter.workTypes = [];
-    this.vacancyFilter.cities = [];
-    this.vacancyFilter.minExpirience = 0;
-    this.vacancyFilter.vacancyTitle = "";
+    this.vacancyFilterModel.musicianRoles = [];
+    this.vacancyFilterModel.musicGenres = [];
+    this.vacancyFilterModel.workTypes = [];
+    this.vacancyFilterModel.cities = [];
+    this.vacancyFilterModel.minExpirience = 0;
+    this.vacancyFilterModel.vacancyTitle = "";
 
     this.store.select(s => s.user.userType).subscribe((type) => this.userType = type);
   }
@@ -38,21 +40,32 @@ export class SearchVacanciesPage {
   ngOnInit() {
     this.backendService.getMasterValues(MasterValueTypes.MusicGenres)
       .subscribe((values) => this.musicGenres = values);
-
     this.backendService.getMasterValues(MasterValueTypes.MusicianRoles)
       .subscribe((values) => this.musicianRoles = values);
+    this.backendService.getMasterValues(MasterValueTypes.Cities)
+      .subscribe((values) => this.cities = values);
+    this.backendService.getMasterValues(MasterValueTypes.WorkTypes)
+      .subscribe((values) => this.workTypes = values);
 
     this.search();
   }
 
+  get isGroup() {
+    return this.userType === UserType.Group;
+  }
+
+  get isMusician() {
+    return this.userType === UserType.Musician;
+  }
+
   search() {
-    if (!this.vacancyFilter.minExpirience) {
-      this.vacancyFilter.minExpirience = 0;
+    if (!this.vacancyFilterModel.minExpirience) {
+      this.vacancyFilterModel.minExpirience = 0;
     }
-    if (!this.vacancyFilter.minRating) {
-      this.vacancyFilter.minRating = 0;
+    if (!this.vacancyFilterModel.minRating) {
+      this.vacancyFilterModel.minRating = 0;
     }
-    this.backendService.searchVacancies(this.vacancyFilter).subscribe((vacancies) => {
+    this.backendService.searchVacancies(this.vacancyFilterModel).subscribe((vacancies) => {
       this.vacancies = vacancies;
     });
   }

@@ -39,7 +39,7 @@ namespace PlayTogether.Web.Infrastructure.Extensions
             services.AddTransient<IPasswordHasher, PasswordHasher>();
             services.Configure<JWTSettings>(configuration.GetSection("JWTSettings"));
             services.AddTransient<JWTTokenProvider>();
-            services.TryAddSingleton<WebSession>();
+            services.AddTransient<WebSession>();
         }
     }
 }

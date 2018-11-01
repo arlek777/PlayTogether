@@ -29,6 +29,7 @@ namespace PlayTogether.Web.Models.Profile
         [MaxLength(25)]
         public MusicGenre[] MusicGenres { get; set; }
 
+        [Required]
         [MaxLength(25)]
         public MusicianRole[] MusicianRoles { get; set; }
     }

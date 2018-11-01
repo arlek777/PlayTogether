@@ -51,6 +51,7 @@
                                    [data]="cities"
                                    [(ngModel)]="selectedCity"
                                    (onSelect)="onCitySelect($event)"
+                                   (onDeSelect)="onDeSelectCity()"
                                    [ngModelOptions]="{standalone: true}"
                                    [settings]="cityDropdownSettings">
           </ng-multiselect-dropdown>
