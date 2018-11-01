@@ -29,13 +29,7 @@ export class SearchVacanciesPage {
     private readonly store: Store<AppState>,
     private readonly router: Router) {
 
-    this.vacancyFilterModel.musicianRoles = [];
-    this.vacancyFilterModel.musicGenres = [];
-    this.vacancyFilterModel.workTypes = [];
-    this.vacancyFilterModel.cities = [];
-    this.vacancyFilterModel.minExperience = 0;
-    this.vacancyFilterModel.vacancyTitle = "";
-
+    this._setInitialFilter();
     this.store.select(s => s.user.userType).subscribe((type) => this.userType = type);
   }
 
@@ -77,5 +71,21 @@ export class SearchVacanciesPage {
       this.vacancies = result.vacancies;
       this.vacancyFilterModel = result.filter;
     });
+  }
+
+  reset() {
+    this._setInitialFilter();
+    this.backendService.searchVacancies(this.vacancyFilterModel).subscribe((vacancies) => {
+      this.vacancies = vacancies;
+    });
+  }
+
+  private _setInitialFilter() {
+    this.vacancyFilterModel.musicianRoles = [];
+    this.vacancyFilterModel.musicGenres = [];
+    this.vacancyFilterModel.workTypes = [];
+    this.vacancyFilterModel.cities = [];
+    this.vacancyFilterModel.minExperience = 0;
+    this.vacancyFilterModel.vacancyTitle = "";
   }
 }
