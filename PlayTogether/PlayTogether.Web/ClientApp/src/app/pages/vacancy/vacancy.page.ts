@@ -31,6 +31,9 @@ export class VacancyPage {
     const request = new ContactRequest();
     request.toUserId = this.vacancy.userCreatorId;
     this.backendService.sendContactRequest(request)
-      .subscribe(() => this.toastr.success('Запрос отправлен'));
+      .subscribe(() => {
+        this.toastr.success('Запрос отправлен');
+        this.router.navigate(['/']);
+      });
   }
 }

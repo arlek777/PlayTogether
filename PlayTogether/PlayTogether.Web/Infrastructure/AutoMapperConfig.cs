@@ -103,7 +103,9 @@ namespace PlayTogether.Web.Infrastructure
 
                 c.CreateMap<ContactRequest, ContactRequestModel>()
                     .ForMember(m => m.FromUserName,
-                        opt => opt.MapFrom(src => src.User.Profile.Name));
+                        opt => opt.MapFrom(src => src.User.Profile.Name))
+                    .ForMember(m => m.ToUserName,
+                        opt => opt.MapFrom(src => src.ToUser.Profile.Name));
             });
         }
     }

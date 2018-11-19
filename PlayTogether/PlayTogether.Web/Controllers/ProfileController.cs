@@ -37,7 +37,8 @@ namespace PlayTogether.Web.Controllers
                 model = Mapper.Map<PublicProfileModel>(profile);
 
                 var contactRequest =
-                    await _crudService.Find<ContactRequest>(v => v.UserId == _webSession.UserId && v.ToUserId == id);
+                    await _crudService.Find<ContactRequest>(v => (v.UserId == _webSession.UserId && v.ToUserId == id) ||
+                                                                 (v.UserId == id && v.ToUserId == _webSession.UserId));
                 if (contactRequest == null || contactRequest.Status != ContactRequestStatus.Approved)
                 {
                     model.Address = "";

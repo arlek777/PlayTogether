@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-12 py-2">
-    <h3>Предложения</h3>
+    <h3>Сообщения</h3>
   </div>
 </div>
 
@@ -9,25 +9,46 @@
     <ul class="list-group">
       <li class="list-group-item" *ngFor="let request of contactRequests">
 
-        <div class="form-group">
-          <a [routerLink]="['/profile', request.userId]">{{ request.fromUserName }}</a>
-          , хочет начать общение с вами.
-        </div>
-
-        <div *ngIf="request.status === ContactRequestStatus.Open">
-          <div class="row">
-            <div class="col-md-1">
-              <button (click)="manageContactRequest(request, true)" class="btn btn-success">Принять</button>
+        <!-- If User owns request -->
+        <div *ngIf="request.isUserOwner">
+          <div *ngIf="isRequestOpened(request)">
+            <div class="form-group">
+              Вы отправили запрос открыть контакты,
+              <a [routerLink]="['/profile', request.toUserId]">{{ request.toUserName }}</a>
             </div>
-            <div class="col-md-1">
-              <button (click)="manageContactRequest(request, false)" class="btn btn-default">Отклонить</button>
+          </div>
+
+          <div *ngIf="!isRequestOpened(request)">
+            <div class="form-group">
+              <a [routerLink]="['/profile', request.toUserId]">{{ request.toUserName }}</a>
+              {{ request.status === ContactRequestStatus.Approved ? ' открыл контакты. Вы можете начать общаться.' : ' Отклонил ваш запрос.' }}
             </div>
           </div>
         </div>
 
-        <div class="form-group" *ngIf="request.status !== ContactRequestStatus.Open">
-          Запрос был {{ request.status === ContactRequestStatus.Approved ? 'принят' : 'отклонен' }}.
+        <!-- If User doesn't own request -->
+        <div *ngIf="!request.isUserOwner">
+          <div *ngIf="isRequestOpened(request)">
+            <div class="form-group">
+              <a [routerLink]="['/profile', request.userId]">{{ request.fromUserName }}</a>, просит открыть контактные данные.
+            </div>
+
+            <div class="row">
+              <div class="col-md-2">
+                <button (click)="manageContactRequest(request, true)" class="btn btn-success">Открыть контакты</button>
+              </div>
+              <div class="col-md-2">
+                <button (click)="manageContactRequest(request, false)" class="btn btn-default">Отклонить запрос</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="!isRequestOpened(request)">
+            {{ request.status === ContactRequestStatus.Approved ? 'Вы открыли контактые данные для ' : 'Вы отклонили запрос для ' }}
+            <a [routerLink]="['/profile', request.userId]">{{ request.fromUserName }}</a>
+          </div>
         </div>
+
       </li>
     </ul>
   </div>

@@ -12,5 +12,6 @@ namespace PlayTogether.Domain
         public Guid ToUserId { get; set; }
         public DateTime Created { get; set; }
         public virtual User User { get; set; }
+        public virtual User ToUser { get; set; }
     }
 }

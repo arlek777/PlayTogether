@@ -30,9 +30,17 @@ namespace PlayTogether.Web.Controllers
         public async Task<IActionResult> GetUserContactRequests()
         {
             var contactRequests =
-                (await _crudService.Where<ContactRequest>(v => v.ToUserId == _webSession.UserId)).OrderBy(
+                (await _crudService.Where<ContactRequest>(v => v.ToUserId == _webSession.UserId 
+                                                               || v.UserId == _webSession.UserId)).OrderBy(
                     c => c.Created);
-            return Ok(Mapper.Map<ICollection<ContactRequestModel>>(contactRequests));
+
+            var mappedContactRequests = contactRequests.Select(c =>
+            {
+                var mappedContact = Mapper.Map<ContactRequestModel>(c);
+                mappedContact.IsUserOwner = mappedContact.UserId == _webSession.UserId;
+                return mappedContact;
+            });
+            return Ok(mappedContactRequests);
         }
 
         [HttpGet]
@@ -58,7 +66,9 @@ namespace PlayTogether.Web.Controllers
         public async Task<IActionResult> IsContactRequestApproved(Guid toUserId)
         {
             var contactRequest =
-                await _crudService.Find<ContactRequest>(v => v.UserId == _webSession.UserId && v.ToUserId == toUserId);
+                await _crudService.Find<ContactRequest>(v =>
+                    (v.UserId == _webSession.UserId && v.ToUserId == toUserId) ||
+                    (v.UserId == toUserId && v.ToUserId == _webSession.UserId));
             return Ok(contactRequest != null && contactRequest.Status == ContactRequestStatus.Approved);
         }
 

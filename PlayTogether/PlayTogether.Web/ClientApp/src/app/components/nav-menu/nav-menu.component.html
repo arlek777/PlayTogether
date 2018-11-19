@@ -11,7 +11,7 @@
           <a class="nav-link" [routerLink]='["/"]'>Поиск</a>
         </li>
         <li class="nav-item" [routerLinkActive]='["active"]' *ngIf="user.isLoggedIn">
-          <a class="nav-link" [routerLink]='["my/contact-requests"]'>Мои предложения
+          <a class="nav-link" [routerLink]='["my/contact-requests"]'>Сообщения
             <new-contact-request-counter></new-contact-request-counter>
           </a>
         </li>

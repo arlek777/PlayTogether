@@ -48,7 +48,9 @@ namespace PlayTogether.Web.Controllers
             }
 
             var filters = VacancyConditionalFilter.GetFilters(model).ToList();
-            var vacancies = await _crudService.Where<Vacancy>(v => !v.IsClosed && v.User.Type == model.UserType);
+            var vacancies = await _crudService.Where<Vacancy>(v => !v.IsClosed 
+                                                                   && v.User.Profile != null 
+                                                                   && v.User.Type == model.UserType);
 
             if (filters.Any())
             {

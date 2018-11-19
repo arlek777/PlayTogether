@@ -33,4 +33,8 @@ export class ContactRequestsPage {
       }
     });
   }
+
+ isRequestOpened(request: ContactRequest) {
+   return request.status === ContactRequestStatus.Open;
+ }
 }

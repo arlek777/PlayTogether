@@ -11,5 +11,7 @@ namespace PlayTogether.Web.Models.ContactRequest
         public Guid ToUserId { get; set; }
         public Guid UserId { get; set; }
         public string FromUserName { get; set; }
+        public string ToUserName { get; set; }
+        public bool IsUserOwner { get; set; }
     }
 }
