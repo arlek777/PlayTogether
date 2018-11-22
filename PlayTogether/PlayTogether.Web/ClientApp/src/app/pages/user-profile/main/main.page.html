@@ -1,6 +1,6 @@
 <div>
   <form [formGroup]="mainPageForm" [ngClass]="{ 'form-submitted': formSubmitted }" (submit)="submit()">
-    <div class="form-group">
+    <div class="form-group" *ngIf="isUserProfileFilled">
       <div class="row">
         <div class="col-md-3">
           <a [routerLink]="['/profile']">Смотреть публичный профиль</a>

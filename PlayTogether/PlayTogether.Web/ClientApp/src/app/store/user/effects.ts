@@ -80,7 +80,7 @@ export class UserEffects {
         this.backendService.selectUserType(action.payload).subscribe((response: LoginResponse) => {
           window.localStorage.setItem(Constants.accessTokenKey, response.accessToken);
           window.localStorage.setItem(Constants.currentUserKey, JSON.stringify(response.user));
-          this.router.navigate(['/']);
+          this.router.navigate(['my/profile']);
         });
       })
   );

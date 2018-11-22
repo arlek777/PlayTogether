@@ -24,6 +24,7 @@ export class MainPage implements OnInit {
   public musicianRoles: MasterValueItem[];
   public workTypes: MasterValueItem[];
   public userName: string;
+  public isUserProfileFilled: boolean;
 
   public dropdownSettings = Constants.getAutocompleteSettings();
 
@@ -55,8 +56,10 @@ export class MainPage implements OnInit {
       if (profile === null) {
         this.mainInfoModel = new MainProfileInfo();
         this._redirectToContactPage = true;
+        this.isUserProfileFilled = false;
       } else {
         this.mainInfoModel = profile;
+        this.isUserProfileFilled = true;
       }
       this.formControls.name.setValue(this.mainInfoModel.name);
       if (this.isGroup) {
