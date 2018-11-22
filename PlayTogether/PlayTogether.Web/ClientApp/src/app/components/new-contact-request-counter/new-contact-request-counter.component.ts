@@ -20,8 +20,9 @@ export class NewContactRequestCounterComponent {
     this.store.select(s => s.user.isLoggedIn).subscribe((isLoggedIn) => {
       this._isLoggedIn = isLoggedIn;
     });
-    
-    setInterval(() => this._updateContactRequestCounter(), 10000);
+
+    this._updateContactRequestCounter();
+    setInterval(() => this._updateContactRequestCounter(), 5000);
   }
 
   private _updateContactRequestCounter() {

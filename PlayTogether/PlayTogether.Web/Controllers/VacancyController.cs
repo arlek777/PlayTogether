@@ -54,7 +54,7 @@ namespace PlayTogether.Web.Controllers
 
             if (filters.Any())
             {
-                var foundVacancies = vacancies.ToList().Where(v => filters.All(f => f.PassFilter(v))).ToList();
+                var foundVacancies = vacancies.OrderBy(v => v.Date).ToList().Where(v => filters.All(f => f.PassFilter(v))).ToList();
                 return Ok(Mapper.Map<List<PublicVacancyModel>>(foundVacancies));
             }
 
@@ -79,8 +79,8 @@ namespace PlayTogether.Web.Controllers
             var filterModel = Mapper.Map<VacancyFilterModel>(userProfile.Vacancies.FirstOrDefault()?.VacancyFilter);
 
             var filters = VacancyConditionalFilter.GetFilters(filterModel).ToList();
-            var vacancies = await _crudService.Where<Vacancy>(v => !v.IsClosed && v.User.Type == userType);
-            var foundVacancies = vacancies.ToList().Where(v => filters.All(f => f.PassFilter(v))).ToList();
+            var vacancies = await _crudService.Where<Vacancy>(v => !v.IsClosed && v.User.Profile != null && v.User.Type == userType);
+            var foundVacancies = vacancies.OrderBy(v => v.Date).ToList().Where(v => filters.All(f => f.PassFilter(v))).ToList();
 
             return Ok(new
             {
