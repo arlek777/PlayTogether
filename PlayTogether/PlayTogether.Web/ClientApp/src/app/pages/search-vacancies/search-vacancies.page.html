@@ -92,7 +92,7 @@
   </div>
 
   <div *ngIf="vacancies && vacancies.length > 0" class="col-md-9 content pl-5">
-    <div class="row" *ngFor="let vacancy of vacancies">
+    <div class="row py-3" *ngFor="let vacancy of vacancies">
       <div *ngIf="isMusician">
         <div class="col-md-12">
           <h5><a [routerLink]="['/vacancy', vacancy.id]">{{ vacancy.title }}</a></h5>
