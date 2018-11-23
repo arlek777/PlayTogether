@@ -65,8 +65,11 @@ namespace PlayTogether.DataAccess
                     Title = x
                 });
 
-            context.Cities.AddRange(cities);
-            context.SaveChanges();
+            foreach (var city in cities)
+            {
+                context.Cities.Add(city);
+                context.SaveChanges();
+            }
 
             base.Seed(context);
         }

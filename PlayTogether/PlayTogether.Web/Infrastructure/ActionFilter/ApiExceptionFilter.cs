@@ -17,19 +17,19 @@ namespace PlayTogether.Web.Infrastructure.ActionFilter
         {
             object apiError;
             var exception = context.Exception;
-            if (_env.IsDevelopment())
-            {
+            //if (_env.IsDevelopment())
+            //{
                 apiError = new
                 {
                     message = exception.Message,
                     innerException = exception.InnerException?.Message,
                     stackTrace = exception.StackTrace
                 };
-            }
-            else
-            {
-                apiError = new { message = "Server Error" };
-            }
+            //}
+            //else
+            //{
+            //    apiError = new { message = "Server Error" };
+            //}
 
             context.HttpContext.Response.StatusCode = 500;
             context.Result = new JsonResult(apiError);
