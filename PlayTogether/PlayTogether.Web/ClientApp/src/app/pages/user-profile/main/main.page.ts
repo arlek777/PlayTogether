@@ -27,7 +27,6 @@ export class MainPage implements OnInit {
   public isUserProfileFilled: boolean;
 
   public dropdownSettings = Constants.getAutocompleteSettings();
-
   private _redirectToContactPage = false;
 
   constructor(private readonly formBuilder: FormBuilder,
@@ -62,6 +61,7 @@ export class MainPage implements OnInit {
         this.isUserProfileFilled = true;
       }
       this.formControls.name.setValue(this.mainInfoModel.name);
+      this.formControls.photo.setValue(this.mainInfoModel.photoBase64);
       if (this.isGroup) {
         this.formControls.groupName.setValue(this.mainInfoModel.groupName);
       } else if (this.isMusician) {
@@ -92,6 +92,23 @@ export class MainPage implements OnInit {
     this.formControls.musicianRoles.setValue(null);
   }
 
+  onPhotoUploaded(event) {
+    if (!event.target.files || event.target.files.length === 0) {
+      return;
+    }
+    const file = event.target.files[0];
+    if (file.size > 5145729) {
+      this.toastr.error("Файл больше допустимого размера в 5 МБ.");
+      return;
+    }
+    var fileReader = new FileReader();
+    fileReader.onloadend = (e) => {
+      this.mainInfoModel.photoBase64 = fileReader.result as any;
+      this.formControls.photo.setValue(this.mainInfoModel.photoBase64);
+    }
+    fileReader.readAsDataURL(file);
+  }
+
   public submit() {
     this.formSubmitted = true;
     if (this.mainPageForm.invalid) return;
@@ -118,6 +135,9 @@ export class MainPage implements OnInit {
       name: ['', [
         Validators.required,
         Validators.minLength(2)
+      ]],
+      photo: ['', [
+        Validators.required
       ]]
     });
 

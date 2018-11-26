@@ -20,8 +20,7 @@ namespace PlayTogether.Web.Models.Profile
         public int Age { get; set; }
         public double Experience { get; set; }
 
-        [MaxLength(1)]
-        public string PhotoBase64 { get; set; } // todo it's not implemented yet
+        public string PhotoBase64 { get; set; }
 
         [MaxLength(25)]
         public WorkType[] WorkTypes { get; set; }

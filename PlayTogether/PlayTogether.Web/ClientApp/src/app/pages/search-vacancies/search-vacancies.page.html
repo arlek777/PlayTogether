@@ -95,7 +95,12 @@
     <div class="row py-3" *ngFor="let vacancy of vacancies">
       <div *ngIf="isMusician">
         <div class="col-md-12">
-          <h5><a [routerLink]="['/vacancy', vacancy.id]">{{ vacancy.title }}</a></h5>
+          <h5>
+            <a [routerLink]="['/vacancy', vacancy.id]">{{ vacancy.title }}</a>
+            <span *ngIf="vacancy.workTypes">
+              <span *ngFor="let wt of vacancy.workTypes.split(',')" class="badge badge-warning">{{ wt }}</span>
+            </span>
+          </h5>
         </div>
         <div class="col-md-12">
           <div class="small">
@@ -106,7 +111,12 @@
 
       <div *ngIf="isGroup">
         <div class="col-md-12">
-          <h5><a [routerLink]="['/profile', vacancy.userCreatorId]">{{ vacancy.userCreatorName }}</a></h5>
+          <h5>
+            <a [routerLink]="['/profile', vacancy.userCreatorId]">{{ vacancy.userCreatorName }}</a>
+            <span *ngIf="vacancy.workTypes">
+              <span *ngFor="let wt of vacancy.workTypes.split(',')" class="badge badge-warning mx-1">{{ wt }}</span>
+            </span>
+          </h5>
           <p>{{ vacancy.description }}</p>
         </div>
       </div>

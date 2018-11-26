@@ -130,6 +130,7 @@ namespace PlayTogether.Web.Controllers
                     vacancy.IsClosed = !from.IsActivated;
                     vacancy.VacancyFilter.JsonMusicianRoles = from.MusicianRoles.ToJson();
                     vacancy.VacancyFilter.JsonMusicGenres = from.MusicGenres.ToJson();
+                    vacancy.VacancyFilter.JsonWorkTypes = from.WorkTypes.ToJson();
                 }
                 else if (to.User.Type == UserType.Group)
                 {

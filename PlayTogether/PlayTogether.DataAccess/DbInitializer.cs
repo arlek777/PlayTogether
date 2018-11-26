@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
-using PlayTogether.Domain;
 using PlayTogether.Domain.MasterValues;
 
 namespace PlayTogether.DataAccess
@@ -15,7 +14,8 @@ namespace PlayTogether.DataAccess
         {
             var workTypes = new List<WorkType>()
             {
-                new WorkType() {Title = "В группу на постоянно"},
+                new WorkType() {Title = "Постоянно"},
+                new WorkType() {Title = "Педагог"},
                 new WorkType() {Title = "Сессионно"}
             };
             context.WorkTypes.AddRange(workTypes);

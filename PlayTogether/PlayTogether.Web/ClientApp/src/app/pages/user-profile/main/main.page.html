@@ -37,6 +37,24 @@
     <div class="form-group">
       <div class="row">
         <div class="col-md-2">
+          <label for="name">Фото *</label>
+        </div>
+        <div class="col-md-5">
+          <div class="py-2" *ngIf="mainInfoModel.photoBase64">
+            <img height="150" src="{{ mainInfoModel.photoBase64 }}"/>
+          </div>
+          <div>
+            <input id="photo" style="display: none" type="file" (change)="onPhotoUploaded($event)" #fileInput>
+            <a class="btn btn-success" href="javascript: " (click)="fileInput.click()">Выбрать фото</a>
+            <control-validation [control]="formControls.photo"></control-validation>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-2">
           <label for="name">Ваше Имя *</label>
         </div>
         <div class="col-md-5">
