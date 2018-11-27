@@ -15,15 +15,15 @@ namespace PlayTogether.DataAccess
             var workTypes = new List<WorkType>()
             {
                 new WorkType() {Title = "На постоянно"},
-                new WorkType() {Title = "Педагог"},
-                new WorkType() {Title = "Сессионнщик"}
+                new WorkType() {Title = "Сессионно"},
+                new WorkType() {Title = "Студийно"},
+                new WorkType() {Title = "Педагог"}
             };
             context.WorkTypes.AddRange(workTypes);
             context.SaveChanges();
 
             var contactTypes = new List<ContactType>()
             {
-                new ContactType() {Title = "Skype"},
                 new ContactType() {Title = "По телефону"},
                 new ContactType() {Title = "Фейсбук"},
                 new ContactType() {Title = "Email"},

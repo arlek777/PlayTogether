@@ -115,12 +115,25 @@ namespace PlayTogether.Web.Controllers
             });
 
             var image = new KalikoImage(new MemoryStream(Convert.FromBase64String(model.PhotoBase64)));
+            foreach (var prop in image.)
+            {
+                if (prop.Id == 0x0112) //value of EXIF
+                {
+                    int orientationValue = img.GetPropertyItem(prop.Id).Value[0];
+                    RotateFlipType rotateFlipType = GetOrientationToFlipType(orientationValue);
+                    img.RotateFlip(rotateFlipType);
+                    img.Save(@"E:\srinivas\DSC01_modified.jpg");
+                    break;
+                }
+            }
+
             var thumbnail = image.Scale(new FitScaling(image.Width / 4, image.Height / 4));
             using (var stream = new MemoryStream())
             {
                 thumbnail.SaveJpg(stream, 20);
                 model.PhotoBase64 = Convert.ToBase64String(stream.GetBuffer());
             }
+
 
             await _crudService.Update<MainProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
