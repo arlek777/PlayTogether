@@ -103,7 +103,7 @@ export class MainPage implements OnInit {
     }
     var fileReader = new FileReader();
     fileReader.onloadend = (e) => {
-      this.mainInfoModel.photoBase64 = fileReader.result as any;
+      this.mainInfoModel.photoBase64 = (<any>fileReader.result).split(',')[1];
       this.formControls.photo.setValue(this.mainInfoModel.photoBase64);
     }
     fileReader.readAsDataURL(file);
@@ -126,7 +126,10 @@ export class MainPage implements OnInit {
       .subscribe(() => {
         this.formSubmitted = false;
         this.toastr.success("Ваш профиль сохранен.");
-        this.router.navigate(['/my/profile/contact']);
+        if (this._redirectToContactPage) {
+          this._redirectToContactPage = false;
+          this.router.navigate(['/my/profile/contact']);
+        }
       });
   }
 

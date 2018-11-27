@@ -41,7 +41,7 @@
         </div>
         <div class="col-md-5">
           <div class="py-2" *ngIf="mainInfoModel.photoBase64">
-            <img height="150" src="{{ mainInfoModel.photoBase64 }}"/>
+            <img height="200" class="rounded" src="data:image/png;base64,{{ mainInfoModel.photoBase64 }}"/>
           </div>
           <div>
             <input id="photo" style="display: none" type="file" (change)="onPhotoUploaded($event)" #fileInput>
@@ -138,10 +138,10 @@
     <div *ngIf="isMusician" class="form-group">
       <div class="row">
         <div class="col-md-2">
-          <label>Виды работ</label>
+          <label>Тип работы</label>
         </div>
         <div class="col-md-5">
-          <ng-multiselect-dropdown [placeholder]="'Виды работ'"
+          <ng-multiselect-dropdown [placeholder]="'Тип работы'"
                                    [data]="workTypes"
                                    [(ngModel)]="mainInfoModel.workTypes"
                                    [ngModelOptions]="{standalone: true}"

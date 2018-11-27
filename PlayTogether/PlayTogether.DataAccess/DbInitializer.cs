@@ -14,9 +14,9 @@ namespace PlayTogether.DataAccess
         {
             var workTypes = new List<WorkType>()
             {
-                new WorkType() {Title = "Постоянно"},
+                new WorkType() {Title = "На постоянно"},
                 new WorkType() {Title = "Педагог"},
-                new WorkType() {Title = "Сессионно"}
+                new WorkType() {Title = "Сессионнщик"}
             };
             context.WorkTypes.AddRange(workTypes);
             context.SaveChanges();

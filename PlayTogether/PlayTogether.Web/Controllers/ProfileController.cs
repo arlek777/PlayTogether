@@ -1,7 +1,13 @@
 using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Kaliko.ImageLibrary;
+using Kaliko.ImageLibrary.Scaling;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PlayTogether.BusinessLogic;
@@ -107,6 +113,14 @@ namespace PlayTogether.Web.Controllers
                     to.Profile = new Profile();
                 }
             });
+
+            var image = new KalikoImage(new MemoryStream(Convert.FromBase64String(model.PhotoBase64)));
+            var thumbnail = image.Scale(new FitScaling(image.Width / 4, image.Height / 4));
+            using (var stream = new MemoryStream())
+            {
+                thumbnail.SaveJpg(stream, 20);
+                model.PhotoBase64 = Convert.ToBase64String(stream.GetBuffer());
+            }
 
             await _crudService.Update<MainProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
