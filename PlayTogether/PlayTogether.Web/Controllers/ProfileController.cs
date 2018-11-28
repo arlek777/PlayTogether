@@ -131,23 +131,24 @@ namespace PlayTogether.Web.Controllers
                 to.Name = from.Name;
                 to.Description = from.Description;
                 to.PhotoBase64 = from.PhotoBase64;
-                to.JsonMusicGenres = from.MusicGenres.ToJson();
+                to.HasMusicianEducation = from.HasMusicianEducation;
+                to.JsonMusicGenres = from.MusicGenres?.ToJson();
 
                 if (to.User.Type == UserType.Musician)
                 {
                     to.Age = from.Age;
                     to.Experience = from.Experience;
-                    to.JsonWorkTypes = from.WorkTypes.ToJson();
-                    to.JsonMusicianRoles = from.MusicianRoles.ToJson();
+                    to.JsonWorkTypes = from.WorkTypes?.ToJson();
+                    to.JsonMusicianRoles = from.MusicianRoles?.ToJson();
                     to.IsActivated = from.IsActivated;
 
                     var vacancy = to.User.Vacancies.FirstOrDefault();
                     vacancy.Title = from.Name;
                     vacancy.Description = from.Description;
                     vacancy.IsClosed = !from.IsActivated;
-                    vacancy.VacancyFilter.JsonMusicianRoles = from.MusicianRoles.ToJson();
-                    vacancy.VacancyFilter.JsonMusicGenres = from.MusicGenres.ToJson();
-                    vacancy.VacancyFilter.JsonWorkTypes = from.WorkTypes.ToJson();
+                    vacancy.VacancyFilter.JsonMusicianRoles = from.MusicianRoles?.ToJson();
+                    vacancy.VacancyFilter.JsonMusicGenres = from.MusicGenres?.ToJson();
+                    vacancy.VacancyFilter.JsonWorkTypes = from.WorkTypes?.ToJson();
                 }
                 else if (to.User.Type == UserType.Group)
                 {

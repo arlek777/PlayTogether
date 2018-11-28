@@ -4,6 +4,7 @@ export class Constants {
   static accessTokenKey = "accessToken";
   static currentUserKey = "user";
   static maxImageSize = 5145729; // about 5mb
+  static vacancyFiltersSessionStorageKey = "vacancyFilters";
 
   static getAutocompleteSettings(): IDropdownSettings {
     return {

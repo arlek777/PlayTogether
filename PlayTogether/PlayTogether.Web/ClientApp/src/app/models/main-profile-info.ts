@@ -11,4 +11,5 @@ export class MainProfileInfo {
   workTypes: MasterValueItem[];
   musicGenres: MasterValueItem[];
   musicianRoles: MasterValueItem[];
+  hasMusicianEducation: boolean;
 }

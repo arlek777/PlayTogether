@@ -21,6 +21,7 @@ namespace PlayTogether.Web.Models.Profile
         public string Address { get; set; }
         public string ContactTypes { get; set; }
         public string PhotoBase64 { get; set; }
+        public bool HasMusicianEducation { get; set; }
 
         public string Description { get; set; }
         public int Age { get; set; }

@@ -1,4 +1,5 @@
 <div class="row">
+
   <div class="col-md-3">
     <div class="form-group">
       <div class="row">
@@ -15,14 +16,14 @@
     <div class="form-group">
       <div class="row">
         <label for="title">По названию</label>
-        <input type="text" class="form-control" name="title" [(ngModel)]="vacancyFilterModel.vacancyTitle" placeholder="По названию" />
+        <input type="text" class="form-control" name="title" [(ngModel)]="vacancyFilterModel.vacancyTitle" placeholder="По названию"/>
       </div>
     </div>
 
     <div class="form-group" *ngIf="isGroup">
       <div class="row">
         <label for="minExperience">Опыт от</label>
-        <input type="number" class="form-control" name="minExperience" [(ngModel)]="vacancyFilterModel.minExperience" placeholder="Опыт от" />
+        <input type="number" class="form-control" name="minExperience" [(ngModel)]="vacancyFilterModel.minExperience" placeholder="Опыт от"/>
       </div>
     </div>
 
@@ -39,7 +40,7 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <!--<div class="form-group">
       <div class="row">
         <div class="col-md-12 py-0 px-0">
           <label for="workTypes">Тип работы</label>
@@ -50,7 +51,7 @@
           </ng-multiselect-dropdown>
         </div>
       </div>
-    </div>
+    </div>-->
 
     <div class="form-group">
       <div class="row">
@@ -80,46 +81,56 @@
 
     <div class="form-group">
       <div class="row">
-        <button class="btn btn-success" (click)="search()">Искать</button>
+        <div class="col-md-4 py-0 px-0">
+          <button class="btn btn-success" (click)="search()">Искать</button>
+        </div>
+        <div class="col-md-4 py-0 px-0">
+          <button class="btn btn-success" (click)="reset()">Cбросить фильтры</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="col-md-9 content pl-5" *ngIf="vacancies && vacancies.length === 0">
-    <div class="row">
-      <p>По вашему запросу данных не было найдено. Попробуйте изменить запрос на поиск.</p>
+  <!-- Search Results -->
+  <div *ngIf="!isLoaded" class="mt-4 loader" style="margin: 0 auto"></div>
+  <div *ngIf="isLoaded" class="col-md-9 content pl-5">
+    <div *ngIf="vacancies && vacancies.length === 0">
+      <div class="row">
+        <p>По вашему запросу данных не было найдено. Попробуйте изменить запрос на поиск.</p>
+      </div>
     </div>
-  </div>
 
-  <div *ngIf="vacancies && vacancies.length > 0" class="col-md-9 content pl-5">
-    <div class="row py-3" *ngFor="let vacancy of vacancies">
-      <div *ngIf="isMusician">
-        <div class="col-md-12">
-          <h5>
-            <a [routerLink]="['/vacancy', vacancy.id]">{{ vacancy.title }}</a>
-            <span *ngIf="vacancy.workTypes">
-              <span *ngFor="let wt of vacancy.workTypes.split(',')" class="badge badge-warning">{{ wt }}</span>
-            </span>
-          </h5>
+    <div *ngIf="vacancies && vacancies.length > 0">
+      <div class="row py-3" *ngFor="let vacancy of vacancies">
+        <div *ngIf="isMusician">
+          <div class="col-md-12">
+            <h5>
+              <a [routerLink]="['/vacancy', vacancy.id]">{{ vacancy.title }}</a>
+              <span *ngIf="vacancy.workTypes">
+                <span *ngFor="let wt of vacancy.workTypes.split(',')" class="badge badge-warning">{{ wt }}</span>
+              </span>
+            </h5>
+          </div>
+          <div class="col-md-12">
+            <div class="small">
+              <a [routerLink]="['/profile', vacancy.userCreatorId]">{{ vacancy.userCreatorName }}</a>
+            </div>
+          </div>
         </div>
-        <div class="col-md-12">
-          <div class="small">
-            <a [routerLink]="['/profile', vacancy.userCreatorId]">{{ vacancy.userCreatorName }}</a>
+
+        <div *ngIf="isGroup">
+          <div class="col-md-12">
+            <h5>
+              <a [routerLink]="['/profile', vacancy.userCreatorId]">{{ vacancy.userCreatorName }}</a>
+              <span *ngIf="vacancy.workTypes">
+                <span *ngFor="let wt of vacancy.workTypes.split(',')" class="badge badge-warning mx-1">{{ wt }}</span>
+              </span>
+            </h5>
+            <p>{{ vacancy.description }}</p>
           </div>
         </div>
       </div>
-
-      <div *ngIf="isGroup">
-        <div class="col-md-12">
-          <h5>
-            <a [routerLink]="['/profile', vacancy.userCreatorId]">{{ vacancy.userCreatorName }}</a>
-            <span *ngIf="vacancy.workTypes">
-              <span *ngFor="let wt of vacancy.workTypes.split(',')" class="badge badge-warning mx-1">{{ wt }}</span>
-            </span>
-          </h5>
-          <p>{{ vacancy.description }}</p>
-        </div>
-      </div>
     </div>
   </div>
+
 </div>

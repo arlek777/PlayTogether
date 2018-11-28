@@ -4,7 +4,7 @@
   </div>
 </div>
 
-<div class="form-group">
+<div class="form-group" *ngIf="profile.photoBase64">
   <div class="row">
     <div class="col-md-12">
       <img [ngClass]="{ 'thumbnail-photo': !isPhotoZoomed, 'zoomed-photo': isPhotoZoomed }"
@@ -44,7 +44,7 @@
   </div>
   <div class="form-group">
     <div class="row" *ngIf="profile.url1">
-      <div class="col-md-3">Ссылка на соц. сеть, блог или Youtube канал</div>
+      <div class="col-md-3">Ссылка на соц. сеть, портфолио или Youtube</div>
       <div class="col-md-9">
         <a target="_blank" href="{{ profile.url1 }}">{{ profile.url1 }}</a>
       </div>
@@ -52,7 +52,7 @@
   </div>
     <div class="form-group">
       <div class="row" *ngIf="profile.url2">
-        <div class="col-md-3">Ссылка на портфолио</div>
+        <div class="col-md-3">Ссылка на соц. сеть, портфолио или Youtube</div>
         <div class="col-md-9"><a target="_blank" href="{{ profile.url2 }}">{{ profile.url2 }}</a></div>
       </div>
     </div>

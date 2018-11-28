@@ -152,9 +152,7 @@ export class MainPage implements OnInit {
         Validators.required,
         Validators.minLength(2)
       ]],
-      photo: ['', [
-        Validators.required
-      ]]
+      photo: ['', []]
     });
 
     if (this.isGroup) {

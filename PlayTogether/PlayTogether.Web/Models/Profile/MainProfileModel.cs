@@ -20,7 +20,8 @@ namespace PlayTogether.Web.Models.Profile
         public int Age { get; set; }
         public double Experience { get; set; }
 
-        [Required]
+        public bool HasMusicianEducation { get; set; }
+
         public string PhotoBase64 { get; set; }
 
         [MaxLength(25)]

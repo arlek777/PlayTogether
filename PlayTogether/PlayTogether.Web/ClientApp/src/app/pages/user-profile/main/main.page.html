@@ -37,17 +37,16 @@
     <div class="form-group">
       <div class="row">
         <div class="col-md-2">
-          <label for="name">Фото *</label>
+          <label for="name">Фото</label>
         </div>
         <div class="col-md-5">
           <div class="py-2" *ngIf="mainInfoModel.photoBase64">
             <img class="rounded" [ngClass]="{ 'thumbnail-photo': !isPhotoZoomed, 'zoomed-photo': isPhotoZoomed }"
-                 (click)="isPhotoZoomed=!isPhotoZoomed" src="data:image/png;base64,{{ mainInfoModel.photoBase64 }}"/>
+                 (click)="isPhotoZoomed=!isPhotoZoomed" src="data:image/png;base64,{{ mainInfoModel.photoBase64 }}" />
           </div>
           <div>
             <input id="photo" style="display: none" type="file" (change)="onPhotoUploaded($event)" #fileInput>
             <a class="btn btn-success" href="javascript: " (click)="fileInput.click()">{{ isPhotoLoading ? 'Загрузка фото...' : 'Выбрать фото' }}</a>
-            <control-validation [control]="formControls.photo"></control-validation>
           </div>
         </div>
       </div>
@@ -97,6 +96,21 @@
         <div class="col-md-5">
           <input type="number" id="experience" class="form-control" formControlName="experience" />
           <control-validation [control]="formControls.experience"></control-validation>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isMusician" class="form-group">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-2">
+            <label for="hasMusicianEducation">Есть музыкальное образование</label>
+          </div>
+          <div class="col-md-4">
+            <input type="checkbox" id="hasMusicianEducation"
+                   [(ngModel)]="mainInfoModel.hasMusicianEducation"
+                   [ngModelOptions]="{standalone: true}" />
+          </div>
         </div>
       </div>
     </div>

@@ -21,6 +21,7 @@ export class SearchVacanciesPage {
   public workTypes: MasterValueItem[];
   public cities: MasterValueItem[];
   public userType: UserType;
+  public isLoaded = false;
 
   public dropdownSettings = Constants.getAutocompleteSettings();
 
@@ -43,6 +44,9 @@ export class SearchVacanciesPage {
     this.backendService.getMasterValues(MasterValueTypes.WorkTypes)
       .subscribe((values) => this.workTypes = values);
 
+    if (sessionStorage[Constants.vacancyFiltersSessionStorageKey]) {
+      this.vacancyFilterModel = JSON.parse(sessionStorage[Constants.vacancyFiltersSessionStorageKey]);
+    }
     this.search();
   }
 
@@ -55,28 +59,36 @@ export class SearchVacanciesPage {
   }
 
   search() {
+    this.isLoaded = false;
     if (!this.vacancyFilterModel.minExperience) {
       this.vacancyFilterModel.minExperience = 0;
     }
     if (!this.vacancyFilterModel.minRating) {
       this.vacancyFilterModel.minRating = 0;
     }
+
+    sessionStorage.setItem(Constants.vacancyFiltersSessionStorageKey, JSON.stringify(this.vacancyFilterModel));
     this.backendService.searchVacancies(this.vacancyFilterModel).subscribe((vacancies) => {
       this.vacancies = vacancies;
+      this.isLoaded = true;
     });
   }
 
   searchByProfile() {
+    this.isLoaded = false;
     this.backendService.searchFilteredVacanciesByUserProfile().subscribe((result: any) => {
       this.vacancies = result.vacancies;
       this.vacancyFilterModel = result.filter;
+      this.isLoaded = true;
     });
   }
 
   reset() {
+    this.isLoaded = false;
     this._setInitialFilter();
     this.backendService.searchVacancies(this.vacancyFilterModel).subscribe((vacancies) => {
       this.vacancies = vacancies;
+      this.isLoaded = true;
     });
   }
 

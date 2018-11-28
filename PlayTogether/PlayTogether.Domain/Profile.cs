@@ -30,6 +30,7 @@ namespace PlayTogether.Domain
         public string Url1 { get; set; }
         public string Url2 { get; set; }
         public string JsonContactTypes { get; set; }
+        public bool HasMusicianEducation { get; set; }
 
         public virtual User User { get; set; }
     }

@@ -12,6 +12,7 @@ export class PublicProfile {
   workTypes: MasterValueItem[];
   musicGenres: MasterValueItem[];
   musicianRoles: MasterValueItem[];
+  hasMusicianEducation: boolean;
 
   //contacts
   contactEmail: string;
