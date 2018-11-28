@@ -7,7 +7,8 @@
 <div class="form-group">
   <div class="row">
     <div class="col-md-12">
-      <img height="200" class="rounded" src="data:image/png;base64,{{ profile.photoBase64 }}" />
+      <img [ngClass]="{ 'thumbnail-photo': !isPhotoZoomed, 'zoomed-photo': isPhotoZoomed }"
+           (click)="isPhotoZoomed=!isPhotoZoomed" class="rounded" src="data:image/png;base64,{{ profile.photoBase64 }}" />
     </div>
   </div>
 </div>

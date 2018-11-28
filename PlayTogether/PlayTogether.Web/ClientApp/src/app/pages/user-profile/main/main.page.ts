@@ -13,7 +13,7 @@ import { Constants } from '../../../constants';
 
 @Component({
   templateUrl: './main.page.html',
-  styleUrls: ['./main.page.css'],
+  styleUrls: ['./main.page.css']
 })
 export class MainPage implements OnInit {
   public mainInfoModel = new MainProfileInfo();
@@ -25,6 +25,7 @@ export class MainPage implements OnInit {
   public workTypes: MasterValueItem[];
   public userName: string;
   public isUserProfileFilled: boolean;
+  public isPhotoZoomed = false;
 
   public dropdownSettings = Constants.getAutocompleteSettings();
   private _redirectToContactPage = false;
@@ -84,6 +85,10 @@ export class MainPage implements OnInit {
     return this.userType === UserType.Group;
   }
 
+  get photoZoomState() {
+    return this.isPhotoZoomed ? 'active' : 'inactive';
+  }
+
   onSelect(value) {
     this.formControls.musicianRoles.setValue(value);
   }
@@ -97,14 +102,18 @@ export class MainPage implements OnInit {
       return;
     }
     const file = event.target.files[0];
-    if (file.size > 5145729) {
+    if (file.size > Constants.maxImageSize) {
       this.toastr.error("Файл больше допустимого размера в 5 МБ.");
       return;
     }
     var fileReader = new FileReader();
     fileReader.onloadend = (e) => {
-      this.mainInfoModel.photoBase64 = (<any>fileReader.result).split(',')[1];
-      this.formControls.photo.setValue(this.mainInfoModel.photoBase64);
+      const photoBase64 = (<any>fileReader.result).split(',')[1];
+      this.backendService.proccessPhoto(photoBase64).subscribe((response) => {
+        this.mainInfoModel.photoBase64 = response.photoBase64;
+        this.formControls.photo.setValue(this.mainInfoModel.photoBase64);
+      });
+      
     }
     fileReader.readAsDataURL(file);
   }

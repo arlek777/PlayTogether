@@ -27,3 +27,14 @@ form.ng-touched.ng-invalid input.ng-touched.ng-invalid {
 button:disabled {
   cursor: no-drop;
 }
+
+.thumbnail-photo {
+  height: 200px;
+  cursor: zoom-in;
+}
+
+.zoomed-photo {
+  height: 75%;
+  cursor: zoom-out;
+}
+

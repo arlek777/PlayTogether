@@ -25,6 +25,7 @@ enum URLS {
   getContactProfileInfo = '/profile/getUserProfileContactInfo',
   getPublicProfile = '/profile/getPublicProfile',
   isUserProfileFilled = '/profile/isUserProfileFilled',
+  proccessPhoto = '/profile/proccessPhoto',
 
   getUserVacancy = '/vacancy/getUserVacancy',
   getVacancy = '/vacancy/getVacancy',
@@ -145,5 +146,10 @@ export class BackendService {
       {
          params: { "type": type.toString() }
       }).pipe(map(response => response as MasterValueItem[]));
+  }
+
+  proccessPhoto(photoBase64: string): Observable<any> {
+    return this.http.post(URLS.proccessPhoto, { photoBase64: photoBase64 })
+      .pipe(map(response => response as any));
   }
 }

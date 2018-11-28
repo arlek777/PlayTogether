@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ProfilePage {
   public profile: PublicProfile = new PublicProfile();
   public userType: UserType;
+  public isPhotoZoomed = false;
 
   constructor(
     private readonly backendService: BackendService,

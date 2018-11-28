@@ -1,19 +1,15 @@
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Kaliko.ImageLibrary;
-using Kaliko.ImageLibrary.Scaling;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PlayTogether.BusinessLogic;
 using PlayTogether.Domain;
 using PlayTogether.Web.Infrastructure;
 using PlayTogether.Web.Infrastructure.Extensions;
+using PlayTogether.Web.Infrastructure.Helpers;
+using PlayTogether.Web.Infrastructure.Models;
 using PlayTogether.Web.Models.Profile;
 using Profile = PlayTogether.Domain.Profile;
 
@@ -24,6 +20,7 @@ namespace PlayTogether.Web.Controllers
     {
         private readonly ISimpleCRUDService _crudService;
         private readonly WebSession _webSession;
+        private const long MaxPhotoSize = 5145729;
 
         public ProfileController(ISimpleCRUDService crudService, WebSession webSession)
         {
@@ -104,6 +101,20 @@ namespace PlayTogether.Web.Controllers
 
         [HttpPost]
         [Route("[controller]/[action]")]
+        public IActionResult ProccessPhoto([FromBody] ProccessProfilePhotoModel model)
+        {
+            var photoBytes = Convert.FromBase64String(model.PhotoBase64);
+            if (photoBytes.LongLength > MaxPhotoSize)
+            {
+                return BadRequest(ValidationResultMessages.InvalidModelState);
+            }
+
+            var proccessedPhoto = ImageProcessor.ProccessPhoto(photoBytes);
+            return Ok(new { photoBase64 = proccessedPhoto });
+        }
+
+        [HttpPost]
+        [Route("[controller]/[action]")]
         public async Task<IActionResult> UpdateMainInfo([FromBody] MainProfileModel model)
         {
             await _crudService.Update<MainProfileModel, User>(_webSession.UserId, model, (to, from) =>
@@ -113,27 +124,6 @@ namespace PlayTogether.Web.Controllers
                     to.Profile = new Profile();
                 }
             });
-
-            var image = new KalikoImage(new MemoryStream(Convert.FromBase64String(model.PhotoBase64)));
-            foreach (var prop in image.)
-            {
-                if (prop.Id == 0x0112) //value of EXIF
-                {
-                    int orientationValue = img.GetPropertyItem(prop.Id).Value[0];
-                    RotateFlipType rotateFlipType = GetOrientationToFlipType(orientationValue);
-                    img.RotateFlip(rotateFlipType);
-                    img.Save(@"E:\srinivas\DSC01_modified.jpg");
-                    break;
-                }
-            }
-
-            var thumbnail = image.Scale(new FitScaling(image.Width / 4, image.Height / 4));
-            using (var stream = new MemoryStream())
-            {
-                thumbnail.SaveJpg(stream, 20);
-                model.PhotoBase64 = Convert.ToBase64String(stream.GetBuffer());
-            }
-
 
             await _crudService.Update<MainProfileModel, Profile>(_webSession.UserId, model, (to, from) =>
             {
@@ -167,6 +157,8 @@ namespace PlayTogether.Web.Controllers
 
             return Ok();
         }
+
+      
 
         [HttpPost]
         [Route("[controller]/[action]")]
