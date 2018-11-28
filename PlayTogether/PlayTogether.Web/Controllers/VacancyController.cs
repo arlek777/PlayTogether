@@ -79,6 +79,7 @@ namespace PlayTogether.Web.Controllers
             var userProfile = await _crudService.Find<User>(u => u.Id == _webSession.UserId);
             var filterModel = Mapper.Map<VacancyFilterModel>(userProfile.Vacancies.FirstOrDefault()?.VacancyFilter);
 
+            filterModel.VacancyTitle = "";
             var filters = VacancyConditionalFilter.GetFilters(filterModel).ToList();
             var vacancies = await _crudService.Where<Vacancy>(v => !v.IsClosed && v.User.Profile != null && v.User.Type == userType);
             var foundVacancies = vacancies.OrderBy(v => v.Date).ToList().Where(v => filters.All(f => f.PassFilter(v))).ToList();
