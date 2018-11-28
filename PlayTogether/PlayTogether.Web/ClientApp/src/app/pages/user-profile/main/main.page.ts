@@ -26,6 +26,7 @@ export class MainPage implements OnInit {
   public userName: string;
   public isUserProfileFilled: boolean;
   public isPhotoZoomed = false;
+  public isPhotoLoading = false;
 
   public dropdownSettings = Constants.getAutocompleteSettings();
   private _redirectToContactPage = false;
@@ -106,12 +107,15 @@ export class MainPage implements OnInit {
       this.toastr.error("Файл больше допустимого размера в 5 МБ.");
       return;
     }
+
+    this.isPhotoLoading = true;
     var fileReader = new FileReader();
     fileReader.onloadend = (e) => {
       const photoBase64 = (<any>fileReader.result).split(',')[1];
       this.backendService.proccessPhoto(photoBase64).subscribe((response) => {
         this.mainInfoModel.photoBase64 = response.photoBase64;
         this.formControls.photo.setValue(this.mainInfoModel.photoBase64);
+        this.isPhotoLoading = false;
       });
       
     }

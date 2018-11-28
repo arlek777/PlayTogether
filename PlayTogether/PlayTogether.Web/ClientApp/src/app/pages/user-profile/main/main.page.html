@@ -46,7 +46,7 @@
           </div>
           <div>
             <input id="photo" style="display: none" type="file" (change)="onPhotoUploaded($event)" #fileInput>
-            <a class="btn btn-success" href="javascript: " (click)="fileInput.click()">Выбрать фото</a>
+            <a class="btn btn-success" href="javascript: " (click)="fileInput.click()">{{ isPhotoLoading ? 'Загрузка фото...' : 'Выбрать фото' }}</a>
             <control-validation [control]="formControls.photo"></control-validation>
           </div>
         </div>
